@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:config/uas/custom/configure.properties"
+                                  ignore-unresolvable="true"/>
+
+    <!-- 系统配置 -->
+    <bean id="uas.data.systemConfig" class="net.lizhaoweb.spring.mvc.uas.model.SystemConfig"/>
+
+    <!-- 权限 -->
+    <bean id="uas.data.authorization" class="net.lizhaoweb.spring.mvc.uas.model.Authorization"/>
+    <bean id="uas.search.authorization" class="net.lizhaoweb.spring.mvc.uas.search.SearchAuthorization"/>
+
+    <!-- 角色 -->
+    <bean id="uas.data.role" class="net.lizhaoweb.spring.mvc.uas.model.Role"/>
+    <bean id="uas.search.role" class="net.lizhaoweb.spring.mvc.uas.search.SearchRole"/>
+
+    <!-- 账户 -->
+    <bean id="uas.data.account" class="net.lizhaoweb.spring.mvc.uas.model.Account"/>
+    <bean id="uas.search.account" class="net.lizhaoweb.spring.mvc.uas.search.SearchAccount"/>
+
+</beans>

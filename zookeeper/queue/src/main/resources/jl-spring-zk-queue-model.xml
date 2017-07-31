@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+    <context:property-placeholder location="classpath*:config/oss-${RUNTIME_ENVIRONMENT}.properties"
+                                  ignore-unresolvable="true"/>
+
+
+    <bean id="java.util.concurrent.CountDownLatch" class="java.util.concurrent.CountDownLatch">
+        <constructor-arg index="0" value="1"/>
+    </bean>
+
+    <bean class="org.apache.zookeeper.ZooKeeper">
+        <constructor-arg index="0" value="localhost:2181"/>
+        <constructor-arg index="1" value="10000"/>
+        <constructor-arg index="2" ref="net.lizhaoweb.spring.zk.common.ZooKeeperStatusWatcher"/>
+    </bean>
+
+    <bean id="net.lizhaoweb.spring.zk.common.ZooKeeperStatusWatcher"
+          class="net.lizhaoweb.spring.zk.common.ZooKeeperStatusWatcher">
+        <constructor-arg index="0" ref="java.util.concurrent.CountDownLatch"/>
+    </bean>
+
+    <bean class="net.lizhaoweb.spring.zk.common.ZooKeeperClient">
+        <constructor-arg index="0" ref="java.util.concurrent.CountDownLatch"/>
+        <constructor-arg index="1" value="10000"/>
+    </bean>
+
+</beans>

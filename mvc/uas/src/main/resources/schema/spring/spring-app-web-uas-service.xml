@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="net.lizhaoweb.spring.mvc.uas.service.impl"/>
+
+    <!-- 系统配置工厂 -->
+    <bean id="uas.service.systemConfigFactory" class="net.lizhaoweb.spring.mvc.uas.service.SystemConfigFactory">
+        <property name="systemConfig" ref="uas.data.systemConfig"/>
+    </bean>
+
+    <!-- 账户 -->
+    <bean id="uas.service.accountService" class="net.lizhaoweb.spring.mvc.uas.service.impl.AccountService"/>
+
+    <!-- 权限 -->
+    <bean id="uas.service.authorizationService" class="net.lizhaoweb.spring.mvc.uas.service.impl.AuthorizationService"/>
+
+    <!-- 角色 -->
+    <bean id="uas.service.roleService" class="net.lizhaoweb.spring.mvc.uas.service.impl.RoleService"/>
+
+    <!-- 角色权限关系 -->
+    <bean id="uas.service.roleAuthRelationService"
+          class="net.lizhaoweb.spring.mvc.uas.service.impl.RoleAuthRelationService"/>
+
+</beans>

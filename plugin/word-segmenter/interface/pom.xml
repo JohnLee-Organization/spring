@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>net.lizhaoweb.spring.plugin</groupId>
+        <artifactId>word-segmenter</artifactId>
+        <version>JL.SPRING.2.2.0.0.1.0.0</version>
+    </parent>
+
+    <groupId>net.lizhaoweb.spring.plugin.wordsegmenter</groupId>
+    <artifactId>interface</artifactId>
+    <version>JL.SPRING.2.2.2.0.1.0.0</version>
+
+    <name>Spring Plugin WordSegmenter [Interface]</name>
+    <description>个人 Spring 分词器接口项目</description>
+    <packaging>jar</packaging>
+
+    <properties>
+        <lucene.version>4.10.4</lucene.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- 常用工具 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+        </dependency>
+
+        <!-- 自定义插件 -->
+        <dependency>
+            <groupId>net.lizhaoweb.spring.plugin.wordsegmenter</groupId>
+            <artifactId>model</artifactId>
+            <version>JL.SPRING.2.2.1.0.1.0.0</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

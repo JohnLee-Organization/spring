@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+    <context:annotation-config/>
+    <context:component-scan base-package="net.lizhaoweb.spring.mvc.uas.controller" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 拦截器组 -->
+    <mvc:interceptors>
+        <!-- 验证用户登录时验证码拦截器 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/usa/user-activity/login"/>
+            <bean class="net.lizhaoweb.spring.mvc.uas.interceptor.ValidateCodeInterceptor"/>
+        </mvc:interceptor>
+        <!-- 验证用户登录拦截器 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/usa/user-activity/to-login"/>
+            <mvc:exclude-mapping path="/usa/user-activity/login"/>
+            <bean class="net.lizhaoweb.spring.mvc.uas.interceptor.LoginInterceptor">
+                <constructor-arg name="loginURL" value="/usa/user-activity/to-login"/>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- 账户 -->
+    <bean class="net.lizhaoweb.spring.mvc.uas.controller.AccountController">
+        <property name="service" ref="uas.service.accountService"/>
+    </bean>
+
+    <!-- 权限 -->
+    <bean class="net.lizhaoweb.spring.mvc.uas.controller.AuthorizationController">
+        <property name="service" ref="uas.service.authorizationService"/>
+    </bean>
+
+    <!-- 角色 -->
+    <bean class="net.lizhaoweb.spring.mvc.uas.controller.RoleController">
+        <property name="service" ref="uas.service.roleService"/>
+    </bean>
+
+    <!-- 用户操作 -->
+    <bean class="net.lizhaoweb.spring.mvc.uas.controller.UserActivityController">
+        <property name="accountService" ref="uas.service.accountService"/>
+    </bean>
+
+</beans>

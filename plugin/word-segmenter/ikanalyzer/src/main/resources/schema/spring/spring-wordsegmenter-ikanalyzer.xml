@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <!--配置-->
+    <bean id="defaultConfiguration" scope="singleton"
+          class="net.lizhaoweb.spring.wordsegmenter.ikanalyzer.config.DefaultConfiguration">
+        <property name="location" value=""/>
+    </bean>
+
+    <!--上下文-->
+    <bean id="analyzeContext" scope="prototype"
+          class="net.lizhaoweb.spring.wordsegmenter.ikanalyzer.segmenter.AnalyzeContext">
+        <property name="cfg" ref="defaultConfiguration"/>
+        <property name="orgLexemes" ref="quickSortSet"/>
+    </bean>
+
+    <!--分词器-->
+    <bean id="cjkSegmenter" scope="singleton"
+          class="net.lizhaoweb.spring.wordsegmenter.ikanalyzer.segmenter.CJKSegmenter"/>
+    <bean id="cn_quantifierSegmenter" scope="singleton"
+          class="net.lizhaoweb.spring.wordsegmenter.ikanalyzer.segmenter.CN_QuantifierSegmenter"/>
+    <bean id="letterSegmenter" scope="singleton"
+          class="net.lizhaoweb.spring.wordsegmenter.ikanalyzer.segmenter.LetterSegmenter"/>
+
+    <!--分词歧义裁决器-->
+    <bean id="ikArbitrator" scope="singleton"
+          class="net.lizhaoweb.spring.wordsegmenter.ikanalyzer.segmenter.IKArbitrator"/>
+
+    <!--调度器-->
+    <bean id="ikSegmentScheduler" scope="prototype"
+          class="net.lizhaoweb.spring.wordsegmenter.ikanalyzer.IKSegmentScheduler">
+        <property name="configuration" ref="defaultConfiguration"/>
+        <property name="segmenters">
+            <list>
+                <ref bean="cjkSegmenter"/>
+                <ref bean="cn_quantifierSegmenter"/>
+                <ref bean="letterSegmenter"/>
+            </list>
+        </property>
+        <property name="arbitrator" ref="ikArbitrator"/>
+    </bean>
+
+
+    <bean scope="prototype" id="ikAnalyzer" class="net.lizhaoweb.spring.wordsegmenter.ikanalyzer.lucene.IKAnalyzer">
+        <property name="ikSegmentScheduler" ref="ikSegmentScheduler"/>
+    </bean>
+
+    <!--
+    -->
+
+</beans>

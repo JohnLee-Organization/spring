@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.spring.mvc.uas.dao.read.IAccountReadMapper">
+
+    <resultMap id="uas_data_account_map" type="net.lizhaoweb.spring.mvc.uas.model.Account">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="loginName" column="login_name"/>
+        <result property="password" column="password"/>
+        <association property="role" column="role_id"
+                     select="net.lizhaoweb.spring.mvc.uas.dao.read.IRoleReadMapper.get"/>
+    </resultMap>
+
+    <select id="existTable" resultType="Integer">
+        SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='uas_account'
+    </select>
+
+    <select id="findAll" parameterType="uas.search.account" resultMap="uas_data_account_map">
+        SELECT * FROM uas_account
+        <where>
+            1=1
+            <if test="id!=null">AND id=#{id}</if>
+            <if test="name!=null">AND name=#{name}</if>
+            <if test="description!=null">AND description=#{description}</if>
+            <if test="loginName!=null">AND login_name=#{loginName}</if>
+            <if test="password!=null">AND password=#{password}</if>
+            <if test="roleId!=null">AND role_id=#{roleId}</if>
+        </where>
+        ORDER BY id
+    </select>
+
+    <select id="find" parameterType="uas.search.account" resultMap="uas_data_account_map">
+        SELECT * FROM uas_account
+        <where>
+            1=1
+            <if test="id!=null">AND id=#{id}</if>
+            <if test="name!=null">AND name=#{name}</if>
+            <if test="description!=null">AND description=#{description}</if>
+            <if test="loginName!=null">AND login_name=#{loginName}</if>
+            <if test="password!=null">AND password=#{password}</if>
+        </where>
+        ORDER BY id
+    </select>
+
+    <select id="get" parameterType="long" resultMap="uas_data_account_map">
+        SELECT * FROM uas_account
+        <where>id=#{id}</where>
+    </select>
+</mapper>

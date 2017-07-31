@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>net.lizhaoweb</groupId>
+        <artifactId>spring</artifactId>
+        <version>JL.SPRING.0.0.0.0.1.0.0</version>
+    </parent>
+
+    <groupId>net.lizhaoweb.spring</groupId>
+    <artifactId>solr</artifactId>
+    <version>JL.SPRING.3.0.0.0.1.0.0</version>
+
+    <name>Spring [Solr]</name>
+    <description>个人 Spring Solr 项目</description>
+    <packaging>jar</packaging>
+
+    <dependencies>
+
+        <!-- 常用插件 -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Solr -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.solr</groupId>
+            <artifactId>solr-solrj</artifactId>
+        </dependency>
+
+        <!-- 自定义插件 -->
+        <dependency>
+            <groupId>net.lizhaoweb.common.util</groupId>
+            <artifactId>base</artifactId>
+            <version>JL.COMMON.1.1.0.0.1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lizhaoweb.spring.mvc</groupId>
+            <artifactId>model</artifactId>
+            <version>JL.SPRING.1.1.0.0.1.0.0</version>
+        </dependency>
+    </dependencies>
+
+</project>

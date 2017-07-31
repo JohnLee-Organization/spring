@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.spring.mvc.uas.dao.read.IRoleReadMapper">
+
+    <resultMap id="uas_data_role_map" type="net.lizhaoweb.spring.mvc.uas.model.Role">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <collection property="authorizationList" column="id"
+                    select="net.lizhaoweb.spring.mvc.uas.dao.read.IRoleAuthRelationReadMapper.manyAuthorization"/>
+    </resultMap>
+
+    <sql id="allFields">
+        id AS id,
+        name AS name,
+        description AS description
+    </sql>
+
+    <select id="oneRole" parameterType="long" resultType="uas.data.role">
+        SELECT
+        <include refid="allFields"/>
+        FROM uas_role
+        <where>id=#{id}</where>
+    </select>
+
+    <select id="existTable" resultType="Integer">
+        SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='uas_role'
+    </select>
+
+    <select id="findAll" parameterType="uas.search.role" resultMap="uas_data_role_map">
+        SELECT * FROM uas_role
+        <where>
+            1=1
+            <if test="id!=null">AND id=#{id}</if>
+            <if test="name!=null">AND name=#{name}</if>
+            <if test="description!=null">AND description=#{description}</if>
+        </where>
+        ORDER BY id
+    </select>
+
+    <select id="find" parameterType="uas.search.role" resultMap="uas_data_role_map">
+        SELECT * FROM uas_role
+        <where>
+            1=1
+            <if test="id!=null">AND id=#{id}</if>
+            <if test="name!=null">AND name=#{name}</if>
+            <if test="description!=null">AND description=#{description}</if>
+        </where>
+        ORDER BY id
+    </select>
+
+    <select id="get" parameterType="long" resultMap="uas_data_role_map">
+        SELECT * FROM uas_role
+        <where>id=#{id}</where>
+    </select>
+</mapper>

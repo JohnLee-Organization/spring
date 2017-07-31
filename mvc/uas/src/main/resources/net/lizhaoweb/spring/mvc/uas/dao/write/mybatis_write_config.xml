@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="defaultExecutorType" value="REUSE"/>
+    </settings>
+
+    <typeAliases>
+
+        <!-- 权限 -->
+        <typeAlias alias="uas.data.authorization" type="net.lizhaoweb.spring.mvc.uas.model.Authorization"/>
+        <typeAlias alias="uas.search.authorization" type="net.lizhaoweb.spring.mvc.uas.search.SearchAuthorization"/>
+
+        <!-- 角色 -->
+        <typeAlias alias="uas.data.role" type="net.lizhaoweb.spring.mvc.uas.model.Role"/>
+        <typeAlias alias="uas.search.role" type="net.lizhaoweb.spring.mvc.uas.search.SearchRole"/>
+
+        <!-- 角色权限关系 -->
+        <typeAlias alias="uas.data.roleAuthRelation" type="net.lizhaoweb.spring.mvc.uas.model.RoleAuthRelation"/>
+
+        <!-- 账户 -->
+        <typeAlias alias="uas.data.account" type="net.lizhaoweb.spring.mvc.uas.model.Account"/>
+        <typeAlias alias="uas.search.account" type="net.lizhaoweb.spring.mvc.uas.search.SearchAccount"/>
+
+    </typeAliases>
+
+</configuration>

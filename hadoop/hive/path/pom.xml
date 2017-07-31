@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>net.lizhaoweb.spring.hadoop</groupId>
+        <artifactId>hive</artifactId>
+        <version>JL.SPRING.4.3.0.0.1.0.0</version>
+    </parent>
+
+    <groupId>net.lizhaoweb.spring.hadoop.hive</groupId>
+    <artifactId>path</artifactId>
+    <version>JL.SPRING.4.3.1.0.1.0.0</version>
+
+    <name>Spring Hadoop Hive [Path]</name>
+    <description>个人 Hive 输入过滤 TEMP 目录</description>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

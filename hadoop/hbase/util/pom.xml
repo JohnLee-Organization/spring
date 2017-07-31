@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>hbase</artifactId>
+        <groupId>net.lizhaoweb.spring.hadoop</groupId>
+        <version>JL.SPRING.4.2.0.0.1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>net.lizhaoweb.spring.hadoop.hbase</groupId>
+    <artifactId>util</artifactId>
+    <version>JL.SPRING.4.2.1.0.1.0.0</version>
+
+    <name>Spring Hadoop Commons [Util]</name>
+    <description>个人 Hadoop 参数项目组</description>
+    <packaging>jar</packaging>
+
+    <dependencies>
+
+        <!-- 常用工具 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>1.16</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- HBase -->
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-client</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

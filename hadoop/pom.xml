@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>net.lizhaoweb</groupId>
+        <artifactId>spring</artifactId>
+        <version>JL.SPRING.0.0.0.0.1.0.0</version>
+    </parent>
+
+    <groupId>net.lizhaoweb.spring</groupId>
+    <artifactId>hadoop</artifactId>
+    <version>JL.SPRING.4.0.0.0.1.0.0</version>
+
+    <name>Spring Hadoop</name>
+    <description>个人 Hadoop 项目组</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <hadoop.version>2.6.0</hadoop.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-common</artifactId>
+                <version>${hadoop.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-yarn-server</artifactId>
+                <version>${hadoop.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-client</artifactId>
+                <version>${hadoop.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>commons</module>
+        <module>hive</module>
+        <module>hbase</module>
+    </modules>
+</project>

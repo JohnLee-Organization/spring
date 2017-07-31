@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.spring.mvc.uas.dao.read.IRoleAuthRelationReadMapper">
+
+    <sql id="allAuthorizationFields">
+        auth.id AS id,
+        auth.name AS name,
+        auth.description AS description,
+        auth.url AS url,
+        auth.url_type AS urlType
+    </sql>
+
+    <sql id="allRoleFields">
+        role.id AS id,
+        role.name AS name,
+        role.description AS description
+    </sql>
+
+
+    <select id="existTable" resultType="Integer">
+        SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='uas_role_auth_relation'
+    </select>
+
+
+    <select id="manyAuthorization" parameterType="long" resultType="uas.data.authorization">
+        SELECT
+        <include refid="allAuthorizationFields"/>
+        FROM uas_role_auth_relation AS rar LEFT JOIN uas_authorization AS auth ON rar.auth_id=auth.id
+        <where>rar.role_id=#{id}</where>
+    </select>
+
+
+    <select id="manyRole" parameterType="string" resultType="uas.data.role">
+        SELECT
+        <include refid="allRoleFields"/>
+        FROM uas_role_auth_relation AS rar LEFT JOIN uas_role AS role ON rar.role_id=role.id
+        <where>rar.auth_id=#{id}</where>
+    </select>
+</mapper>

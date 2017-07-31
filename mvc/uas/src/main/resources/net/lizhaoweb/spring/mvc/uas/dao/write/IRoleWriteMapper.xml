@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.lizhaoweb.spring.mvc.uas.dao.write.IRoleWriteMapper">
+
+    <insert id="insert" parameterType="uas.data.role" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO uas_role(id, name, description)
+        VALUES (#{id}, #{name}, #{description})
+    </insert>
+
+    <update id="update" parameterType="uas.data.role">
+        UPDATE uas_role
+        <set>
+            <if test="name!=null">name=#{name},</if>
+            <if test="description!=null">description=#{description},</if>
+        </set>
+        <where>id=#{id}</where>
+    </update>
+
+    <update id="createTable">
+        CREATE TABLE uas_role(
+            id BIGINT COMMENT '角色标识' PRIMARY KEY AUTO_INCREMENT,
+            name VARCHAR(60) COMMENT '角色标识',
+            description VARCHAR(255) COMMENT '描述'
+        ) COMMENT '角色表'
+    </update>
+
+    <delete id="delete" parameterType="long">
+        DELETE FROM uas_role
+        <where>id=#{id}</where>
+    </delete>
+
+    <delete id="remove" parameterType="string">
+        DELETE FROM uas_role
+        <where>id IN (#{ids})</where>
+    </delete>
+</mapper>
