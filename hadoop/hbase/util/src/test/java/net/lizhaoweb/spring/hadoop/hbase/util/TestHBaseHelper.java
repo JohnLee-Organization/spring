@@ -53,7 +53,7 @@ public class TestHBaseHelper {
         Locale.setDefault(Locale.CHINA);
         decimalFormat = new DecimalFormat();
 
-        System.setProperty("hadoop.home.dir", "D:\\GreenProfram\\HadoopEcosphere");
+        System.setProperty("hadoop.home.dir", "D:\\GreenProfram\\HadoopEcosphere\\applications\\hadoop2.6_x64-for-win");
 
         Configuration configuration = new Configuration();
 
@@ -68,7 +68,7 @@ public class TestHBaseHelper {
         configuration.set("hbase.rootdir", "hdfs://localhost:9000/hbase");
         configuration.set("hbase.zookeeper.quorum", "localhost");
         hBaseHelper = new HBaseHelper(configuration);
-        tableName = "medias";
+        tableName = "test_hbase";
         rowKey = "rk_00001";
 
     }
