@@ -37,6 +37,13 @@
             <artifactId>hadoop-common</artifactId>
         </dependency>
 
+        <!-- 自定义插件 -->
+        <dependency>
+            <groupId>net.lizhaoweb.common.util</groupId>
+            <artifactId>argument</artifactId>
+            <version>JL.COMMON.1.4.0.0.1.0.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
-    
+
 </project>

@@ -24,6 +24,12 @@ import net.lizhaoweb.common.util.argument.model.AbstractArgument;
  */
 public class Argument extends AbstractArgument {
 
+    public static final Argument JDBCDriver = new Argument("jdbcDriver", null, null);// JDBC 驱动
+    public static final Argument JDBCUrl = new Argument("jdbcUrl", null, null);// JDBC 连接路径
+    public static final Argument JDBCUsername = new Argument("jdbcUsername", null, null);// JDBC 用户名
+    public static final Argument JDBCPassword = new Argument("jdbcPassword", null, null);// JDBC 密码
+    public static final Argument JDBCSql = new Argument("jdbcSql", null, null);// JDBC SQL 语句
+
     public static final Argument JobName = new Argument("jobName", null, null);// 任务名称
     public static final Argument InputPath = new Argument("hdfsIn", null, null);// 输入的 HDFS 路径
     public static final Argument OutputPath = new Argument("hdfsOut", null, null);// 输出的 HDFS 路径
