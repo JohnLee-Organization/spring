@@ -43,51 +43,23 @@ public class MapReduceConstant {
 
             // 配置 HDFS 根路径
             String hdfsCluster = ArgumentFactory.getParameterValue(Argument.HDFSCluster);
-            printInputArgument(Argument.HDFSCluster, hdfsCluster);
+            ArgumentFactory.printInputArgument(Argument.HDFSCluster, hdfsCluster);
             if (StringUtils.isNotBlank(hdfsCluster)) {
                 configuration.set("fs.defaultFS", hdfsCluster);
             }
 
             // 配置 HBase 的根路径
             String hbaseRoot = ArgumentFactory.getParameterValue(Argument.HBaseRootDir);
-            printInputArgument(Argument.HBaseRootDir, hbaseRoot);
+            ArgumentFactory.printInputArgument(Argument.HBaseRootDir, hbaseRoot);
             if (StringUtils.isNotBlank(hbaseRoot)) {
                 configuration.set("hbase.rootdir", hbaseRoot);
             }
 
             // 配置 ZooKeeper 地址
             String hbaseZoo = ArgumentFactory.getParameterValue(Argument.HBaseZookeeper);
-            printInputArgument(Argument.HBaseZookeeper, hbaseZoo);
+            ArgumentFactory.printInputArgument(Argument.HBaseZookeeper, hbaseZoo);
             if (StringUtils.isNotBlank(hbaseZoo)) {
                 configuration.set("hbase.zookeeper.quorum", hbaseZoo);
-            }
-        }
-
-        /**
-         * 打印输输入的参数
-         *
-         * @param argument      参数对象
-         * @param argumentValue 参数值
-         */
-        public static void printInputArgument(Argument argument, String argumentValue) {
-            if (argumentValue != null) {
-                String spaceString = StringUtils.rightPad(" ", 20 - argument.getName().length());
-                String printArgument = String.format("\tInput Argument[%s]%s: %s", argument.getName(), spaceString, argumentValue);
-                System.out.println(printArgument);
-            }
-        }
-
-        /**
-         * 打印输输入的参数
-         *
-         * @param argument           参数对象
-         * @param argumentValueArray 参数值列表
-         */
-        public static void printInputArgument(Argument argument, String[] argumentValueArray) {
-            if (argumentValueArray != null) {
-                String spaceString = StringUtils.rightPad(" ", 20 - argument.getName().length());
-                String printArgument = String.format("\tInput Argument[%s]%s: %s", argument.getName(), spaceString, StringUtils.join(argumentValueArray, ','));
-                System.out.println(printArgument);
             }
         }
     }
