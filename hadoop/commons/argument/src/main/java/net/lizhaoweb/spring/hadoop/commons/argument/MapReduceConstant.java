@@ -43,21 +43,21 @@ public class MapReduceConstant {
 
             // 配置 HDFS 根路径
             String hdfsCluster = ArgumentFactory.getParameterValue(Argument.HDFSCluster);
-            ArgumentFactory.printInputArgument(Argument.HDFSCluster, hdfsCluster);
+            ArgumentFactory.printInputArgument(Argument.HDFSCluster, hdfsCluster, false);
             if (StringUtils.isNotBlank(hdfsCluster)) {
                 configuration.set("fs.defaultFS", hdfsCluster);
             }
 
             // 配置 HBase 的根路径
             String hbaseRoot = ArgumentFactory.getParameterValue(Argument.HBaseRootDir);
-            ArgumentFactory.printInputArgument(Argument.HBaseRootDir, hbaseRoot);
+            ArgumentFactory.printInputArgument(Argument.HBaseRootDir, hbaseRoot, false);
             if (StringUtils.isNotBlank(hbaseRoot)) {
                 configuration.set("hbase.rootdir", hbaseRoot);
             }
 
             // 配置 ZooKeeper 地址
             String hbaseZoo = ArgumentFactory.getParameterValue(Argument.HBaseZookeeper);
-            ArgumentFactory.printInputArgument(Argument.HBaseZookeeper, hbaseZoo);
+            ArgumentFactory.printInputArgument(Argument.HBaseZookeeper, hbaseZoo, false);
             if (StringUtils.isNotBlank(hbaseZoo)) {
                 configuration.set("hbase.zookeeper.quorum", hbaseZoo);
             }

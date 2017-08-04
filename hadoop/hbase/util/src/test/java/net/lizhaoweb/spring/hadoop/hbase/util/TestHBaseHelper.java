@@ -68,7 +68,7 @@ public class TestHBaseHelper {
         configuration.set("hbase.rootdir", "hdfs://localhost:9000/hbase");
         configuration.set("hbase.zookeeper.quorum", "localhost");
         hBaseHelper = new HBaseHelper(configuration);
-        tableName = "test_hbase";
+        tableName = "hotel";
         rowKey = "rk_00001";
 
     }
@@ -95,7 +95,7 @@ public class TestHBaseHelper {
     @Test
     public void createTable() {
         long start = System.currentTimeMillis();
-        hBaseHelper.createTable(tableName, new String[]{"basic", "attr"});
+        hBaseHelper.createTable(tableName, new String[]{"attr", "ext"});
         long end = System.currentTimeMillis();
 
         String printMessage = String.format(FORMAT_PRINT_TIME_CONSUMING, Thread.currentThread().getStackTrace()[1].getMethodName(), decimalFormat.format(end - start));
