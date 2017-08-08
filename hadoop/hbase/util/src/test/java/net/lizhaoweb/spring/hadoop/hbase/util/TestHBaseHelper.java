@@ -68,7 +68,7 @@ public class TestHBaseHelper {
         configuration.set("hbase.rootdir", "hdfs://localhost:9000/hbase");
         configuration.set("hbase.zookeeper.quorum", "localhost");
         hBaseHelper = new HBaseHelper(configuration);
-        tableName = "hotel";
+        tableName = "test_media";
         rowKey = "rk_00001";
 
     }
