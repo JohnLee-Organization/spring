@@ -33,7 +33,7 @@ import java.util.Map;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public class JDBCToolsForBean extends AbstractJDBCTools implements IJDBCToolsForBean {
+public class JDBCToolsForBean extends JDBCTools implements IJDBCToolsForBean {
 
     /**
      * 有参构造。

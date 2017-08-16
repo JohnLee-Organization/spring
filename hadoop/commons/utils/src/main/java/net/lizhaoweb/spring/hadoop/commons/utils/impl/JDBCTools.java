@@ -33,7 +33,7 @@ import java.sql.ResultSet;
  * Date of last commit:$Date$<br>
  */
 @RequiredArgsConstructor
-public abstract class AbstractJDBCTools implements IJDBCTools {
+public class JDBCTools implements IJDBCTools {
 
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
