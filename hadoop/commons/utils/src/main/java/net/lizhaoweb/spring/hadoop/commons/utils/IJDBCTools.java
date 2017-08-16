@@ -63,6 +63,16 @@ public interface IJDBCTools {
     /**
      * 执行 SQL 语句
      *
+     * @param connection 连接
+     * @param sql        SQL 语句
+     * @param params     SQL 语句的参数
+     * @return boolean
+     */
+    boolean execute(Connection connection, String sql, Object... params);
+
+    /**
+     * 执行 SQL 语句
+     *
      * @param sql    SQL 语句
      * @param params SQL 语句的参数
      * @return boolean
@@ -72,11 +82,31 @@ public interface IJDBCTools {
     /**
      * 执行 SQL 语句
      *
+     * @param connection 连接
+     * @param sql        SQL 语句
+     * @param params     SQL 语句的参数
+     * @return int
+     */
+    int executeUpdate(Connection connection, String sql, Object... params);
+
+    /**
+     * 执行 SQL 语句
+     *
      * @param sql    SQL 语句
      * @param params SQL 语句的参数
      * @return int
      */
     int executeUpdate(String sql, Object... params);
+
+    /**
+     * 执行 SQL 语句
+     *
+     * @param connection 连接
+     * @param sql        SQL 语句
+     * @param params     SQL 语句的参数
+     * @return ResultSet
+     */
+    ResultSet executeQuery(Connection connection, String sql, Object... params);
 
     /**
      * 执行 SQL 语句

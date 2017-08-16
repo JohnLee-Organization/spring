@@ -129,6 +129,17 @@ public class JDBCTools implements IJDBCTools {
     /**
      * {@inheritDoc}
      */
+    public ResultSet executeQuery(Connection connection, String sql, Object... params) {
+        try {
+            return this.getPreparedStatement(connection, sql, params).executeQuery();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public int executeUpdate(String sql, Object... params) {
         try {
             return this.getPreparedStatement(sql, params).executeUpdate();
@@ -140,9 +151,31 @@ public class JDBCTools implements IJDBCTools {
     /**
      * {@inheritDoc}
      */
+    public int executeUpdate(Connection connection, String sql, Object... params) {
+        try {
+            return this.getPreparedStatement(connection, sql, params).executeUpdate();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public boolean execute(String sql, Object... params) {
         try {
             return this.getPreparedStatement(sql, params).execute();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean execute(Connection connection, String sql, Object... params) {
+        try {
+            return this.getPreparedStatement(connection, sql, params).execute();
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
