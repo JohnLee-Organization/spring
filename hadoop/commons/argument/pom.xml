@@ -14,7 +14,7 @@
     <version>JL.SPRING.4.1.1.0.1.0.0</version>
 
     <name>Spring Hadoop HBase [Util]</name>
-    <description>个人 HBase 工具项目组</description>
+    <description>个人 HBase 工具项目组 - 参数</description>
     <packaging>jar</packaging>
 
     <dependencies>
