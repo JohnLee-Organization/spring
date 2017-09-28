@@ -10,16 +10,11 @@
     </parent>
 
     <groupId>net.lizhaoweb.spring.hadoop</groupId>
-    <artifactId>commons</artifactId>
-    <version>JL.SPRING.4.1.0.0.1.0.0</version>
+    <artifactId>spark</artifactId>
+    <version>JL.SPRING.4.4.0.0.1.0.0</version>
 
-    <name>Spring Hadoop Commons</name>
-    <description>个人 Hadoop 公用项目组</description>
+    <name>Spring Hadoop Spark</name>
+    <description>个人 Spark 项目组</description>
     <packaging>pom</packaging>
-
-    <modules>
-        <module>argument</module>
-        <module>utils</module>
-    </modules>
 
 </project>

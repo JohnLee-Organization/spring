@@ -64,11 +64,13 @@ public class TestHBaseHelper {
 //        tableName = "test_hbase";
 //        rowKey = "rk_00001";
 
-        configuration.set("fs.defaultFS", "hdfs://localhost:9000");
-        configuration.set("hbase.rootdir", "hdfs://localhost:9000/hbase");
-        configuration.set("hbase.zookeeper.quorum", "localhost");
+        configuration.set("fs.defaultFS", "hdfs://onlinemain:8020");
+        configuration.set("hbase.rootdir", "hdfs://onlinemain:8020/hbase");
+        configuration.set("hbase.zookeeper.quorum", "onlinemain");
         hBaseHelper = new HBaseHelper(configuration);
-        tableName = "test_media";
+//        tableName = "total_boot_rate";
+        tableName = "boot_rate";
+
         rowKey = "rk_00001";
 
     }
@@ -95,7 +97,7 @@ public class TestHBaseHelper {
     @Test
     public void createTable() {
         long start = System.currentTimeMillis();
-        hBaseHelper.createTable(tableName, new String[]{"attr", "ext"});
+        hBaseHelper.createTable(tableName, new String[]{"attr", "ext1","ext2"});
         long end = System.currentTimeMillis();
 
         String printMessage = String.format(FORMAT_PRINT_TIME_CONSUMING, Thread.currentThread().getStackTrace()[1].getMethodName(), decimalFormat.format(end - start));

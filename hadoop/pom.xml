@@ -45,5 +45,6 @@
         <module>commons</module>
         <module>hive</module>
         <module>hbase</module>
+        <module>spark</module>
     </modules>
 </project>
