@@ -85,7 +85,7 @@
             <artifactId>core</artifactId>
             <version>JL.SPRING.1.2.0.0.1.0.0</version>
         </dependency>
-        
+
     </dependencies>
 
 </project>

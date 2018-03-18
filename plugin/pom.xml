@@ -21,4 +21,5 @@
         <module>mybatis</module>
         <module>word-segmenter</module>
     </modules>
+
 </project>

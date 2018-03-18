@@ -2,20 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>spring</artifactId>
         <groupId>net.lizhaoweb</groupId>
+        <artifactId>spring</artifactId>
         <version>JL.SPRING.0.0.0.0.1.0.0</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.lizhaoweb.spring</groupId>
     <artifactId>zookeeper</artifactId>
     <version>JL.SPRING.5.0.0.0.1.0.0</version>
-    <modules>
-        <module>queue</module>
-        <module>common</module>
-    </modules>
 
     <name>Spring ZooKeeper</name>
     <description>个人 Spring ZooKeeper 项目</description>
@@ -30,4 +26,10 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <modules>
+        <module>queue</module>
+        <module>common</module>
+    </modules>
+
 </project>
