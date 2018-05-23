@@ -19,7 +19,6 @@
     <select id="findAll" parameterType="uas.search.account" resultMap="uas_data_account_map">
         SELECT * FROM uas_account
         <where>
-            1=1
             <if test="id!=null">AND id=#{id}</if>
             <if test="name!=null">AND name=#{name}</if>
             <if test="description!=null">AND description=#{description}</if>
@@ -33,7 +32,6 @@
     <select id="find" parameterType="uas.search.account" resultMap="uas_data_account_map">
         SELECT * FROM uas_account
         <where>
-            1=1
             <if test="id!=null">AND id=#{id}</if>
             <if test="name!=null">AND name=#{name}</if>
             <if test="description!=null">AND description=#{description}</if>

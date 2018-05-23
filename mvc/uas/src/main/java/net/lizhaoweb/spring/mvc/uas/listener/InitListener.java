@@ -70,10 +70,14 @@ public class InitListener extends AbstractListener {
         if (!SystemConfigFactory.isUASTakeEffect()) {
             return;
         }
-        Account account = new Account(null, "admin", "admin", null);
-        account.setName("超级管理员");
-        account.setDescription("超级管理员用户，请不要删除");
-        accountService.save(account);
+        long adminId = 1L;
+        Account account = accountService.get(adminId);
+        if (account == null) {
+            account = new Account(adminId, "admin", "admin", null);
+            account.setName("超级管理员");
+            account.setDescription("超级管理员用户，请不要删除");
+            accountService.save(account);
+        }
         logger.info("\\================================== UAS Init Data End ==================================/");
     }
 }

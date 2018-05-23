@@ -30,7 +30,6 @@
     <select id="findAll" parameterType="uas.search.role" resultMap="uas_data_role_map">
         SELECT * FROM uas_role
         <where>
-            1=1
             <if test="id!=null">AND id=#{id}</if>
             <if test="name!=null">AND name=#{name}</if>
             <if test="description!=null">AND description=#{description}</if>
@@ -41,7 +40,6 @@
     <select id="find" parameterType="uas.search.role" resultMap="uas_data_role_map">
         SELECT * FROM uas_role
         <where>
-            1=1
             <if test="id!=null">AND id=#{id}</if>
             <if test="name!=null">AND name=#{name}</if>
             <if test="description!=null">AND description=#{description}</if>
