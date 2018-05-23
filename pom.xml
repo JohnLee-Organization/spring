@@ -575,5 +575,4 @@
         <module>zookeeper</module>
         <module>hadoop</module>
     </modules>
-
 </project>

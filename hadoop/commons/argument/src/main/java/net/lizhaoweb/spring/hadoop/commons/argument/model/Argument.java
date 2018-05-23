@@ -31,6 +31,7 @@ public class Argument extends AbstractArgument {
     public static final Argument JDBCSql = new Argument("jdbcSql", null, null);// JDBC SQL 语句
 
     public static final Argument JobName = new Argument("jobName", null, null);// 任务名称
+    public static final Argument InputPathReg = new Argument("hdfsInReg", null, null);// 输入的 HDFS 路径
     public static final Argument InputPath = new Argument("hdfsIn", null, null);// 输入的 HDFS 路径
     public static final Argument OutputPath = new Argument("hdfsOut", null, null);// 输出的 HDFS 路径
 
@@ -44,6 +45,11 @@ public class Argument extends AbstractArgument {
     public static final Argument HbaseTable = new Argument("hBaseTable", null, null);// HBASE 表名
 
     public static final Argument HiveCluster = new Argument("hiveCluster", null, null);// Hive 集群地址
+
+    public static final Argument Workbook = new Argument("workbook", null, null);// Workbook
+    public static final Argument Sheet = new Argument("sheet", null, null);// Sheet
+    public static final Argument Title = new Argument("title", null, null);// Title
+    public static final Argument OperationMode = new Argument("operationMode", null, null);// OperationMode
 
     public Argument(String name, String nullValue, String[] nullArray) {
         super(name, nullValue, nullArray);

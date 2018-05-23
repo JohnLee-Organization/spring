@@ -47,5 +47,4 @@
         <module>hbase</module>
         <module>spark</module>
     </modules>
-
 </project>
