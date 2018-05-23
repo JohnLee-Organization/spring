@@ -11,7 +11,7 @@
 
     <groupId>net.lizhaoweb.spring.mvc</groupId>
     <artifactId>uas</artifactId>
-    <version>JL.SPRING.1.4.0.0.1.0.0</version>
+    <version>JL.SPRING.1.4.0.0.1.0.1</version>
 
     <name>Spring MVC [User Authorization System]</name>
     <description>个人 Spring MVC AOP 项目</description>
