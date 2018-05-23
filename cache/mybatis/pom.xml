@@ -1,25 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>net.lizhaoweb.spring</groupId>
-        <artifactId>mvc</artifactId>
-        <version>JL.SPRING.1.0.0.0.1.0.0</version>
+        <artifactId>cache</artifactId>
+        <version>JL.SPRING.6.0.0.0.1.0.0</version>
     </parent>
 
-    <groupId>net.lizhaoweb.spring.mvc</groupId>
-    <artifactId>uas</artifactId>
-    <version>JL.SPRING.1.4.0.0.1.0.1-SNAPSHOT</version>
+    <groupId>net.lizhaoweb.spring.cache</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>JL.SPRING.6.1.0.0.1.0.0-SNAPSHOT</version>
 
-    <name>Spring MVC [User Authorization System]</name>
-    <description>个人 Spring MVC AOP 项目</description>
+    <name>Spring Cache [Mybatis]</name>
+    <description>个人 Spring MyBatis 缓存项目</description>
     <packaging>jar</packaging>
 
     <dependencies>
 
-        <!-- 调试 -->
+        <!-- 常用插件 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -29,22 +31,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <!-- 常用插件 -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-
-        <!-- Commons -->
-        <dependency>
-            <groupId>commons-dbcp</groupId>
-            <artifactId>commons-dbcp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-pool</groupId>
-            <artifactId>commons-pool</artifactId>
         </dependency>
 
         <!-- Logger -->
@@ -69,9 +55,37 @@
             <artifactId>logback-classic</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Commons -->
         <dependency>
-            <groupId>org.logback-extensions</groupId>
-            <artifactId>logback-ext-spring</artifactId>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-pool</groupId>
+            <artifactId>commons-pool</artifactId>
+        </dependency>
+
+        <!-- MyBatis -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-jxpath</groupId>
+            <artifactId>commons-jxpath</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
         </dependency>
 
         <!-- Spring -->
@@ -92,32 +106,36 @@
             <artifactId>spring-jdbc</artifactId>
         </dependency>
 
-        <!-- 数据验证 -->
+        <!-- spring-redis实现 -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <!--<version>1.6.2.RELEASE</version>-->
         </dependency>
-
-        <!-- Mysql -->
+        <!-- redis客户端jar -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <!--<version>2.8.0</version>-->
         </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-        </dependency>
+        <!-- Ehcache实现,用于参考
         <dependency>
             <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-        </dependency>
+            <artifactId>mybatis-ehcache</artifactId>
+            <version>1.0.0</version>
+        </dependency>-->
 
-        <!-- 自定义插件 -->
+        <!-- 自定义插件
+        <dependency>
+            <groupId>net.lizhaoweb.common.util</groupId>
+            <artifactId>base</artifactId>
+            <version>JL.COMMON.1.1.0.0.1.0.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>net.lizhaoweb.spring.mvc</groupId>
-            <artifactId>core</artifactId>
-            <version>JL.SPRING.1.2.0.0.1.0.0</version>
-        </dependency>
+            <artifactId>model</artifactId>
+            <version>JL.SPRING.1.1.0.0.1.0.0</version>
+        </dependency>-->
 
     </dependencies>
 

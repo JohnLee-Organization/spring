@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:config/cache/redis/${RUNTIME_ENVIRONMENT}.properties"
+                                  ignore-unresolvable="true"/>
+
+    <!-- redis数据源 -->
+    <bean id="net.lizhaoweb.mybatis.cache.PoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${ibatis.cache.redis.maxIdle}"/>
+        <property name="maxTotal" value="${ibatis.cache.redis.maxActive}"/>
+        <property name="maxWaitMillis" value="${ibatis.cache.redis.maxWait}"/>
+        <property name="testOnBorrow" value="${ibatis.cache.redis.testOnBorrow}"/>
+    </bean>
+
+    <!-- Spring-redis连接池管理工厂 -->
+    <bean id="net.lizhaoweb.mybatis.cache.RedisConnectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="${ibatis.cache.redis.host}"/>
+        <property name="port" value="${ibatis.cache.redis.port}"/>
+        <property name="password" value="${ibatis.cache.redis.pass}"/>
+        <property name="database" value="${ibatis.cache.redis.db}"/>
+        <property name="poolConfig" ref="net.lizhaoweb.mybatis.cache.PoolConfig"/>
+    </bean>
+
+    <!-- 使用中间类解决RedisCache.jedisConnectionFactory的静态注入，从而使MyBatis实现第三方缓存 -->
+    <bean id="redisCacheTransfer" class="net.lizhaoweb.spring.cache.mybatis.RedisCacheTransfer">
+        <property name="jedisConnectionFactory" ref="net.lizhaoweb.mybatis.cache.RedisConnectionFactory"/>
+    </bean>
+</beans>

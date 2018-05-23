@@ -4,8 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath:config/uas/custom/configure.properties"
-                                  ignore-unresolvable="true"/>
+    <!--<context:property-placeholder location="classpath:config/uas/custom/configure.properties" ignore-unresolvable="true"/>-->
 
     <!-- 系统配置 -->
     <bean id="uas.data.systemConfig" class="net.lizhaoweb.spring.mvc.uas.model.SystemConfig"/>

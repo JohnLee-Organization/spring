@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:config/mysql/${RUNTIME_ENVIRONMENT}.properties"
+                                  ignore-unresolvable="true"/>
+
+    <bean id="uas.jdbc.mysql.config" abstract="true">
+        <property name="driverClassName" value="${jdbc.mysql.driverClassName}"/>
+        <property name="initialSize" value="${jdbc.mysql.initialSize}"/>
+        <property name="maxIdle" value="${jdbc.mysql.maxIdle}"/>
+        <property name="minIdle" value="${jdbc.mysql.minIdle}"/>
+        <property name="maxActive" value="${jdbc.mysql.maxActive}"/>
+        <property name="removeAbandoned" value="${jdbc.mysql.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${jdbc.mysql.removeAbandonedTimeout}"/>
+        <property name="maxWait" value="${jdbc.mysql.maxWait}"/>
+        <property name="validationQuery" value="${jdbc.mysql.validationQuery}"/>
+        <property name="testOnBorrow" value="${jdbc.mysql.testOnBorrow}"/>
+        <property name="timeBetweenEvictionRunsMillis" value="${jdbc.mysql.timeBetweenEvictionRunsMillis}"/>
+    </bean>
+
+    <!-- 读 User Authorization System 数据库  -->
+    <bean id="uasReadDataSource" class="org.apache.commons.dbcp.BasicDataSource" parent="uas.jdbc.mysql.config"
+          destroy-method="close">
+        <property name="url" value="${uas.read.jdbc.mysql.url}"/>
+        <property name="username" value="${uas.read.jdbc.mysql.username}"/>
+        <property name="password" value="${uas.read.jdbc.mysql.password}"/>
+    </bean>
+    <bean name="uasReadSessionFactoryName" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="uasReadDataSource"/>
+        <property name="configLocation"
+                  value="classpath:net/lizhaoweb/spring/cache/mybatis/dao/read/mybatis_read_config.xml"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:net/lizhaoweb/spring/cache/mybatis/dao/read/I*ReadMapper.xml</value>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="net.lizhaoweb.spring.cache.mybatis.dao.read"/>
+        <property name="sqlSessionFactoryBeanName" value="uasReadSessionFactoryName"/>
+    </bean>
+
+    <!-- 写 User Authorization System 数据库  -->
+    <bean id="uasWriteDataSource" class="org.apache.commons.dbcp.BasicDataSource" parent="uas.jdbc.mysql.config"
+          destroy-method="close">
+        <property name="url" value="${uas.write.jdbc.mysql.url}"/>
+        <property name="username" value="${uas.write.jdbc.mysql.username}"/>
+        <property name="password" value="${uas.write.jdbc.mysql.password}"/>
+    </bean>
+    <bean name="uasWriteSessionFactoryName" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="uasWriteDataSource"/>
+        <property name="configLocation"
+                  value="classpath:net/lizhaoweb/spring/cache/mybatis/dao/write/mybatis_write_config.xml"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:net/lizhaoweb/spring/cache/mybatis/dao/write/I*WriteMapper.xml</value>
+            </list>
+        </property>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="net.lizhaoweb.spring.cache.mybatis.dao.write"/>
+        <property name="sqlSessionFactoryBeanName" value="uasWriteSessionFactoryName"/>
+    </bean>
+
+</beans>
