@@ -12,7 +12,6 @@
     <select id="findAll" parameterType="uas.search.account" resultMap="uas_data_account_map">
         SELECT * FROM cache_account
         <where>
-            <if test="id!=null">AND id=#{id}</if>
             <if test="loginName!=null">AND login_name=#{loginName}</if>
             <if test="password!=null">AND password=#{password}</if>
         </where>
@@ -22,7 +21,6 @@
     <select id="find" parameterType="uas.search.account" resultMap="uas_data_account_map">
         SELECT * FROM cache_account
         <where>
-            <if test="id!=null">AND id=#{id}</if>
             <if test="loginName!=null">AND login_name=#{loginName}</if>
             <if test="password!=null">AND password=#{password}</if>
         </where>
@@ -31,6 +29,6 @@
 
     <select id="get" parameterType="long" resultMap="uas_data_account_map">
         SELECT * FROM cache_account
-        <where>id=#{id}</where>
+        <where>id=#{roleId}</where>
     </select>
 </mapper>

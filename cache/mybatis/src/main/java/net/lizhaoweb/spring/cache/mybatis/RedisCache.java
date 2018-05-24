@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.List;
@@ -39,8 +39,8 @@ public class RedisCache implements Cache {
 
     private static Logger LOGGER = LoggerFactory.getLogger(RedisCache.class);
 
-    private static final RedisSerializer<Object> DEFAULT_SERIALIZER = new JdkSerializationRedisSerializer();
-//    private static final RedisSerializer<Object> DEFAULT_SERIALIZER = new GenericJackson2JsonRedisSerializer();
+    //    private static final RedisSerializer<Object> DEFAULT_SERIALIZER = new JdkSerializationRedisSerializer();
+    private static final RedisSerializer<Object> DEFAULT_SERIALIZER = new GenericJackson2JsonRedisSerializer();
 
     @Setter
     private RedisSerializer<Object> keySerializer;
@@ -54,6 +54,7 @@ public class RedisCache implements Cache {
     @Getter
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
+    @Setter
     private static JedisConnectionFactory jedisConnectionFactory;
 
     public RedisCache(String id) {
@@ -275,14 +276,14 @@ public class RedisCache implements Cache {
 //        return this.readWriteLock;
 //    }
 
-    /**
-     * 这个地方需要静态注入，这里通过中间类 MybatisRedisCacheTransfer 实现的
-     *
-     * @param jedisConnectionFactory 连接工厂创建基于 JEDIS 的连接。
-     */
-    public static void setJedisConnectionFactory(JedisConnectionFactory jedisConnectionFactory) {
-        RedisCache.jedisConnectionFactory = jedisConnectionFactory;
-    }
+//    /**
+//     * 这个地方需要静态注入，这里通过中间类 MybatisRedisCacheTransfer 实现的
+//     *
+//     * @param jedisConnectionFactory 连接工厂创建基于 JEDIS 的连接。
+//     */
+//    public static void setJedisConnectionFactory(JedisConnectionFactory jedisConnectionFactory) {
+//        RedisCache.jedisConnectionFactory = jedisConnectionFactory;
+//    }
 
     private void close(RedisConnection redisConnection) {
         if (null != redisConnection) {

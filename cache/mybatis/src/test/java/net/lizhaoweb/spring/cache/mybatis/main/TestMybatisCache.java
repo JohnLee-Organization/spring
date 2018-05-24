@@ -71,7 +71,7 @@ public class TestMybatisCache {
     @Test
     public void find() {
         SearchAccount search = new SearchAccount();
-        search.setLoginName("admin");
+        search.setLoginName("LoginName");
         Account bean = readMapper.find(search);
         System.out.println(bean);
     }
