@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.List;
@@ -39,8 +40,8 @@ public class RedisCache implements Cache {
 
     private static Logger LOGGER = LoggerFactory.getLogger(RedisCache.class);
 
-    //    private static final RedisSerializer<Object> DEFAULT_SERIALIZER = new JdkSerializationRedisSerializer();
-    private static final RedisSerializer<Object> DEFAULT_SERIALIZER = new GenericJackson2JsonRedisSerializer();
+    private static final RedisSerializer<Object> DEFAULT_KEY_SERIALIZER = new JdkSerializationRedisSerializer();
+    private static final RedisSerializer<Object> DEFAULT_VALUE_SERIALIZER = new GenericJackson2JsonRedisSerializer();
 
     @Setter
     private RedisSerializer<Object> keySerializer;
@@ -72,11 +73,11 @@ public class RedisCache implements Cache {
 //    }
 
     public RedisSerializer<Object> getKeySerializer() {
-        return keySerializer == null ? DEFAULT_SERIALIZER : keySerializer;
+        return keySerializer == null ? DEFAULT_KEY_SERIALIZER : keySerializer;
     }
 
     public RedisSerializer<Object> getValueSerializer() {
-        return valueSerializer == null ? DEFAULT_SERIALIZER : valueSerializer;
+        return valueSerializer == null ? DEFAULT_VALUE_SERIALIZER : valueSerializer;
     }
 
     /**
