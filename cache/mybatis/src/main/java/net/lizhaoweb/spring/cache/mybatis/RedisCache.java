@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.List;
@@ -40,14 +39,7 @@ public class RedisCache implements Cache {
 
     private static Logger LOGGER = LoggerFactory.getLogger(RedisCache.class);
 
-    private static final RedisSerializer<Object> DEFAULT_KEY_SERIALIZER = new JdkSerializationRedisSerializer();
-    private static final RedisSerializer<Object> DEFAULT_VALUE_SERIALIZER = new GenericJackson2JsonRedisSerializer();
-
-    @Setter
-    private RedisSerializer<Object> keySerializer;
-
-    @Setter
-    private RedisSerializer<Object> valueSerializer;
+    private static final RedisSerializer<Object> DEFAULT_SERIALIZER = new GenericJackson2JsonRedisSerializer();
 
     @Getter
     private final String id;
@@ -72,14 +64,6 @@ public class RedisCache implements Cache {
 //        return this.id;
 //    }
 
-    public RedisSerializer<Object> getKeySerializer() {
-        return keySerializer == null ? DEFAULT_KEY_SERIALIZER : keySerializer;
-    }
-
-    public RedisSerializer<Object> getValueSerializer() {
-        return valueSerializer == null ? DEFAULT_VALUE_SERIALIZER : valueSerializer;
-    }
-
     /**
      * 存值
      *
@@ -102,10 +86,10 @@ public class RedisCache implements Cache {
 //            redisConnection.lPush(serializer.serialize(id), serializer.serialize(key));
 
 
-            redisConnection.set(this.getKeySerializer().serialize(key), this.getValueSerializer().serialize(value));
+            redisConnection.set(key.toString().getBytes(), DEFAULT_SERIALIZER.serialize(value));
 
             // 将key保存到redis.list中
-            redisConnection.lPush(this.getKeySerializer().serialize(id), this.getValueSerializer().serialize(key));
+            redisConnection.lPush(id.getBytes(), key.toString().getBytes());
         } catch (Exception e) {
             LOGGER.error("Mybatis redis cache put exception. RedisKey=" + key + " RedisValue=" + value, e);
         } finally {
@@ -136,7 +120,7 @@ public class RedisCache implements Cache {
 //            result = serializer.deserialize(redisConnection.get(serializer.serialize(key)));
 
 
-            result = this.getValueSerializer().deserialize(redisConnection.get(this.getKeySerializer().serialize(key)));
+            result = DEFAULT_SERIALIZER.deserialize(redisConnection.get(key.toString().getBytes()));
         } catch (Exception e) {
             LOGGER.error("Mybatis redis cache get exception. RedisKey=" + key + " RedisValue=null", e);
         } finally {
@@ -173,10 +157,10 @@ public class RedisCache implements Cache {
 
 
             // 讲key设置为立即过期
-            result = redisConnection.expireAt(this.getKeySerializer().serialize(key), 0);
+            result = redisConnection.expireAt(key.toString().getBytes(), 0);
 
             // 将key从redis.list中删除
-            redisConnection.lRem(this.getKeySerializer().serialize(id), 0, this.getValueSerializer().serialize(key));
+            redisConnection.lRem(id.getBytes(), 0, key.toString().getBytes());
         } catch (Exception e) {
             LOGGER.error("Mybatis redis cache remove exception. RedisKey=" + key + " RedisValue=" + result, e);
         } finally {
@@ -221,15 +205,15 @@ public class RedisCache implements Cache {
              * 千万不要直接使用 redisConnection.scriptFlush()、redisConnection.flushDb() 或 redisConnection.flushAll()，
              * 会把整个redis的东西都清除掉，我不相信你的redis里没有其他东西。获取redis.list中的保存的key值，遍历删除
              */
-            Long length = redisConnection.lLen(this.getKeySerializer().serialize(id));
-            if (0 == length) {
+            Long length = redisConnection.lLen(id.getBytes());
+            if (length == null || 0 == length) {
                 return;
             }
-            List<byte[]> keyList = redisConnection.lRange(this.getKeySerializer().serialize(id), 0, length - 1);
+            List<byte[]> keyList = redisConnection.lRange(id.getBytes(), 0, length - 1);
             for (byte[] key : keyList) {
                 redisConnection.expireAt(key, 0);
             }
-            redisConnection.expireAt(this.getKeySerializer().serialize(id), 0);
+            redisConnection.expireAt(id.getBytes(), 0);
             keyList.clear();
         } catch (Exception e) {
             LOGGER.error("Mybatis redis cache clear exception.", e);
@@ -259,7 +243,7 @@ public class RedisCache implements Cache {
         RedisConnection redisConnection = null;
         try {
             redisConnection = jedisConnectionFactory.getConnection();
-            long dbSize = redisConnection.dbSize();
+            long dbSize = redisConnection.lLen(id.getBytes());
             if ((int) dbSize != dbSize) {
                 throw new ArithmeticException("integer overflow");
             }
