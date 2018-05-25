@@ -4,21 +4,20 @@
     <cache type="net.lizhaoweb.spring.cache.mybatis.RedisCache"/>
 
     <insert id="insert" parameterType="uas.data.account" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO cache_account(id, login_name, password)
-        VALUES (#{id},#{loginName}, #{password})
+        INSERT INTO cache_account(id, login_name, password) VALUES (#{id},#{loginName}, #{password})
     </insert>
 
     <update id="update" parameterType="uas.data.account">
         UPDATE cache_account
         <set>
-            <if test="loginName!=null">login_name=#{loginName},</if>
-            <if test="password!=null">password=#{password},</if>
+            <if test="loginName!=null">,login_name=#{loginName}</if>
+            <if test="password!=null">,password=#{password}</if>
         </set>
         <where>id=#{id}</where>
     </update>
 
     <update id="createTable">
-        CREATE TABLE cache_account(
+        CREATE TABLE cache_account (
             id BIGINT COMMENT '账户标识' PRIMARY KEY AUTO_INCREMENT,
             login_name VARCHAR(60) COMMENT '登录名',
             password VARCHAR(64) COMMENT '密码'

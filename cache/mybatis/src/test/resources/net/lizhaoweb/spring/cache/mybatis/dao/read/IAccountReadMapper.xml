@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="net.lizhaoweb.spring.cache.mybatis.dao.read.IAccountReadMapper">
-    <cache type="net.lizhaoweb.spring.cache.mybatis.RedisCache"/>
+    <cache type="net.lizhaoweb.spring.cache.mybatis.RedisCache">
+        <property name="keySerializer" value="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        <property name="valueSerializer" value="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+    </cache>
 
     <resultMap id="uas_data_account_map" type="net.lizhaoweb.spring.cache.mybatis.model.Account">
         <id property="id" column="id"/>

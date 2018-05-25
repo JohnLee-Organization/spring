@@ -59,10 +59,10 @@ public class RedisCache implements Cache {
 
     public RedisCache(String id) {
         if (null == id || "".equals(id.trim())) {
-            throw new IllegalArgumentException("mybatis redis cache need an id.");
+            throw new IllegalArgumentException("Mybatis redis cache need an id.");
         }
         this.id = id;
-        LOGGER.debug("mybatis redis cache id: {}", id);
+        LOGGER.debug("Mybatis redis cache id: {}", id);
     }
 
 
@@ -90,7 +90,7 @@ public class RedisCache implements Cache {
         if (null == key) {
             return;
         }
-        LOGGER.debug("mybatis redis cache put. K={} value={}", key, value);
+        LOGGER.debug("Mybatis redis cache put. RedisKey={} RedisValue={}", key, value);
         RedisConnection redisConnection = null;
         try {
             redisConnection = jedisConnectionFactory.getConnection();
@@ -106,7 +106,7 @@ public class RedisCache implements Cache {
             // 将key保存到redis.list中
             redisConnection.lPush(this.getKeySerializer().serialize(id), this.getValueSerializer().serialize(key));
         } catch (Exception e) {
-            LOGGER.error("mybatis redis cache put exception. K=" + key + " V=" + value, e);
+            LOGGER.error("Mybatis redis cache put exception. RedisKey=" + key + " RedisValue=" + value, e);
         } finally {
 //            if (null != redisConnection) {
 //                redisConnection.close();
@@ -126,7 +126,7 @@ public class RedisCache implements Cache {
         if (null == key) {
             return null;
         }
-        LOGGER.debug("mybatis redis cache get. K={}", key);
+        LOGGER.debug("Mybatis redis cache get. RedisKey={}", key);
         RedisConnection redisConnection = null;
         Object result = null;
         try {
@@ -137,7 +137,7 @@ public class RedisCache implements Cache {
 
             result = this.getValueSerializer().deserialize(redisConnection.get(this.getKeySerializer().serialize(key)));
         } catch (Exception e) {
-            LOGGER.error("mybatis redis cache get exception. K=" + key + " V=null", e);
+            LOGGER.error("Mybatis redis cache get exception. RedisKey=" + key + " RedisValue=null", e);
         } finally {
 //            if (null != redisConnection) {
 //                redisConnection.close();
@@ -158,7 +158,7 @@ public class RedisCache implements Cache {
         if (null == key) {
             return null;
         }
-        LOGGER.debug("mybatis redis cache remove. K={}", key);
+        LOGGER.debug("Mybatis redis cache remove. RedisKey={}", key);
         RedisConnection redisConnection = null;
         Object result = null;
         try {
@@ -177,7 +177,7 @@ public class RedisCache implements Cache {
             // 将key从redis.list中删除
             redisConnection.lRem(this.getKeySerializer().serialize(id), 0, this.getValueSerializer().serialize(key));
         } catch (Exception e) {
-            LOGGER.error("mybatis redis cache remove exception. " + key + " V=" + result, e);
+            LOGGER.error("Mybatis redis cache remove exception. RedisKey=" + key + " RedisValue=" + result, e);
         } finally {
 //            if (null != redisConnection) {
 //                redisConnection.close();
@@ -193,7 +193,7 @@ public class RedisCache implements Cache {
      */
     @Override
     public void clear() {
-        LOGGER.debug("mybatis redis cache clear. ");
+        LOGGER.debug("Mybatis redis cache clear. ");
         RedisConnection redisConnection = null;
         try {
             redisConnection = jedisConnectionFactory.getConnection();
@@ -231,7 +231,7 @@ public class RedisCache implements Cache {
             redisConnection.expireAt(this.getKeySerializer().serialize(id), 0);
             keyList.clear();
         } catch (Exception e) {
-            LOGGER.error("mybatis redis cache clear exception. ", e);
+            LOGGER.error("Mybatis redis cache clear exception.", e);
         } finally {
 //            if (null != redisConnection) {
 //                redisConnection.close();
@@ -251,7 +251,7 @@ public class RedisCache implements Cache {
 //            }
 //            result = (int) dbSize;
 //        } catch (Exception e) {
-//            LOGGER.error("mybatis redis cache getSize exception. ", e);
+//            LOGGER.error("Mybatis redis cache getSize exception. ", e);
 //        }
 
 
@@ -264,7 +264,7 @@ public class RedisCache implements Cache {
             }
             result = (int) dbSize;
         } catch (Exception e) {
-            LOGGER.error("mybatis redis cache getSize exception. ", e);
+            LOGGER.error("Mybatis redis cache getSize exception.", e);
         } finally {
             this.close(redisConnection);
         }
