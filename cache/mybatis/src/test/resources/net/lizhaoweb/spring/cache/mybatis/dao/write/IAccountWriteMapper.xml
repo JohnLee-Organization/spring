@@ -10,7 +10,7 @@
     <update id="update" parameterType="uas.data.account">
         UPDATE cache_account
         <set>
-            <if test="loginName!=null">,login_name=#{loginName}</if>
+            <if test="loginName!=null">login_name=#{loginName}</if>
             <if test="password!=null">,password=#{password}</if>
         </set>
         <where>id=#{id}</where>

@@ -58,6 +58,9 @@ public class TestMybatisCache {
     @Test
     public void update() {
         Account bean = new Account();
+        bean.setId(1L);
+        bean.setLoginName("ALoginName");
+        bean.setPassword("APassword");
         writeMapper.update(bean);
     }
 
@@ -72,7 +75,7 @@ public class TestMybatisCache {
     public void find() {
         SearchAccount search = new SearchAccount();
         search.setLoginName("LoginName");
-        Account bean = readMapper.find(search);
+        List<Account> bean = readMapper.find(search);
         System.out.println(bean);
     }
 

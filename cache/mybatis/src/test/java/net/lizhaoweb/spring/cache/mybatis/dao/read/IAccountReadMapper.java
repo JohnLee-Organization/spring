@@ -41,7 +41,7 @@ public interface IAccountReadMapper {
      * @param search 查询条件
      * @return 记录
      */
-    Account find(SearchAccount search);
+    List<Account> find(SearchAccount search);
 
     /**
      * 权限主键查询记录。
