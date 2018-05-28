@@ -22,6 +22,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 使用第三方内存数据库Redis作为二级缓存
@@ -44,7 +45,7 @@ public class RedisCache implements Cache {
     private final String id;
 
     @Getter
-    private final ReadWriteLock readWriteLock = new DummyReadWriteLock(); // new ReentrantReadWriteLock();
+    private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     @Setter
     private static JedisConnectionFactory jedisConnectionFactory;
