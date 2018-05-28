@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="net.lizhaoweb.spring.cache.mybatis.dao.write.IAccountWriteMapper">
-    <cache type="net.lizhaoweb.spring.cache.mybatis.RedisCache"/>
+
+    <cache type="net.lizhaoweb.spring.cache.mybatis.RedisCache">
+        <property name="id" value="net.lizhaoweb.spring.cache.mybatis.dao.IAccountMapper"/>
+    </cache>
 
     <insert id="insert" parameterType="uas.data.account" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO cache_account(id, login_name, password) VALUES (#{id},#{loginName}, #{password})
