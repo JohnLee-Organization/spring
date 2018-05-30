@@ -64,10 +64,7 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
         boolean result;
         try {
             this.buildPathVariable(request);
-            result = this.preMethodExecute(request, response, handler);
-            if (result) {
-                result = super.preHandle(request, response, handler);
-            }
+            result = (this.beforeMethodExecute(request, response, handler) && super.preHandle(request, response, handler));
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             DataDeliveryWrapper<Object> dataDeliveryWrapper = new DataDeliveryWrapper<>(StatusCode.SERVER_INTERNAL_EXCEPTION, "拦截器出错了");
@@ -90,6 +87,7 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         super.postHandle(request, response, handler, modelAndView);
+        this.afterMethodExecute(request, response, handler, modelAndView);
     }
 
     /**
@@ -168,6 +166,32 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
         return result;
     }
 
+    /**
+     * 方法执行之前操作。
+     *
+     * @param request  请求对象
+     * @param response 响应对象
+     * @param handler  处理器
+     * @return boolean
+     * @throws Exception 异常
+     */
+    protected boolean beforeMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        return true;
+    }
+
+    /**
+     * 方法执行之后操作。
+     *
+     * @param request      请求对象
+     * @param response     响应对象
+     * @param handler      处理器
+     * @param modelAndView 视图模型
+     * @return boolean
+     * @throws Exception 异常
+     */
+    protected void afterMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    }
+
     // 构建路径参数对象。
     private void buildPathVariable(HttpServletRequest request) {
         @SuppressWarnings("unchecked")
@@ -213,15 +237,4 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
         }
         request.setAttribute(MVCCore.APPLICATION_PATH_VARIABLE_MAP, pathVariableMap);
     }
-
-    /**
-     * 方法执行前操作。
-     *
-     * @param request  请求对象
-     * @param response 响应对象
-     * @param handler  处理器
-     * @return boolean
-     * @throws Exception 异常
-     */
-    protected abstract boolean preMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception;
 }
