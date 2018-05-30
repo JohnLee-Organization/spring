@@ -11,7 +11,7 @@
 
     <groupId>net.lizhaoweb.spring.mvc</groupId>
     <artifactId>model</artifactId>
-    <version>JL.SPRING.1.1.0.0.1.0.0</version>
+    <version>JL.SPRING.1.1.0.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring MVC [Model]</name>
     <description>个人 Spring MVC 模型项目</description>
