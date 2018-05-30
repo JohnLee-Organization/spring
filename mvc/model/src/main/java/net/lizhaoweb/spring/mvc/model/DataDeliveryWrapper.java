@@ -63,9 +63,10 @@ public class DataDeliveryWrapper<T> implements Serializable {
      * @param data    数据
      */
     public DataDeliveryWrapper(StatusCode code, String message, T data) {
-        this.setCode(code.getCode());
-        this.setMessage(message);
-        this.setData(data);
+        this(code, data, message);
+//        this.setCode(code.getCode());
+//        this.setMessage(message);
+//        this.setData(data);
     }
 
     /**
@@ -75,6 +76,32 @@ public class DataDeliveryWrapper<T> implements Serializable {
      * @param message 提示信息
      */
     public DataDeliveryWrapper(StatusCode code, String message) {
-        this(code, message, null);
+        this(code, message, (T) null);
+    }
+
+    /**
+     * 有参数构造
+     *
+     * @param code          状态码
+     * @param data          数据
+     * @param messageFormat 提示信息格式
+     * @param messageArgs   提示信息参数
+     */
+    public DataDeliveryWrapper(StatusCode code, T data, String messageFormat, Object... messageArgs) {
+        String message = String.format(messageFormat, messageArgs);
+        this.setCode(code.getCode());
+        this.setMessage(message);
+        this.setData(data);
+    }
+
+    /**
+     * 有参数构造
+     *
+     * @param code          状态码
+     * @param messageFormat 提示信息格式
+     * @param messageArgs   提示信息参数
+     */
+    public DataDeliveryWrapper(StatusCode code, String messageFormat, Object... messageArgs) {
+        this(code, null, messageFormat, messageArgs);
     }
 }
