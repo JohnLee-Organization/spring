@@ -69,15 +69,15 @@ public class DataDeliveryWrapper<T> implements Serializable {
 //        this.setData(data);
     }
 
-    /**
-     * 有参数构造
-     *
-     * @param code    状态码
-     * @param message 提示信息
-     */
-    public DataDeliveryWrapper(StatusCode code, String message) {
-        this(code, message, (T) null);
-    }
+//    /**
+//     * 有参数构造
+//     *
+//     * @param code    状态码
+//     * @param message 提示信息
+//     */
+//    public DataDeliveryWrapper(StatusCode code, String message) {
+//        this(code, message, (T) null);
+//    }
 
     /**
      * 有参数构造
