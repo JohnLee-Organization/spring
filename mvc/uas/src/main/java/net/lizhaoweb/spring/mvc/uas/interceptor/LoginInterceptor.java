@@ -11,10 +11,11 @@
 package net.lizhaoweb.spring.mvc.uas.interceptor;
 
 import net.lizhaoweb.common.util.base.StringUtil;
-import net.lizhaoweb.spring.mvc.core.interceptor.AbstractInterceptor;
+import net.lizhaoweb.spring.mvc.core.interceptor.AbstractBeforeExecuteMethodInterceptor;
 import net.lizhaoweb.spring.mvc.uas.model.Account;
 import net.lizhaoweb.spring.mvc.uas.service.SystemConfigFactory;
 import net.lizhaoweb.spring.mvc.uas.util.Constant;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +33,7 @@ import javax.servlet.http.HttpSession;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public class LoginInterceptor extends AbstractInterceptor {
+public class LoginInterceptor extends AbstractBeforeExecuteMethodInterceptor implements AsyncHandlerInterceptor {
 
     private String loginURL;
 
@@ -53,7 +54,7 @@ public class LoginInterceptor extends AbstractInterceptor {
      * @throws Exception 异常
      */
     @Override
-    protected boolean preMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    protected boolean beforeMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!SystemConfigFactory.isUASTakeEffect()) {
             return true;
         }

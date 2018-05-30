@@ -12,11 +12,12 @@ package net.lizhaoweb.spring.mvc.uas.interceptor;
 
 import net.lizhaoweb.common.util.base.HttpUtil;
 import net.lizhaoweb.common.util.base.StringUtil;
-import net.lizhaoweb.spring.mvc.core.interceptor.AbstractInterceptor;
+import net.lizhaoweb.spring.mvc.core.interceptor.AbstractBeforeExecuteMethodInterceptor;
 import net.lizhaoweb.spring.mvc.core.servlet.ValidateCodeServlet;
 import net.lizhaoweb.spring.mvc.model.DataDeliveryWrapper;
 import net.lizhaoweb.spring.mvc.model.StatusCode;
 import net.lizhaoweb.spring.mvc.uas.service.SystemConfigFactory;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +35,7 @@ import javax.servlet.http.HttpSession;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public class ValidateCodeInterceptor extends AbstractInterceptor {
+public class ValidateCodeInterceptor extends AbstractBeforeExecuteMethodInterceptor implements AsyncHandlerInterceptor {
 
     /**
      * 拦截
@@ -46,7 +47,7 @@ public class ValidateCodeInterceptor extends AbstractInterceptor {
      * @throws Exception 异常
      */
     @Override
-    protected boolean preMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    protected boolean beforeMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!SystemConfigFactory.isUASTakeEffect()) {
             return true;
         }

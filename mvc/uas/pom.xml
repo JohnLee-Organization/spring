@@ -116,7 +116,7 @@
         <dependency>
             <groupId>net.lizhaoweb.spring.mvc</groupId>
             <artifactId>core</artifactId>
-            <version>JL.SPRING.1.2.0.0.1.0.0</version>
+            <version>JL.SPRING.1.2.0.0.1.0.1-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
