@@ -9,7 +9,7 @@
 
     <groupId>net.lizhaoweb.spring.plugin</groupId>
     <artifactId>mybatis</artifactId>
-    <version>JL.SPRING.2.1.0.0.1.0.0</version>
+    <version>JL.SPRING.2.1.0.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring Plugin [Mybatis]</name>
     <description>个人 Spring MyBatis 插件项目</description>
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>net.lizhaoweb.spring.mvc</groupId>
             <artifactId>model</artifactId>
-            <version>JL.SPRING.1.1.0.0.1.0.0</version>
+            <version>JL.SPRING.1.1.0.0.1.0.1-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
