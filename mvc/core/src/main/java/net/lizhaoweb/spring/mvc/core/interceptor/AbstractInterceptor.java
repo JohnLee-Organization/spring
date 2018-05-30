@@ -19,6 +19,7 @@ import net.lizhaoweb.spring.mvc.util.Constant.MVCCore;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -33,7 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <h1>拦截器- 基础抽象类</h1>
+ * <h1>拦截器 - 基础抽象类</h1>
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(Jhon.Lee)</a>
  * @version 1.0.0.0.1
@@ -42,7 +43,7 @@ import java.util.regex.Pattern;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
+public abstract class AbstractInterceptor extends HandlerInterceptorAdapter implements AsyncHandlerInterceptor {
 
     /**
      * 日志对象
@@ -175,9 +176,7 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
      * @return boolean
      * @throws Exception 异常
      */
-    protected boolean beforeMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        return true;
-    }
+    protected abstract boolean beforeMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception;
 
     /**
      * 方法执行之后操作。
@@ -189,8 +188,7 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
      * @return boolean
      * @throws Exception 异常
      */
-    protected void afterMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-    }
+    protected abstract void afterMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception;
 
     // 构建路径参数对象。
     private void buildPathVariable(HttpServletRequest request) {
