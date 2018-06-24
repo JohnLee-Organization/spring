@@ -11,7 +11,7 @@
 
     <groupId>net.lizhaoweb.spring.hadoop.commons</groupId>
     <artifactId>argument</artifactId>
-    <version>JL.SPRING.4.1.1.0.1.0.0</version>
+    <version>JL.SPRING.4.1.1.0.1.0.2-SNAPSHOT</version>
 
     <name>Spring Hadoop HBase [Util]</name>
     <description>个人 HBase 工具项目组 - 参数</description>
