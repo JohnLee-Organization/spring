@@ -20,6 +20,7 @@
     <modules>
         <module>argument</module>
         <module>utils</module>
+        <module>hadoop-mapreduce-client-core-ext</module>
     </modules>
 
 </project>

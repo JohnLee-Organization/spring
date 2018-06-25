@@ -14,7 +14,7 @@
     <version>JL.SPRING.4.2.0.0.1.0.0</version>
 
     <name>Spring Hadoop HBase</name>
-    <description>个人 HBase 项目组</description>
+    <description>个人 Hadoop HBase 项目组</description>
     <packaging>pom</packaging>
 
     <properties>

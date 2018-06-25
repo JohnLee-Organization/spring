@@ -13,8 +13,8 @@
     <artifactId>utils</artifactId>
     <version>JL.SPRING.4.1.2.0.1.0.0</version>
 
-    <name>Spring Hadoop HBase [Util]</name>
-    <description>个人 HBase 工具项目组 - 工具</description>
+    <name>Spring Hadoop Commons [Util]</name>
+    <description>个人 Hadoop 通用项目组 - 工具</description>
     <packaging>jar</packaging>
 
     <dependencies>
