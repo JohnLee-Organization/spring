@@ -21,7 +21,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <h1>读写器 - 简单数据</h1>
@@ -38,15 +40,21 @@ public class SimpleDataWritable implements Writable, DBWritable {
 
     private static final char FIELD_DELIMITER = 0x0001;
 
-    private List<DBColumn<Object>> dataList = new ArrayList<>();
+    private List<String> dataNameList = new ArrayList<>();
+    private Map<String, DBColumn<Object>> dataMap = new HashMap<>();
 
     public String toString() {
         StringBuilder toString = new StringBuilder();
-        if (dataList != null) {
-            int dataListSize = dataList.size();
-            if (dataListSize > 0) {
+        if (dataNameList != null && dataMap != null) {
+            int dataListSize = dataNameList.size();
+            int dataMapSize = dataMap.size();
+            if (dataListSize != dataMapSize) {
+                throw new IllegalStateException("Data size wrong");
+            }
+            if (dataListSize > 0 && dataMapSize > 0) {
                 for (int index = 0; index < dataListSize; index++) {
-                    DBColumn<Object> dbColumn = dataList.get(index);
+                    String columnName = dataNameList.get(index);
+                    DBColumn<Object> dbColumn = dataMap.get(columnName);
                     toString.append(dbColumn.getColumnValue());
                     if (index + 1 < dataListSize) {
                         toString.append(FIELD_DELIMITER);
@@ -54,23 +62,27 @@ public class SimpleDataWritable implements Writable, DBWritable {
                 }
             }
         }
+        System.out.println(toString);
+        System.out.println();
         return toString.toString();
     }
 
     @Override
     public void readFields(ResultSet result) throws SQLException {
+//        System.out.println();
+        dataNameList.clear();
         ResultSetMetaData resultSetMetaData = result.getMetaData();
         int columnCount = resultSetMetaData.getColumnCount();
         for (int column = 1; column <= columnCount; column++) {
             String columnLabel = resultSetMetaData.getColumnLabel(column);
             String columnClassName = resultSetMetaData.getColumnClassName(column);
-            String tableName = resultSetMetaData.getTableName(column);
+//            String tableName = resultSetMetaData.getTableName(column);
             String columnName = resultSetMetaData.getColumnName(column);
             String columnTypeName = resultSetMetaData.getColumnTypeName(column);
             Object columnValue = result.getObject(column);
 
             DBColumn<Object> dbColumn = new DBColumn<>();
-            dbColumn.setTableName(tableName);
+//            dbColumn.setTableName(tableName);
             dbColumn.setColumnClassName(columnClassName);
             dbColumn.setColumnTypeName(columnTypeName);
             dbColumn.setColumnName(columnName);
@@ -79,18 +91,25 @@ public class SimpleDataWritable implements Writable, DBWritable {
 
             System.out.println(dbColumn);
 
-            dataList.add(dbColumn);
+            dataNameList.add(columnName);
+            dataMap.put(columnName, dbColumn);
         }
+        System.out.println();
     }
 
     @Override
     public void write(PreparedStatement stmt) throws SQLException {
 //        System.out.println("public void write(PreparedStatement stmt) throws SQLException");
-        if (dataList != null) {
-            int dataListSize = dataList.size();
-            if (dataListSize > 0) {
+        if (dataNameList != null && dataMap != null) {
+            int dataListSize = dataNameList.size();
+            int dataMapSize = dataMap.size();
+            if (dataListSize != dataMapSize) {
+                throw new IllegalStateException("Data size wrong");
+            }
+            if (dataListSize > 0 && dataMapSize > 0) {
                 for (int index = 0; index < dataListSize; index++) {
-                    DBColumn<Object> dbColumn = dataList.get(index);
+                    String columnName = dataNameList.get(index);
+                    DBColumn<Object> dbColumn = dataMap.get(columnName);
                     stmt.setObject(index + 1, dbColumn.getColumnValue());
                 }
             }
@@ -112,22 +131,31 @@ public class SimpleDataWritable implements Writable, DBWritable {
     }
 
     public Object get(String columnName) {
-        if (dataList == null || dataList.size() < 1) {
+        if (dataNameList == null || dataMap == null) {
             return null;
         }
-        for (DBColumn<Object> dbColumn : dataList) {
-            if (dbColumn != null && dbColumn.getColumnName() != null && dbColumn.getColumnName().equals(columnName)) {
-                return dbColumn.getColumnValue();
-            }
+        int dataListSize = dataNameList.size();
+        int dataMapSize = dataMap.size();
+        if (dataListSize < 1 || dataMapSize < 1) {
+            return null;
         }
-        return null;
+        if (dataListSize != dataMapSize) {
+            throw new IllegalStateException("Data size wrong");
+        }
+        return dataMap.get(columnName).getColumnValue();
     }
 
-    public void set(String columnName, Object columnValue) {
+    public void set(String columnName, Object columnValue, boolean clear) {
+        if (clear) {
+            dataNameList.clear();
+            dataMap.clear();
+        }
         DBColumn<Object> dbColumn = new DBColumn<>();
         dbColumn.setColumnName(columnName);
         dbColumn.setColumnLabel(columnName);
         dbColumn.setColumnValue(columnValue);
-        dataList.add(dbColumn);
+
+        dataNameList.add(columnName);
+        dataMap.put(columnName, dbColumn);
     }
 }

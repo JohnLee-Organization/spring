@@ -26,8 +26,8 @@ import lombok.Data;
 @Data
 public class DBColumn<T> {
 
-    // 所在数据表
-    private String tableName;
+//    // 所在数据表
+//    private String tableName;
 
     // 列名
     private String columnName;
