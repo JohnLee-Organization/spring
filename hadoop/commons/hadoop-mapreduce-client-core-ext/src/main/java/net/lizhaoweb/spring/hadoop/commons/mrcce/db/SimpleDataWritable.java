@@ -38,36 +38,19 @@ public class SimpleDataWritable implements Writable, DBWritable {
 
     private static final char FIELD_DELIMITER = 0x0001;
 
-    //    private Map<String, Object> dataMap = new LinkedHashMap();
     private List<DBColumn<Object>> dataList = new ArrayList<>();
 
     public String toString() {
         StringBuilder toString = new StringBuilder();
-//        if (dataMap != null) {
-//            int dataMapSize = dataMap.size();
-//            if (dataMapSize > 0) {
-//                int column = 1;
-//                for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
-////                String columnLabel = entry.getKey();
-//                    Object columnValue = entry.getValue();
-//                    toString.append(columnValue);
-//                    if (column < dataMapSize) {
-//                        toString.append(FIELD_DELIMITER);
-//                    }
-//                    column++;
-//                }
-//            }
-//        }
         if (dataList != null) {
             int dataListSize = dataList.size();
             if (dataListSize > 0) {
-                int column = 1;
-                for (DBColumn<Object> dbColumn : dataList) {
+                for (int index = 0; index < dataListSize; index++) {
+                    DBColumn<Object> dbColumn = dataList.get(index);
                     toString.append(dbColumn.getColumnValue());
-                    if (column < dataListSize) {
+                    if (index + 1 < dataListSize) {
                         toString.append(FIELD_DELIMITER);
                     }
-                    column++;
                 }
             }
         }
@@ -85,7 +68,6 @@ public class SimpleDataWritable implements Writable, DBWritable {
             String columnName = resultSetMetaData.getColumnName(column);
             String columnTypeName = resultSetMetaData.getColumnTypeName(column);
             Object columnValue = result.getObject(column);
-//            dataMap.put(columnLabel, columnValue);
 
             DBColumn<Object> dbColumn = new DBColumn<>();
             dbColumn.setTableName(tableName);
@@ -103,24 +85,16 @@ public class SimpleDataWritable implements Writable, DBWritable {
 
     @Override
     public void write(PreparedStatement stmt) throws SQLException {
-//        stmt.setLong(1, this.id);
-//        stmt.setString(2, this.name);
-//        stmt.setString(3, this.description);
-//        stmt.setInt(4, this.duration);
-//        stmt.setString(5, this.surfix);
-//        stmt.setInt(6, this.type);
-//        stmt.setString(7, this.md5);
-//        stmt.setString(8, this.ossAddress);
-//        stmt.setString(9, this.ossETag);
-//        stmt.setString(10, this.filePath);
-//        stmt.setLong(11, this.creatorId);
-//        stmt.setString(12, this.creator);
-//        stmt.setLong(13, this.checkerId);
-//        long createTimeTimestamp = this.createTime.getTime();
-//        stmt.setTimestamp(14, new Timestamp(createTimeTimestamp));
-//        stmt.setInt(15, this.flag);
-//        stmt.setInt(16, this.state);
-        System.out.println("public void write(PreparedStatement stmt) throws SQLException");
+//        System.out.println("public void write(PreparedStatement stmt) throws SQLException");
+        if (dataList != null) {
+            int dataListSize = dataList.size();
+            if (dataListSize > 0) {
+                for (int index = 0; index < dataListSize; index++) {
+                    DBColumn<Object> dbColumn = dataList.get(index);
+                    stmt.setObject(index + 1, dbColumn.getColumnValue());
+                }
+            }
+        }
     }
 
     @Override
@@ -135,5 +109,25 @@ public class SimpleDataWritable implements Writable, DBWritable {
 //        out.writeLong(this.id);
 //        Text.writeString(out, this.name);
         System.out.println("public void write(DataOutput dataOutput) throws IOException");
+    }
+
+    public Object get(String columnName) {
+        if (dataList == null || dataList.size() < 1) {
+            return null;
+        }
+        for (DBColumn<Object> dbColumn : dataList) {
+            if (dbColumn != null && dbColumn.getColumnName() != null && dbColumn.getColumnName().equals(columnName)) {
+                return dbColumn.getColumnValue();
+            }
+        }
+        return null;
+    }
+
+    public void set(String columnName, Object columnValue) {
+        DBColumn<Object> dbColumn = new DBColumn<>();
+        dbColumn.setColumnName(columnName);
+        dbColumn.setColumnLabel(columnName);
+        dbColumn.setColumnValue(columnValue);
+        dataList.add(dbColumn);
     }
 }

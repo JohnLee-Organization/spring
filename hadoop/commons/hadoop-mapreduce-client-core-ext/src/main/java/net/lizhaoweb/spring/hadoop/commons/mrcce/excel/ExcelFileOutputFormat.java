@@ -109,7 +109,13 @@ public class ExcelFileOutputFormat<K, V> extends FileOutputFormat<K, V> {
         job.getConfiguration().set(ExcelFileOutputFormat.BASE_OUTPUT_NAME, outputFile.getName());
     }
 
-    public static void setOutputPath(Job job, Path outputFile) {
+    /**
+     * Set the {@link Path} of the output directory for the map-reduce job.
+     *
+     * @param job       The job to modify
+     * @param outputDir the {@link Path} of the output directory for the map-reduce job.
+     */
+    public static void setOutputPath(Job job, Path outputDir) {
         throw new RuntimeException("Method not supported");
     }
 

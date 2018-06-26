@@ -26,7 +26,7 @@ import java.util.List;
  * A InputFormat that reads input data from an Hive table.
  * <p>
  * HiveInputFormat emits LongWritables containing the record number as
- * key and HiveWritables as value.
+ * key and DBWritables as value.
  * <p>
  * The Hive query, and input class can be using one of the two
  * setInput methods.
@@ -131,11 +131,9 @@ public class HiveInputFormat<T extends DBWritable> extends DBInputFormat<T> {
      * Initializes the map-part of the job with the appropriate input settings.
      *
      * @param job        The map-reduce job
-     * @param inputClass the class object implementing DBWritable, which is the
-     *                   Java object holding tuple fields.
+     * @param inputClass the class object implementing DBWritable, which is the Java object holding tuple fields.
      * @param tableName  The table to read data from
-     * @param conditions The condition which to select data with,
-     *                   eg. '(updated > 20070101 AND length > 0)'
+     * @param conditions The condition which to select data with, eg. '(updated > 20070101 AND length > 0)'
      * @param orderBy    the fieldNames in the orderBy clause.
      * @param fieldNames The field names in the table
      * @see #setInput(Job, Class, String, String)
@@ -154,13 +152,9 @@ public class HiveInputFormat<T extends DBWritable> extends DBInputFormat<T> {
      * Initializes the map-part of the job with the appropriate input settings.
      *
      * @param job             The map-reduce job
-     * @param inputClass      the class object implementing DBWritable, which is the
-     *                        Java object holding tuple fields.
-     * @param inputQuery      the input query to select fields. Example :
-     *                        "SELECT f1, f2, f3 FROM Mytable ORDER BY f1"
-     * @param inputCountQuery the input query that returns
-     *                        the number of records in the table.
-     *                        Example : "SELECT COUNT(f1) FROM Mytable"
+     * @param inputClass      the class object implementing DBWritable, which is the Java object holding tuple fields.
+     * @param inputQuery      the input query to select fields. Example : "SELECT f1, f2, f3 FROM Mytable ORDER BY f1"
+     * @param inputCountQuery the input query that returns the number of records in the table. Example : "SELECT COUNT(f1) FROM Mytable"
      * @see #setInput(Job, Class, String, String, String, String...)
      */
     public static void setInput(Job job, Class<? extends DBWritable> inputClass, String inputQuery, String inputCountQuery) {
