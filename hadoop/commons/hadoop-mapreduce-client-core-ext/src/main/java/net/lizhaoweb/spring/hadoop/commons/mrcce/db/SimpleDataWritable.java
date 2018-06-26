@@ -10,7 +10,6 @@
  */
 package net.lizhaoweb.spring.hadoop.commons.mrcce.db;
 
-import com.sun.tools.jdi.LinkedHashMap;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.lib.db.DBWritable;
 
@@ -21,7 +20,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h1>读写器 - 简单数据</h1>
@@ -38,19 +38,33 @@ public class SimpleDataWritable implements Writable, DBWritable {
 
     private static final char FIELD_DELIMITER = 0x0001;
 
-    private Map<String, Object> dataMap = new LinkedHashMap();
+    //    private Map<String, Object> dataMap = new LinkedHashMap();
+    private List<DBColumn<Object>> dataList = new ArrayList<>();
 
     public String toString() {
         StringBuilder toString = new StringBuilder();
-        if (dataMap != null) {
-            int dataMapSize = dataMap.size();
-            if (dataMapSize > 0) {
+//        if (dataMap != null) {
+//            int dataMapSize = dataMap.size();
+//            if (dataMapSize > 0) {
+//                int column = 1;
+//                for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
+////                String columnLabel = entry.getKey();
+//                    Object columnValue = entry.getValue();
+//                    toString.append(columnValue);
+//                    if (column < dataMapSize) {
+//                        toString.append(FIELD_DELIMITER);
+//                    }
+//                    column++;
+//                }
+//            }
+//        }
+        if (dataList != null) {
+            int dataListSize = dataList.size();
+            if (dataListSize > 0) {
                 int column = 1;
-                for (Map.Entry<String, Object> entry : dataMap.entrySet()) {
-//                String columnLabel = entry.getKey();
-                    Object columnValue = entry.getValue();
-                    toString.append(columnValue);
-                    if (column < dataMapSize) {
+                for (DBColumn<Object> dbColumn : dataList) {
+                    toString.append(dbColumn.getColumnValue());
+                    if (column < dataListSize) {
                         toString.append(FIELD_DELIMITER);
                     }
                     column++;
@@ -66,10 +80,24 @@ public class SimpleDataWritable implements Writable, DBWritable {
         int columnCount = resultSetMetaData.getColumnCount();
         for (int column = 1; column <= columnCount; column++) {
             String columnLabel = resultSetMetaData.getColumnLabel(column);
-//            String columnClassName = resultSetMetaData.getColumnClassName(column);
-//            System.out.println(columnLabel + " : " + columnClassName);
+            String columnClassName = resultSetMetaData.getColumnClassName(column);
+            String tableName = resultSetMetaData.getTableName(column);
+            String columnName = resultSetMetaData.getColumnName(column);
+            String columnTypeName = resultSetMetaData.getColumnTypeName(column);
             Object columnValue = result.getObject(column);
-            dataMap.put(columnLabel, columnValue);
+//            dataMap.put(columnLabel, columnValue);
+
+            DBColumn<Object> dbColumn = new DBColumn<>();
+            dbColumn.setTableName(tableName);
+            dbColumn.setColumnClassName(columnClassName);
+            dbColumn.setColumnTypeName(columnTypeName);
+            dbColumn.setColumnName(columnName);
+            dbColumn.setColumnLabel(columnLabel);
+            dbColumn.setColumnValue(columnValue);
+
+            System.out.println(dbColumn);
+
+            dataList.add(dbColumn);
         }
     }
 
