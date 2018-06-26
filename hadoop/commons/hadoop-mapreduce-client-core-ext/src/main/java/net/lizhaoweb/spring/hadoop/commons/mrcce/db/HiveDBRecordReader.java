@@ -23,6 +23,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A RecordReader that reads records from a Hive table.
@@ -38,6 +40,8 @@ import java.sql.SQLSyntaxErrorException;
 @InterfaceAudience.Public
 @InterfaceStability.Evolving
 public class HiveDBRecordReader<T extends DBWritable> extends DBRecordReader<T> {
+
+    private static final Pattern PATTERN_FIELD_NAME_ALIAS = Pattern.compile("^\\s*([^\\s]+)\\s+AS\\s+([^\\s]+)\\s*$", Pattern.CASE_INSENSITIVE);
 
     private ResultSet results = null;
 
@@ -103,7 +107,19 @@ public class HiveDBRecordReader<T extends DBWritable> extends DBRecordReader<T> 
                 throw new RuntimeException(new SQLSyntaxErrorException("Not found from clause in SQL '" + inputQuery + "'"));
             }
             String fieldNamesString = inputQuery.substring(firstSelectIndex + "SELECT ".length(), firstFromIndex);
-            fieldNames.append(fieldNamesString);
+            String[] fieldNameAliasArray = fieldNamesString.split(",");
+            for (int i = 0; i < fieldNameAliasArray.length; i++) {
+                String fieldNameAlias = fieldNameAliasArray[i];
+                Matcher matcher = PATTERN_FIELD_NAME_ALIAS.matcher(fieldNameAlias);
+                if (matcher.find()) {
+                    fieldNames.append(matcher.group(2));
+                } else {
+                    fieldNames.append(fieldNameAlias);
+                }
+                if (i != fieldNameAliasArray.length - 1) {
+                    fieldNames.append(", ");
+                }
+            }
             query.append(inputQuery);
         }
 
