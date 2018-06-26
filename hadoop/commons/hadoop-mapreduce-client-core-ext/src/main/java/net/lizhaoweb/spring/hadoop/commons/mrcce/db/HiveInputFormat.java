@@ -85,10 +85,7 @@ public class HiveInputFormat<T extends DBWritable> extends DBInputFormat<T> {
             results.next();
 
             long count = results.getLong(1);
-            int chunks = 1;
-            if (!dbProductName.startsWith("APACHE HIVE")) {
-                chunks = job.getConfiguration().getInt(MRJobConfig.NUM_MAPS, 1);
-            }
+            int chunks = job.getConfiguration().getInt(MRJobConfig.NUM_MAPS, 1);
             long chunkSize = (count / chunks);
 
             results.close();
