@@ -575,5 +575,7 @@
         <module>zookeeper</module>
         <module>hadoop</module>
         <module>cache</module>
+        <module>file</module>
+        <module>netty</module>
     </modules>
 </project>
