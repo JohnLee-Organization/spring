@@ -10,6 +10,8 @@
  */
 package net.lizhaoweb.spring.websocket;
 
+import com.caucho.websocket.WebSocketContext;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface HttpToWebSocketService {
 
-    void service(HttpServletRequest request, HttpServletResponse response);
+    WebSocketContext service(HttpServletRequest request, HttpServletResponse response);
 
     void setHeader(HttpServletRequest request, HttpServletResponse response);
 }

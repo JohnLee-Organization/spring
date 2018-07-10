@@ -10,6 +10,7 @@
  */
 package net.lizhaoweb.spring.websocket.resin;
 
+import com.caucho.websocket.WebSocketContext;
 import com.caucho.websocket.WebSocketListener;
 import com.caucho.websocket.WebSocketServletRequest;
 import lombok.Setter;
@@ -35,11 +36,11 @@ public abstract class AbstractResinWebSoceckService implements HttpToWebSocketSe
     private WebSocketListener listener;
 
     @Override
-    public void service(HttpServletRequest request, HttpServletResponse response) {
+    public WebSocketContext service(HttpServletRequest request, HttpServletResponse response) {
         try {
             this.setHeader(request, response);
             WebSocketServletRequest wsRequest = (WebSocketServletRequest) request;
-            wsRequest.startWebSocket(listener);
+            return wsRequest.startWebSocket(listener);
         } catch (Exception e) {
             throw new WebSocketException(e);
         }
