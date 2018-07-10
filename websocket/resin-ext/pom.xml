@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>net.lizhaoweb.spring</groupId>
-        <artifactId>netty</artifactId>
-        <version>JL.SPRING.8.0.0.0.1.0.0</version>
+        <artifactId>websocket</artifactId>
+        <version>JL.SPRING.9.0.0.0.1.0.0</version>
     </parent>
 
-    <groupId>net.lizhaoweb.spring.netty</groupId>
-    <artifactId>server</artifactId>
-    <version>JL.SPRING.8.1.0.0.1.0.0</version>
+    <groupId>net.lizhaoweb.spring.websocket</groupId>
+    <artifactId>resin-extend</artifactId>
+    <version>JL.SPRING.9.1.0.0.1.0.0</version>
 
-    <name>Spring Netty [Server]</name>
-    <description>个人 Spring Netty 服务端项目</description>
+    <name>Spring WebSocket [Resin Extend]</name>
+    <description>个人 Spring Resin WebSocket 扩展项目</description>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -60,9 +60,18 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Servlet -->
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+
+        <!-- Resin -->
+        <dependency>
+            <groupId>com.caucho.embed</groupId>
+            <artifactId>resin-websocket</artifactId>
+            <version>4.0.48</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

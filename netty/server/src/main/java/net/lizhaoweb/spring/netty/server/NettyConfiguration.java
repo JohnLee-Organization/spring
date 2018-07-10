@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
  * Date of last commit:$Date$<br>
  */
 @Data
-public class Configuration implements Cloneable, Serializable, Closeable {
+public class NettyConfiguration implements Cloneable, Serializable, Closeable {
 
     @Setter(value = AccessLevel.PACKAGE)
     private EventLoopGroup parentGroup;

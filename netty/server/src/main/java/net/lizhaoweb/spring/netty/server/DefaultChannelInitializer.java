@@ -37,7 +37,7 @@ import java.util.List;
 public class DefaultChannelInitializer extends ChannelInitializer<SocketChannel> {
 
     @NonNull
-    private Configuration config;
+    private NettyConfiguration config;
 
     @Override
     protected void initChannel(SocketChannel channel) throws Exception {

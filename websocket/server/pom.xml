@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>net.lizhaoweb.spring</groupId>
-        <artifactId>netty</artifactId>
-        <version>JL.SPRING.8.0.0.0.1.0.0</version>
+        <artifactId>websocket</artifactId>
+        <version>JL.SPRING.9.0.0.0.1.0.0</version>
     </parent>
 
-    <groupId>net.lizhaoweb.spring.netty</groupId>
+    <groupId>net.lizhaoweb.spring.websocket</groupId>
     <artifactId>server</artifactId>
-    <version>JL.SPRING.8.1.0.0.1.0.0</version>
+    <version>JL.SPRING.9.2.0.0.1.0.0</version>
 
-    <name>Spring Netty [Server]</name>
-    <description>个人 Spring Netty 服务端项目</description>
+    <name>Spring WebSocket [Server]</name>
+    <description>个人 Spring WebSocket 服务端项目</description>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -58,11 +58,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
         </dependency>
 
     </dependencies>

@@ -37,7 +37,7 @@ public class DefaultNettyServer implements INettyServer {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
-    private Configuration config;
+    private NettyConfiguration config;
 
     private ChannelFuture channelFuture;
 

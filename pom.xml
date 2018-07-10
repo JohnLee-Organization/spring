@@ -577,5 +577,6 @@
         <module>cache</module>
         <module>file</module>
         <module>netty</module>
+        <module>websocket</module>
     </modules>
 </project>
