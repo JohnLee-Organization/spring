@@ -27,5 +27,5 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractResinWebSocketListener extends AbstractWebSocketListener {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 }
