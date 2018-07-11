@@ -50,12 +50,14 @@ public class DefaultChannelInitializer extends ChannelInitializer<SocketChannel>
         // 添加对象编码器 在服务器对外发送消息的时候自动将实现序列化的POJO对象编码
         channel.pipeline().addLast(new ObjectEncoder());
 
-        List<ChannelHandler> channelHandlerList = config.getChannelHandlerList();
+        List<String> channelHandlerList = config.getChannelHandlerClassList();
         if (channelHandlerList == null || channelHandlerList.size() < 1) {
             return;
         }
-        for (ChannelHandler channelHandler : channelHandlerList) {
-            channel.pipeline().addLast(channelHandler);
+        for (String channelHandlerClassString : channelHandlerList) {
+            Class channelHandlerClass = this.getClass().getClassLoader().loadClass(channelHandlerClassString);
+            Object channelHandler = channelHandlerClass.newInstance();
+            channel.pipeline().addLast((ChannelHandler) channelHandler);
         }
     }
 }

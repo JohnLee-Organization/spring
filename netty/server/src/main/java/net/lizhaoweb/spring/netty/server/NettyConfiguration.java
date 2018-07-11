@@ -55,7 +55,7 @@ public class NettyConfiguration implements Cloneable, Serializable, Closeable {
     private boolean socketKeepalive = true;
     private boolean tcpNoDelay = true;
 
-    private List<ChannelHandler> channelHandlerList;
+    private List<String> channelHandlerClassList;
 
     @Override
     public void close() {
