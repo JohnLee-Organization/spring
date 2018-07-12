@@ -14,12 +14,15 @@ import com.caucho.websocket.WebSocketContext;
 import com.caucho.websocket.WebSocketListener;
 import com.caucho.websocket.WebSocketServletRequest;
 import lombok.Setter;
-import net.lizhaoweb.spring.websocket.HttpToWebSocketService;
+import net.lizhaoweb.spring.websocket.HttpHandler;
+import net.lizhaoweb.spring.websocket.HttpToWebSocketClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * <h1>客户端 [抽象] - Http 转 WebSocket</h1>
+ *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0.0.1
  * @EMAIL 404644381@qq.com
@@ -28,28 +31,31 @@ import javax.servlet.http.HttpServletResponse;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public abstract class AbstractResinWebSoceckService implements HttpToWebSocketService {
+public abstract class AbstractResinWebSoceckClient implements HttpToWebSocketClient {
 
-    private static final String HEADER_SEC_WEB_SOCKET_PROTOCOL = "Sec-WebSocket-Protocol";
-
+    /**
+     * WebSocket 监听器
+     */
     @Setter
     private WebSocketListener listener;
 
+    /**
+     * 请求头或响应头处理器
+     */
+    @Setter
+    private HttpHandler headerHandler;
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public WebSocketContext service(HttpServletRequest request, HttpServletResponse response) {
+    public WebSocketContext startWebSocket(HttpServletRequest request, HttpServletResponse response) {
         try {
-            this.setHeader(request, response);
+            headerHandler.handle(request, response);
             WebSocketServletRequest wsRequest = (WebSocketServletRequest) request;
             return wsRequest.startWebSocket(listener);
         } catch (Exception e) {
             throw new WebSocketException(e);
         }
-    }
-
-    @Override
-    public void setHeader(HttpServletRequest request, HttpServletResponse response) {
-        //当调用了下面的startWebSocket函数后，该socket就会和相应的listener建立起对应关系
-        String secWebSocketProtocol = request.getHeader(HEADER_SEC_WEB_SOCKET_PROTOCOL);
-        response.setHeader(HEADER_SEC_WEB_SOCKET_PROTOCOL, secWebSocketProtocol);
     }
 }

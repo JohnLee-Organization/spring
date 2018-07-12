@@ -11,6 +11,8 @@
 package net.lizhaoweb.spring.websocket.resin;
 
 /**
+ * <h1>异常 - WebSocket</h1>
+ *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0.0.1
  * @EMAIL 404644381@qq.com

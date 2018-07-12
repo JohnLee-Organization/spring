@@ -10,7 +10,6 @@
  */
 package net.lizhaoweb.spring.netty.server;
 
-import io.netty.channel.ChannelHandler;
 import io.netty.channel.EventLoopGroup;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -36,27 +35,30 @@ import java.util.concurrent.TimeUnit;
 public class NettyConfiguration implements Cloneable, Serializable, Closeable {
 
     @Setter(value = AccessLevel.PACKAGE)
-    private EventLoopGroup parentGroup;
+    private EventLoopGroup parentGroup; // 父事件组
 
     @Setter(value = AccessLevel.PACKAGE)
-    private EventLoopGroup childGroup;
+    private EventLoopGroup childGroup; // 子事件组
 
-    private int port;
+    private int port; // 监听端口
 
     // 设置对象序列化最大长度为1M 防止内存溢出
     private int maxObjectSizeForDecoder = 1024 * 1024;
 
-    private long readerIdleTime = 60;
-    private long writerIdleTime = 60;
-    private long allIdleTime = 80;
-    private TimeUnit timeUnit = TimeUnit.SECONDS;
+    private long readerIdleTime = 60; // 通道读取闲置时长
+    private long writerIdleTime = 60; // 通道写入闲置时长
+    private long allIdleTime = 80; // 通道总闲置时长
+    private TimeUnit timeUnit = TimeUnit.SECONDS; // 时长单位
 
-    private int socketBackLog = 128;
-    private boolean socketKeepalive = true;
-    private boolean tcpNoDelay = true;
+    private int socketBackLog = 128; // 套节子...
+    private boolean socketKeepalive = true; // 是否保持套节子
+    private boolean tcpNoDelay = true; // 是否延迟
 
-    private List<String> channelHandlerClassList;
+    private List<String> channelHandlerClassList; // 处理器列表
 
+    /**
+     * 关闭配置中的一些设置
+     */
     @Override
     public void close() {
         if (childGroup != null) {

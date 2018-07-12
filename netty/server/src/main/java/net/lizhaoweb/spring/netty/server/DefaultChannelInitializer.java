@@ -37,8 +37,14 @@ import java.util.List;
 public class DefaultChannelInitializer extends ChannelInitializer<SocketChannel> {
 
     @NonNull
-    private NettyConfiguration config;
+    private NettyConfiguration config; // Netty 配置
 
+    /**
+     * 初始化通道
+     *
+     * @param channel 套节子通道
+     * @throws Exception 异常
+     */
     @Override
     protected void initChannel(SocketChannel channel) throws Exception {
         channel.pipeline().addLast("ping", new IdleStateHandler(config.getReaderIdleTime(), config.getWriterIdleTime(), config.getAllIdleTime(), config.getTimeUnit()));
