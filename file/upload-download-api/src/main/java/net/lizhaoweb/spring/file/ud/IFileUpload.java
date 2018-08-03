@@ -24,6 +24,7 @@ import net.lizhaoweb.spring.file.ud.model.FileTransmissionContext;
  * Date of last commit:$Date$<br>
  */
 public interface IFileUpload {
+
     void beforUpload(FileTransmissionContext context);
 
     void upload(FileTransmissionContext context);
