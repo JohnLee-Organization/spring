@@ -4,12 +4,12 @@
     <parent>
         <groupId>net.lizhaoweb</groupId>
         <artifactId>spring</artifactId>
-        <version>JL.SPRING.0.0.0.0.1.0.0</version>
+        <version>JL.SPRING.0.0.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring</groupId>
     <artifactId>mvc</artifactId>
-    <version>JL.SPRING.1.0.0.0.1.0.0</version>
+    <version>JL.SPRING.1.0.0.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring MVC</name>
     <description>个人 Spring MVC 项目组</description>

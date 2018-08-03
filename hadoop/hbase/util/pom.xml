@@ -6,12 +6,12 @@
     <parent>
         <artifactId>hbase</artifactId>
         <groupId>net.lizhaoweb.spring.hadoop</groupId>
-        <version>JL.SPRING.4.2.0.0.1.0.0</version>
+        <version>JL.SPRING.4.2.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring.hadoop.hbase</groupId>
     <artifactId>util</artifactId>
-    <version>JL.SPRING.4.2.1.0.1.0.0</version>
+    <version>JL.SPRING.4.2.1.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring Hadoop HBase [Util]</name>
     <description>个人 Hadoop HBase 项目组 - 工具</description>

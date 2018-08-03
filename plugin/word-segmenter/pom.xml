@@ -6,12 +6,12 @@
     <parent>
         <groupId>net.lizhaoweb.spring</groupId>
         <artifactId>plugin</artifactId>
-        <version>JL.SPRING.2.0.0.0.1.0.0</version>
+        <version>JL.SPRING.2.0.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring.plugin</groupId>
     <artifactId>word-segmenter</artifactId>
-    <version>JL.SPRING.2.2.0.0.1.0.0</version>
+    <version>JL.SPRING.2.2.0.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring Plugin WordSegmenter</name>
     <description>个人 Spring 分词器项目组</description>

@@ -4,7 +4,7 @@
     <parent>
         <groupId>net.lizhaoweb.spring</groupId>
         <artifactId>cache</artifactId>
-        <version>JL.SPRING.6.0.0.0.1.0.0</version>
+        <version>JL.SPRING.6.0.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring.cache</groupId>
@@ -141,18 +141,6 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.9.4</version>
         </dependency>
-
-        <!-- 自定义插件
-        <dependency>
-            <groupId>net.lizhaoweb.common.util</groupId>
-            <artifactId>base</artifactId>
-            <version>JL.COMMON.1.1.0.0.1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>net.lizhaoweb.spring.mvc</groupId>
-            <artifactId>model</artifactId>
-            <version>JL.SPRING.1.1.0.0.1.0.0</version>
-        </dependency>-->
 
     </dependencies>
 

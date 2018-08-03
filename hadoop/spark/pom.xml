@@ -6,12 +6,12 @@
     <parent>
         <artifactId>hadoop</artifactId>
         <groupId>net.lizhaoweb.spring</groupId>
-        <version>JL.SPRING.4.0.0.0.1.0.0</version>
+        <version>JL.SPRING.4.0.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring.hadoop</groupId>
     <artifactId>spark</artifactId>
-    <version>JL.SPRING.4.4.0.0.1.0.0</version>
+    <version>JL.SPRING.4.4.0.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring Hadoop Spark</name>
     <description>个人 Spark 项目组</description>

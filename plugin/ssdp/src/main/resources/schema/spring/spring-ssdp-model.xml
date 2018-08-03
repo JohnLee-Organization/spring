@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+">
+
+    <!--<context:property-placeholder location="classpath*:config/ssdp.properties" ignore-unresolvable="true"/>-->
+
+    <!--<bean id="ssdp.config" abstract="true">-->
+        <!--<property name="broadcastAddress" value="${ssdp.broadcast.address}"/>-->
+        <!--<property name="broadcastPort" value="${ssdp.broadcast.port}"/>-->
+        <!--<property name="unicastPort" value="${ssdp.unicast.port}"/>-->
+        <!--<property name="maxAge" value="${ssdp.alive.age.max}"/>-->
+        <!--<property name="productName" value="${ssdp.product.name}"/>-->
+        <!--<property name="productVersion" value="${ssdp.product.version}"/>-->
+        <!--<property name="networkInterfaceName" value="${ssdp.product.network.interface.name}"/>-->
+        <!--<property name="maxDelayTime" value="${ssdp.m-search.time.delay.max}"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; SSDP 配置 &ndash;&gt;-->
+    <!--<bean id="configuration" class="net.lizhaoweb.ssdp.model.Configuration" parent="ssdp.config"/>-->
+
+    <!-- /========================== 请求列表 Start =============================\ -->
+    <!-- 通知请求 -->
+    <bean id="notifyRequest" class="net.lizhaoweb.ssdp.dto.NotifyRequest"/>
+
+    <!-- 查询请求 -->
+    <bean id="mSearchRequest" class="net.lizhaoweb.ssdp.dto.MSearchRequest"/>
+    <!-- \=========================== 请求列表 End ==============================/ -->
+
+
+    <!-- /========================== 响应列表 Start =============================\ -->
+    <!-- 查询响应 -->
+    <bean id="mSearchResponse" class="net.lizhaoweb.ssdp.dto.MSearchResponse"/>
+    <!-- \=========================== 响应列表 End ==============================/ -->
+
+
+    <!--&lt;!&ndash; SSDP 配置 &ndash;&gt;-->
+    <!--<bean id="configuration" class="net.lizhaoweb.ssdp.model.Configuration" parent="ssdp.config"/>-->
+
+    <!--&lt;!&ndash; /========================== 请求列表 Start =============================\ &ndash;&gt;-->
+    <!--&lt;!&ndash; 通知请求 &ndash;&gt;-->
+    <!--<bean id="notifyRequest" class="net.lizhaoweb.ssdp.dto.NotifyRequest">-->
+    <!--<constructor-arg ref="configuration"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 查询请求 &ndash;&gt;-->
+    <!--<bean id="mSearchRequest" class="net.lizhaoweb.ssdp.dto.MSearchRequest">-->
+    <!--<constructor-arg ref="configuration"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; \=========================== 请求列表 End ==============================/ &ndash;&gt;-->
+
+
+    <!--&lt;!&ndash; /========================== 响应列表 Start =============================\ &ndash;&gt;-->
+    <!--&lt;!&ndash; 查询响应 &ndash;&gt;-->
+    <!--<bean id="mSearchResponse" class="net.lizhaoweb.ssdp.dto.MSearchResponse">-->
+    <!--<constructor-arg ref="configuration"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; \=========================== 响应列表 End ==============================/ &ndash;&gt;-->
+
+</beans>

@@ -4,7 +4,7 @@
     <parent>
         <groupId>net.lizhaoweb.spring</groupId>
         <artifactId>plugin</artifactId>
-        <version>JL.SPRING.2.0.0.0.1.0.0</version>
+        <version>JL.SPRING.2.0.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring.plugin</groupId>

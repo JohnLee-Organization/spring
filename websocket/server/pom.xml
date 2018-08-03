@@ -6,12 +6,12 @@
     <parent>
         <groupId>net.lizhaoweb.spring</groupId>
         <artifactId>websocket</artifactId>
-        <version>JL.SPRING.9.0.0.0.1.0.0</version>
+        <version>JL.SPRING.9.0.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring.websocket</groupId>
     <artifactId>server</artifactId>
-    <version>JL.SPRING.9.2.0.0.1.0.0</version>
+    <version>JL.SPRING.9.2.0.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring WebSocket [Server]</name>
     <description>个人 Spring WebSocket 服务端项目</description>

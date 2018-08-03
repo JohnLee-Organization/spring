@@ -6,12 +6,12 @@
     <parent>
         <artifactId>hadoop</artifactId>
         <groupId>net.lizhaoweb.spring</groupId>
-        <version>JL.SPRING.4.0.0.0.1.0.0</version>
+        <version>JL.SPRING.4.0.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring.hadoop</groupId>
     <artifactId>commons</artifactId>
-    <version>JL.SPRING.4.1.0.0.1.0.0</version>
+    <version>JL.SPRING.4.1.0.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring Hadoop Commons</name>
     <description>个人 Hadoop 公用项目组</description>

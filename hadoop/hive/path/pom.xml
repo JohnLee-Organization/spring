@@ -6,12 +6,12 @@
     <parent>
         <groupId>net.lizhaoweb.spring.hadoop</groupId>
         <artifactId>hive</artifactId>
-        <version>JL.SPRING.4.3.0.0.1.0.0</version>
+        <version>JL.SPRING.4.3.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring.hadoop.hive</groupId>
     <artifactId>path</artifactId>
-    <version>JL.SPRING.4.3.1.0.1.0.0</version>
+    <version>JL.SPRING.4.3.1.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring Hadoop Hive [Path]</name>
     <description>个人 Hive 输入过滤 TEMP 目录</description>

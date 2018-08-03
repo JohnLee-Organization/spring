@@ -6,12 +6,12 @@
     <parent>
         <groupId>net.lizhaoweb.spring</groupId>
         <artifactId>zookeeper</artifactId>
-        <version>JL.SPRING.5.0.0.0.1.0.0</version>
+        <version>JL.SPRING.5.0.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring.zk</groupId>
     <artifactId>common</artifactId>
-    <version>JL.SPRING.5.1.0.0.1.0.0</version>
+    <version>JL.SPRING.5.1.0.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring ZooKeeper [Common]</name>
     <description>个人 Spring ZooKeeper 公用项目</description>

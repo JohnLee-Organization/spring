@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- 请求消息转换器 -->
+    <bean id="requestMessageConverter" class="net.lizhaoweb.ssdp.service.impl.RequestMessageConverter"/>
+
+    <!-- 响应消息转换器 -->
+    <bean id="responseMessageConverter" class="net.lizhaoweb.ssdp.service.impl.ResponseMessageConverter"/>
+
+    <!-- 组播套接子发送器 -->
+    <bean id="multicastSocketSender" class="net.lizhaoweb.ssdp.service.impl.socket.MulticastSocketSender"
+          init-method="init" destroy-method="close"/>
+
+    <!-- 组播套接子接收器 -->
+    <bean id="multicastSocketReceiver" class="net.lizhaoweb.ssdp.service.impl.socket.MulticastSocketReceiver"
+          init-method="init" destroy-method="close"/>
+
+    <!--&lt;!&ndash; 请求消息转换器 &ndash;&gt;-->
+    <!--<bean id="requestMessageConverter" class="net.lizhaoweb.ssdp.service.impl.RequestMessageConverter">-->
+    <!--<constructor-arg ref="configuration"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 响应消息转换器 &ndash;&gt;-->
+    <!--<bean id="responseMessageConverter" class="net.lizhaoweb.ssdp.service.impl.ResponseMessageConverter">-->
+    <!--<constructor-arg ref="configuration"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 组播套接子发送器 &ndash;&gt;-->
+    <!--<bean id="multicastSocketSender" class="net.lizhaoweb.ssdp.service.impl.socket.MulticastSocketSender">-->
+    <!--<constructor-arg ref="configuration"/>-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; 组播套接子接收器 &ndash;&gt;-->
+    <!--<bean id="multicastSocketReceiver" class="net.lizhaoweb.ssdp.service.impl.socket.MulticastSocketReceiver">-->
+    <!--<constructor-arg ref="configuration"/>-->
+    <!--</bean>-->
+
+</beans>

@@ -6,12 +6,12 @@
     <parent>
         <groupId>net.lizhaoweb.spring</groupId>
         <artifactId>mvc</artifactId>
-        <version>JL.SPRING.1.0.0.0.1.0.0</version>
+        <version>JL.SPRING.1.0.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring.mvc</groupId>
     <artifactId>aop</artifactId>
-    <version>JL.SPRING.1.3.0.0.1.0.0</version>
+    <version>JL.SPRING.1.3.0.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring MVC [AOP]</name>
     <description>个人 Spring MVC AOP 项目</description>
@@ -83,7 +83,7 @@
         <dependency>
             <groupId>net.lizhaoweb.spring.mvc</groupId>
             <artifactId>core</artifactId>
-            <version>JL.SPRING.1.2.0.0.1.0.0</version>
+            <version>JL.SPRING.1.2.0.0.1.0.1-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

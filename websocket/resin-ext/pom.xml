@@ -6,12 +6,12 @@
     <parent>
         <groupId>net.lizhaoweb.spring</groupId>
         <artifactId>websocket</artifactId>
-        <version>JL.SPRING.9.0.0.0.1.0.0</version>
+        <version>JL.SPRING.9.0.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>net.lizhaoweb.spring.websocket</groupId>
     <artifactId>resin-extend</artifactId>
-    <version>JL.SPRING.9.1.0.0.1.0.0</version>
+    <version>JL.SPRING.9.1.0.0.1.0.1-SNAPSHOT</version>
 
     <name>Spring WebSocket [Resin Extend]</name>
     <description>个人 Spring Resin WebSocket 扩展项目</description>
