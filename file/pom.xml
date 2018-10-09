@@ -24,6 +24,7 @@
 
     <modules>
         <module>upload-download-api</module>
+        <module>upload-download-oss</module>
     </modules>
 
 </project>

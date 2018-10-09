@@ -54,14 +54,14 @@ public abstract class AbstractFileTransferExecutor implements IFileTransferExecu
      *
      * @param context 文件传输上下文
      */
-    abstract void executeUpload(FileTransferContext context);
+    protected abstract void executeUpload(FileTransferContext context);
 
     /**
      * 执行下载
      *
      * @param context 文件传输上下文
      */
-    abstract void executeDownload(FileTransferContext context);
+    protected abstract void executeDownload(FileTransferContext context);
 
     // 执行前运行
     private void executeBefore(FileTransferContext context, IFileTransferHandler[] handlers) {
