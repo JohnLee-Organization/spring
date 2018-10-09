@@ -6,28 +6,30 @@
  * @Package : net.lizhaoweb.spring.file.ud
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
  * @EMAIL 404644381@qq.com
- * @Time : 10:53
+ * @Time : 15:53
  */
 package net.lizhaoweb.spring.file.ud;
 
-import net.lizhaoweb.spring.file.ud.model.FileTransmissionContext;
+import net.lizhaoweb.spring.file.ud.model.FileTransferContext;
 
 /**
- * <h1>文件处理 [接口] - 上传</h1>
+ * <h1>执行器 [实现] - 文件下载</h1>
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0.0.1
  * @EMAIL 404644381@qq.com
- * @notes Created on 2018年07月03日<br>
+ * @notes Created on 2018年10月09日<br>
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public interface IFileUpload {
+public class FileDownloadExecutor extends FileTransferExecutor {
 
-    void beforUpload(FileTransmissionContext context);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void download(FileTransferContext context) {
 
-    void upload(FileTransmissionContext context);
-
-    void afterUpload(FileTransmissionContext context);
+    }
 }

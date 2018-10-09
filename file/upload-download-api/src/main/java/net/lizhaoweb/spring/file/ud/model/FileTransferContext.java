@@ -10,6 +10,8 @@
  */
 package net.lizhaoweb.spring.file.ud.model;
 
+import net.lizhaoweb.spring.file.ud.IFileTransferHandler;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,7 +31,9 @@ import java.util.regex.Pattern;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public class FileTransmissionContext {
+public class FileTransferContext {
+    private final static String HANDLER_DOWNLOAD = FileTransferContext.class.getName() + ".HANDLER_DOWNLOAD";
+    private final static String HANDLER_UPLOAD = FileTransferContext.class.getName() + ".HANDLER_UPLOAD";
 
     private Map<String, List<Object>> context = new ConcurrentHashMap<>();
 
@@ -122,6 +126,14 @@ public class FileTransmissionContext {
         return this.getObject(key, defaultValue);
     }
 
+    public void setDownloadHandler(IFileTransferHandler handler) {
+        this.setObject(HANDLER_DOWNLOAD, handler);
+    }
+
+    public void setUploadHandler(IFileTransferHandler handler) {
+        this.setObject(HANDLER_UPLOAD, handler);
+    }
+
     // ============================= 基础数据增加 =============================
     public void addBytes(String key, byte... values) {
         this.addObjects(key, values);
@@ -209,6 +221,24 @@ public class FileTransmissionContext {
 
     public Pattern[] getPatterns(String key) {
         return this.getObjects(key);
+    }
+
+    public void addDownloadHandlers(IFileTransferHandler... handlers) {
+        this.addObjects(HANDLER_DOWNLOAD, handlers);
+    }
+
+    public void addUploadHandlers(IFileTransferHandler... handlers) {
+        this.addObjects(HANDLER_UPLOAD, handlers);
+    }
+
+    public IFileTransferHandler[] getDownloadHandlers() {
+        List<Object> valueList = context.get(HANDLER_DOWNLOAD);
+        return valueList.toArray(new IFileTransferHandler[0]);
+    }
+
+    public IFileTransferHandler[] getUploadHandlers() {
+        List<Object> valueList = context.get(HANDLER_UPLOAD);
+        return valueList.toArray(new IFileTransferHandler[0]);
     }
 
 
