@@ -25,7 +25,7 @@ import net.lizhaoweb.spring.file.ud.model.FileTransferContext;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public class FileTransferExecutor implements IFileTransferExecutor {
+public abstract class AbstractFileTransferExecutor implements IFileTransferExecutor {
 
     /**
      * {@inheritDoc}
@@ -34,7 +34,7 @@ public class FileTransferExecutor implements IFileTransferExecutor {
     public void upload(FileTransferContext context) {
         IFileTransferHandler[] handlers = context.getUploadHandlers();
         this.executeBefore(context, handlers);
-        //TODO 上传逻辑
+        this.executeUpload(context);
         this.executeAfter(context, handlers);
     }
 
@@ -45,9 +45,23 @@ public class FileTransferExecutor implements IFileTransferExecutor {
     public void download(FileTransferContext context) {
         IFileTransferHandler[] handlers = context.getDownloadHandlers();
         this.executeBefore(context, handlers);
-        //TODO 下载逻辑
+        this.executeDownload(context);
         this.executeAfter(context, handlers);
     }
+
+    /**
+     * 执行上传
+     *
+     * @param context 文件传输上下文
+     */
+    abstract void executeUpload(FileTransferContext context);
+
+    /**
+     * 执行下载
+     *
+     * @param context 文件传输上下文
+     */
+    abstract void executeDownload(FileTransferContext context);
 
     // 执行前运行
     private void executeBefore(FileTransferContext context, IFileTransferHandler[] handlers) {

@@ -10,6 +10,7 @@
  */
 package net.lizhaoweb.spring.file.ud;
 
+import net.lizhaoweb.spring.file.ud.exception.FileTransferException;
 import net.lizhaoweb.spring.file.ud.model.FileTransferContext;
 import org.junit.Test;
 
@@ -49,8 +50,19 @@ public class TestFileTransferExecutor {
             }
         });
 
-        IFileTransferExecutor executor = new FileTransferExecutor();
+        IFileTransferExecutor executor = new AbstractFileTransferExecutor() {
+            @Override
+            void executeUpload(FileTransferContext context) {
+                System.out.println("up-execute");
+            }
+
+            @Override
+            void executeDownload(FileTransferContext context) {
+                throw new FileTransferException("This method is not supported.");
+            }
+        };
         executor.upload(context);
+        System.out.println();
     }
 
     @Test
@@ -78,7 +90,18 @@ public class TestFileTransferExecutor {
             }
         });
 
-        IFileTransferExecutor executor = new FileTransferExecutor();
+        IFileTransferExecutor executor = new AbstractFileTransferExecutor() {
+            @Override
+            void executeUpload(FileTransferContext context) {
+                throw new FileTransferException("This method is not supported.");
+            }
+
+            @Override
+            void executeDownload(FileTransferContext context) {
+                System.out.println("down-execute");
+            }
+        };
         executor.download(context);
+        System.out.println();
     }
 }
