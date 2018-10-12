@@ -29,13 +29,15 @@ public interface IFileTransferHandler {
      * 传输前处理
      *
      * @param context 文件传输上下文
+     * @return boolean
      */
-    void before(FileTransferContext context);
+    boolean before(FileTransferContext context);
 
     /**
      * 传输后处理
      *
      * @param context 文件传输上下文
+     * @return boolean
      */
-    void after(FileTransferContext context);
+    boolean after(FileTransferContext context);
 }

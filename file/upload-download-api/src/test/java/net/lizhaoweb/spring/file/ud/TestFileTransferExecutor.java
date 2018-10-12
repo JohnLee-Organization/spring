@@ -30,34 +30,39 @@ public class TestFileTransferExecutor {
         FileTransferContext context = new FileTransferContext();
         context.addUploadHandlers(new IFileTransferHandler() {
             @Override
-            public void before(FileTransferContext context) {
+            public boolean before(FileTransferContext context) {
                 System.out.println("up-handler-before-1");
+                return true;
             }
 
             @Override
-            public void after(FileTransferContext context) {
+            public boolean after(FileTransferContext context) {
                 System.out.println("up-handler-after-1");
+                return true;
             }
         }, new IFileTransferHandler() {
             @Override
-            public void before(FileTransferContext context) {
+            public boolean before(FileTransferContext context) {
                 System.out.println("up-handler-before-2");
+                return true;
             }
 
             @Override
-            public void after(FileTransferContext context) {
+            public boolean after(FileTransferContext context) {
                 System.out.println("up-handler-after-2");
+                return true;
             }
         });
 
         IFileTransferExecutor executor = new AbstractFileTransferExecutor() {
             @Override
-            void executeUpload(FileTransferContext context) {
+            protected boolean executeUpload(FileTransferContext context) {
                 System.out.println("up-execute");
+                return true;
             }
 
             @Override
-            void executeDownload(FileTransferContext context) {
+            protected boolean executeDownload(FileTransferContext context) {
                 throw new FileTransferException("This method is not supported.");
             }
         };
@@ -70,35 +75,40 @@ public class TestFileTransferExecutor {
         FileTransferContext context = new FileTransferContext();
         context.addDownloadHandlers(new IFileTransferHandler() {
             @Override
-            public void before(FileTransferContext context) {
+            public boolean before(FileTransferContext context) {
                 System.out.println("down-handler-before-1");
+                return true;
             }
 
             @Override
-            public void after(FileTransferContext context) {
+            public boolean after(FileTransferContext context) {
                 System.out.println("down-handler-after-1");
+                return true;
             }
         }, new IFileTransferHandler() {
             @Override
-            public void before(FileTransferContext context) {
+            public boolean before(FileTransferContext context) {
                 System.out.println("down-handler-before-2");
+                return true;
             }
 
             @Override
-            public void after(FileTransferContext context) {
+            public boolean after(FileTransferContext context) {
                 System.out.println("down-handler-after-2");
+                return true;
             }
         });
 
         IFileTransferExecutor executor = new AbstractFileTransferExecutor() {
             @Override
-            void executeUpload(FileTransferContext context) {
+            protected boolean executeUpload(FileTransferContext context) {
                 throw new FileTransferException("This method is not supported.");
             }
 
             @Override
-            void executeDownload(FileTransferContext context) {
+            protected boolean executeDownload(FileTransferContext context) {
                 System.out.println("down-execute");
+                return true;
             }
         };
         executor.download(context);

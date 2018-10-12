@@ -29,13 +29,15 @@ public interface IFileTransferExecutor {
      * 上传文件
      *
      * @param context 文件传输上下文
+     * @return boolean
      */
-    void upload(FileTransferContext context);
+    boolean upload(FileTransferContext context);
 
     /**
      * 下载文件
      *
      * @param context 文件传输上下文
+     * @return boolean
      */
-    void download(FileTransferContext context);
+    boolean download(FileTransferContext context);
 }

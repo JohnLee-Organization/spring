@@ -31,22 +31,41 @@ public abstract class AbstractFileTransferExecutor implements IFileTransferExecu
      * {@inheritDoc}
      */
     @Override
-    public void upload(FileTransferContext context) {
+    public boolean upload(FileTransferContext context) {
         IFileTransferHandler[] handlers = context.getUploadHandlers();
-        this.executeBefore(context, handlers);
-        this.executeUpload(context);
-        this.executeAfter(context, handlers);
+        boolean execNext = true;
+
+        if (execNext) {
+            execNext = this.executeBefore(context, handlers);
+        }
+        if (execNext) {
+            execNext = this.executeUpload(context);
+        }
+        if (execNext) {
+            execNext = this.executeAfter(context, handlers);
+        }
+        return execNext;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void download(FileTransferContext context) {
+    public boolean download(FileTransferContext context) {
         IFileTransferHandler[] handlers = context.getDownloadHandlers();
-        this.executeBefore(context, handlers);
-        this.executeDownload(context);
-        this.executeAfter(context, handlers);
+
+        boolean execNext = true;
+
+        if (execNext) {
+            execNext = this.executeBefore(context, handlers);
+        }
+        if (execNext) {
+            execNext = this.executeDownload(context);
+        }
+        if (execNext) {
+            execNext = this.executeAfter(context, handlers);
+        }
+        return execNext;
     }
 
     /**
@@ -54,40 +73,52 @@ public abstract class AbstractFileTransferExecutor implements IFileTransferExecu
      *
      * @param context 文件传输上下文
      */
-    protected abstract void executeUpload(FileTransferContext context);
+    protected abstract boolean executeUpload(FileTransferContext context);
 
     /**
      * 执行下载
      *
      * @param context 文件传输上下文
      */
-    protected abstract void executeDownload(FileTransferContext context);
+    protected abstract boolean executeDownload(FileTransferContext context);
 
     // 执行前运行
-    private void executeBefore(FileTransferContext context, IFileTransferHandler[] handlers) {
+    private boolean executeBefore(FileTransferContext context, IFileTransferHandler[] handlers) {
+        boolean execNext = true;
         if (handlers != null && handlers.length > 0) {
             for (IFileTransferHandler handler : handlers) {
                 try {
-                    handler.before(context);
+                    if (execNext) {
+                        execNext = handler.before(context);
+                    } else {
+                        break;
+                    }
                 } catch (Exception e) {
                     throw new FileBeforeTransferException(e);
                 }
             }
         }
+        return execNext;
     }
 
     // 执行后运行
-    private void executeAfter(FileTransferContext context, IFileTransferHandler[] handlers) {
+    private boolean executeAfter(FileTransferContext context, IFileTransferHandler[] handlers) {
+        boolean execNext = true;
         if (handlers != null && handlers.length > 0) {
             for (int index = handlers.length - 1; index > -1; index--) {
                 try {
-                    IFileTransferHandler handler = handlers[index];
-                    handler.after(context);
+                    if (execNext) {
+                        IFileTransferHandler handler = handlers[index];
+                        execNext = handler.after(context);
+                    } else {
+                        break;
+                    }
                 } catch (Exception e) {
                     throw new FileAfterTransferException(e);
                 }
             }
         }
+        return execNext;
     }
 
 }

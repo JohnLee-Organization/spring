@@ -27,12 +27,12 @@ import net.lizhaoweb.spring.file.ud.model.FileTransferContext;
 public class OSSFileTransferExecutor extends AbstractFileTransferExecutor {
 
     @Override
-    protected void executeUpload(FileTransferContext context) {
-
+    protected boolean executeUpload(FileTransferContext context) {
+        return true;
     }
 
     @Override
-    protected void executeDownload(FileTransferContext context) {
-
+    protected boolean executeDownload(FileTransferContext context) {
+        return true;
     }
 }
