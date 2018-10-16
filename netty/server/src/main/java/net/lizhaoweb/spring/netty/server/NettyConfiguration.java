@@ -56,6 +56,8 @@ public class NettyConfiguration implements Cloneable, Serializable, Closeable {
 
     private List<String> channelHandlerClassList; // 处理器列表
 
+    private IChannelManager channelManager;
+
     /**
      * 关闭配置中的一些设置
      */
