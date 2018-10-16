@@ -27,23 +27,77 @@ import java.util.Collection;
  */
 public interface IChannelManager<Ch> {
 
+    /**
+     * 注册自定义通道
+     *
+     * @param channel 自定义通道
+     */
     void register(Ch channel);
 
+    /**
+     * 获取自定义通道，通过Netty通道对象
+     *
+     * @param channel Netty通道对象
+     * @return 自定义通道
+     */
     Ch getMessageChannel(Channel channel);
 
+    /**
+     * 获取自定义通道，通过通道ID
+     *
+     * @param channelId 通道ID
+     * @return 自定义通道
+     */
     Ch getMessageChannel(String channelId);
 
-    Ch getMessageChannelByBoxMac(String boxMac);
+    /**
+     * 获取自定义通道，通过MAC地址
+     *
+     * @param mac MAC地址
+     * @return 自定义通道
+     */
+    Ch getMessageChannelByMac(String mac);
 
+    /**
+     * 移除自定义通道，通过Netty通道对象
+     *
+     * @param channel Netty通道对象
+     * @return 自定义通道
+     */
     Ch removeMessageChannel(Channel channel);
 
+    /**
+     * 移除自定义通道，通过通道ID
+     *
+     * @param channelId 通道ID
+     * @return 自定义通道
+     */
     Ch removeMessageChannel(String channelId);
 
-    Ch removeMessageChannelByBoxMac(String boxMac);
+    /**
+     * 移除自定义通道，通过MAC地址
+     *
+     * @param mac MAC地址
+     * @return 自定义通道
+     */
+    Ch removeMessageChannelByMac(String mac);
 
+    /**
+     * 获取通道数量
+     *
+     * @return int
+     */
     int channelCount();
 
+    /**
+     * 获取所有自定义通道
+     *
+     * @return Collection
+     */
     Collection<Ch> getMessageChannelCollection();
 
+    /**
+     * 关闭所有通道
+     */
     void closeAll();
 }
