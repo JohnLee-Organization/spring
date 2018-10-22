@@ -20,6 +20,7 @@ import io.netty.handler.timeout.IdleStateHandler;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.lang.reflect.Constructor;
 import java.util.List;
 
 /**
@@ -56,14 +57,29 @@ public class DefaultChannelInitializer extends ChannelInitializer<SocketChannel>
         // 添加对象编码器 在服务器对外发送消息的时候自动将实现序列化的POJO对象编码
         channel.pipeline().addLast(new ObjectEncoder());
 
-        List<String> channelHandlerList = config.getChannelHandlerClassList();
+//        List<String> channelHandlerList = config.getChannelHandlerClassList();
+//        if (channelHandlerList == null || channelHandlerList.size() < 1) {
+//            return;
+//        }
+//        for (String channelHandlerClassString : channelHandlerList) {
+//            Class channelHandlerClass = this.getClass().getClassLoader().loadClass(channelHandlerClassString);
+//            Object channelHandler = channelHandlerClass.newInstance();
+//            channel.pipeline().addLast((ChannelHandler) channelHandler);
+//        }
+
+        List<Class<ChannelHandler>> channelHandlerList = config.getChannelHandlerClassList();
         if (channelHandlerList == null || channelHandlerList.size() < 1) {
             return;
         }
-        for (String channelHandlerClassString : channelHandlerList) {
-            Class channelHandlerClass = this.getClass().getClassLoader().loadClass(channelHandlerClassString);
-            Object channelHandler = channelHandlerClass.newInstance();
-            channel.pipeline().addLast((ChannelHandler) channelHandler);
+        for (Class<ChannelHandler> channelHandlerClass : channelHandlerList) {
+            ChannelHandler channelHandler = null;
+            Constructor<ChannelHandler> handlerConstructor = channelHandlerClass.getConstructor(NettyConfiguration.class);
+            if (handlerConstructor != null) {
+                channelHandler = handlerConstructor.newInstance(config);
+            } else {
+                channelHandler = channelHandlerClass.newInstance();
+            }
+            channel.pipeline().addLast(channelHandler);
         }
     }
 }

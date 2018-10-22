@@ -10,6 +10,7 @@
  */
 package net.lizhaoweb.spring.netty.server;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.EventLoopGroup;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -32,7 +33,7 @@ import java.util.concurrent.TimeUnit;
  * Date of last commit:$Date$<br>
  */
 @Data
-public class NettyConfiguration implements Cloneable, Serializable, Closeable {
+public class NettyConfiguration<Ch> implements Cloneable, Serializable, Closeable {
 
     @Setter(value = AccessLevel.PACKAGE)
     private EventLoopGroup parentGroup; // 父事件组
@@ -54,9 +55,9 @@ public class NettyConfiguration implements Cloneable, Serializable, Closeable {
     private boolean socketKeepalive = true; // 是否保持套节子
     private boolean tcpNoDelay = true; // 是否延迟
 
-    private List<String> channelHandlerClassList; // 处理器列表
+    private List<Class<ChannelHandler>> channelHandlerClassList; // 处理器列表
 
-    private IChannelManager channelManager;
+    private IChannelManager<Ch> channelManager;
 
     /**
      * 关闭配置中的一些设置
