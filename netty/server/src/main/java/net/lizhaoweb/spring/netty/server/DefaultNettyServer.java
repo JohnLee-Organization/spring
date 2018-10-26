@@ -71,8 +71,8 @@ public class DefaultNettyServer implements INettyServer {
                     .childOption(ChannelOption.SO_KEEPALIVE, config.isSocketKeepalive()); // (6)
 
             // Bind and start to accept incoming connections.
-            channelFuture = serverBootstrap.bind(this.config.getPort()).sync(); // (7)
-//            ChannelFuture f = b.bind(host, port).sync(); // (7)
+            channelFuture = serverBootstrap.bind(this.config.getPort()); // (7)
+//            channelFuture = serverBootstrap.bind(this.config.getPort()).sync(); // (7)
             logger.info("Netty server is run");
         } catch (Exception e) {
             logger.error("Netty server is running", e);
