@@ -41,6 +41,7 @@ public class NettyConfiguration<Ch> implements Cloneable, Serializable, Closeabl
     @Setter(value = AccessLevel.PACKAGE)
     private EventLoopGroup childGroup; // 子事件组
 
+    private String host;// 监听地址
     private int port; // 监听端口
 
     // 设置对象序列化最大长度为1M 防止内存溢出
