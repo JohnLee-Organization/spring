@@ -15,6 +15,8 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -65,6 +67,7 @@ public class DefaultNettyServer implements INettyServer {
             ServerBootstrap serverBootstrap = new ServerBootstrap(); // (2)
             serverBootstrap.group(config.getParentGroup(), config.getChildGroup())
                     .channel(NioServerSocketChannel.class) // (3)
+                    .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new DefaultChannelInitializer(config))
                     .option(ChannelOption.SO_BACKLOG, config.getSocketBackLog())          // (5)
                     .option(ChannelOption.TCP_NODELAY, config.isTcpNoDelay())
