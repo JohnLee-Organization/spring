@@ -3,12 +3,12 @@
  * STUPID BIRD PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  * @Project : spring
- * @Package : net.lizhaoweb.spring.netty.server
+ * @Package : net.lizhaoweb.spring.netty.server.channel
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
  * @EMAIL 404644381@qq.com
- * @Time : 10:27
+ * @Time : 16:10
  */
-package net.lizhaoweb.spring.netty.server;
+package net.lizhaoweb.spring.netty.server.channel;
 
 import io.netty.channel.Channel;
 
@@ -20,7 +20,7 @@ import java.util.Collection;
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0.0.1
  * @EMAIL 404644381@qq.com
- * @notes Created on 2018年10月16日<br>
+ * @notes Created on 2018年12月12日<br>
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>

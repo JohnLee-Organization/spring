@@ -12,13 +12,15 @@ package net.lizhaoweb.spring.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import net.lizhaoweb.spring.netty.server.config.AbstractConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +41,13 @@ public class DefaultNettyServer implements INettyServer {
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @NonNull
-    private NettyConfiguration config;
+    private AbstractConfiguration config;
+
+    @Setter
+    private LoggingHandler loggingHandler;
+
+    @Setter
+    private ChannelInitializer<?> channelInitializer;
 
     private ChannelFuture channelFuture;
 
@@ -67,8 +75,10 @@ public class DefaultNettyServer implements INettyServer {
             ServerBootstrap serverBootstrap = new ServerBootstrap(); // (2)
             serverBootstrap.group(config.getParentGroup(), config.getChildGroup())
                     .channel(NioServerSocketChannel.class) // (3)
-                    .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new DefaultChannelInitializer(config))
+//                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .handler(loggingHandler)
+//                    .childHandler(new DefaultChannelInitializer(config))
+                    .childHandler(channelInitializer)
                     .option(ChannelOption.SO_BACKLOG, config.getSocketBackLog())          // (5)
                     .option(ChannelOption.TCP_NODELAY, config.isTcpNoDelay())
                     .childOption(ChannelOption.SO_KEEPALIVE, config.isSocketKeepalive()); // (6)
@@ -80,7 +90,7 @@ public class DefaultNettyServer implements INettyServer {
                 channelFuture = serverBootstrap.bind(this.config.getHost(), this.config.getPort()); // (7)
             }
 //            channelFuture = serverBootstrap.bind(this.config.getPort()).sync(); // (7)
-            logger.info("Netty server is run");
+            logger.info("Netty server is running");
         } catch (Exception e) {
             logger.error("Netty server is running", e);
 //            throw new RuntimeException(e);

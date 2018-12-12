@@ -11,7 +11,7 @@
 
     <groupId>net.lizhaoweb.spring.netty</groupId>
     <artifactId>server</artifactId>
-    <version>JL.SPRING.8.1.0.0.1.0.1-SNAPSHOT</version>
+    <version>JL.SPRING.8.1.0.0.1.0.2-SNAPSHOT</version>
 
     <name>Spring Netty [Server]</name>
     <description>个人 Spring Netty 服务端项目</description>
