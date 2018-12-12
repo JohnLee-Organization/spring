@@ -36,4 +36,8 @@ public class BasicConfiguration extends AbstractConfiguration {
     private TimeUnit timeUnit = TimeUnit.SECONDS; // 时长单位
 
     private List<Class<ChannelHandler>> channelHandlerClassList; // 处理器列表
+
+    public BasicConfiguration(String host, int port) {
+        super(host, port);
+    }
 }

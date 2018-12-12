@@ -28,4 +28,8 @@ public class ObjectConfiguration extends BasicConfiguration {
 
     // 设置对象序列化最大长度为1M 防止内存溢出
     private int maxObjectSizeForDecoder = 1024 * 1024;
+
+    public ObjectConfiguration(String host, int port) {
+        super(host, port);
+    }
 }

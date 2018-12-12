@@ -28,4 +28,8 @@ import net.lizhaoweb.spring.netty.server.channel.IChannelManager;
 public class ObjectConfigurationForChannelManager<Ch> extends ObjectConfiguration {
 
     private IChannelManager<Ch> channelManager;
+
+    public ObjectConfigurationForChannelManager(String host, int port) {
+        super(host, port);
+    }
 }

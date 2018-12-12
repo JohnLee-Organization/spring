@@ -27,4 +27,8 @@ import lombok.Data;
 public class WebSocketConfiguration extends BasicConfiguration {
     private int maxContentLength = 8192;
     private String webSocketPath;// "/games"
+
+    public WebSocketConfiguration(String host, int port) {
+        super(host, port);
+    }
 }
