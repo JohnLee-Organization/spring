@@ -69,7 +69,7 @@ public class BasicChannelInitializer<C extends Channel> extends ChannelInitializ
         for (Class<ChannelHandler> channelHandlerClass : channelHandlerList) {
             ChannelHandler channelHandler;
             try {
-                Constructor<ChannelHandler> handlerConstructor = channelHandlerClass.getConstructor(ObjectConfiguration.class);
+                Constructor<ChannelHandler> handlerConstructor = channelHandlerClass.getConstructor(config.getClass());
                 if (handlerConstructor != null) {
                     channelHandler = handlerConstructor.newInstance(config);
                     logger.info(fatal, "New instance by constructor{} for '{}'", constructor, channelHandlerClass.getName());
