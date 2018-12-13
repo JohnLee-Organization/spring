@@ -18,7 +18,6 @@ import io.netty.handler.timeout.IdleStateHandler;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.lizhaoweb.spring.netty.server.config.BasicConfiguration;
-import net.lizhaoweb.spring.netty.server.config.ObjectConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
