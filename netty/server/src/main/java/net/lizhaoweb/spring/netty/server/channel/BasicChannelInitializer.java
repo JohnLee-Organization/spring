@@ -64,18 +64,17 @@ public class BasicChannelInitializer<C extends Channel> extends ChannelInitializ
         if (channelHandlerList == null || channelHandlerList.size() < 1) {
             return;
         }
-        fatal.add(constructor);
         for (Class<ChannelHandler> channelHandlerClass : channelHandlerList) {
             ChannelHandler channelHandler;
             try {
                 Constructor<ChannelHandler> handlerConstructor = channelHandlerClass.getConstructor(config.getClass());
-                if (handlerConstructor != null) {
-                    channelHandler = handlerConstructor.newInstance(config);
-                    logger.info(fatal, "New instance by constructor[{}] for '{}'", handlerConstructor, channelHandlerClass.getName());
-                } else {
-                    channelHandler = channelHandlerClass.newInstance();
-                    logger.info(fatal, "New instance for '{}'", channelHandlerClass.getName());
-                }
+//                if (handlerConstructor != null) {
+                channelHandler = handlerConstructor.newInstance(config);
+                logger.info(constructor, "New instance by constructor[{}] for '{}'", handlerConstructor, channelHandlerClass.getName());
+//                } else {
+//                    channelHandler = channelHandlerClass.newInstance();
+//                    logger.info(fatal, "New instance for '{}'", channelHandlerClass.getName());
+//                }
             } catch (Exception e) {
                 logger.warn(fatal, e.getMessage());
                 channelHandler = channelHandlerClass.newInstance();
