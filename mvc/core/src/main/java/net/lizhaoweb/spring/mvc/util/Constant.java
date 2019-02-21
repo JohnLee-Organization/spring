@@ -11,6 +11,9 @@
  */
 package net.lizhaoweb.spring.mvc.util;
 
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
+
 /**
  * <h1>工具 - 常量</h1>
  *
@@ -22,6 +25,18 @@ package net.lizhaoweb.spring.mvc.util;
  * Date of last commit:$Date$<br>
  */
 public interface Constant extends net.lizhaoweb.common.util.base.Constant {
+
+    public static interface logger {
+        public static interface marker {
+            public static Marker TRACE = MarkerFactory.getMarker("TRACE");
+            public static Marker DEBUG = MarkerFactory.getMarker("DEBUG");
+            public static Marker INFO = MarkerFactory.getMarker("INFO");
+            public static Marker WARN = MarkerFactory.getMarker("WARN");
+            public static Marker ERROR = MarkerFactory.getMarker("ERROR");
+            public static Marker FATAL = MarkerFactory.getMarker("FATAL");
+        }
+    }
+
     /**
      * MVC核心
      *
