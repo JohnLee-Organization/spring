@@ -44,26 +44,34 @@ public class FileActuator implements IFileActuator {
         FileContext context = new FileContext(config);
 
         // 执行文件处理前
-        if (beforeFileExecuteHandlers != null) {
-            for (IBeforeFileExecuteHandler handler : beforeFileExecuteHandlers) {
-                if (!handler.handle(context)) {
-                    return;
-                }
-            }
-        }
+        if (executeHandlers(context, beforeFileExecuteHandlers)) return;
 
         // 执行文件处理
-        if (!executor.execute(context)) {
-            return;
-        }
+        if (!executor.execute(context)) return;
+
 
         // 执行文件处理后
-        if (afterFileExecuteHandlers != null) {
-            for (IAfterFileExecuteHandler handler : afterFileExecuteHandlers) {
+        if (executeHandlers(context, afterFileExecuteHandlers)) return;
+
+        // 最后处理
+        System.out.println("All done.");
+    }
+
+    private boolean executeHandlers(FileContext context, List<?> handlers) {
+        if (handlers != null) {
+            for (Object object : handlers) {
+                if (object == null) {
+                    continue;
+                }
+                if (!(object instanceof IFileHandler)) {
+                    continue;
+                }
+                IFileHandler handler = (IFileHandler) object;
                 if (!handler.handle(context)) {
-                    return;
+                    return true;
                 }
             }
         }
+        return false;
     }
 }
