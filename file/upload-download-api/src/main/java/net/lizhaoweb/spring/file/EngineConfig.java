@@ -6,28 +6,20 @@
  * @Package : net.lizhaoweb.spring.file
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
  * @EMAIL 404644381@qq.com
- * @Time : 10:33
+ * @Time : 16:15
  */
 package net.lizhaoweb.spring.file;
 
 /**
- * <h1>引擎 —— 文件处理</h1>
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
- * @version 1.0.0.0.1
  * @EMAIL 404644381@qq.com
- * @notes Created on 2019年08月07日<br>
- * Revision of last commit:$Revision$<br>
- * Author of last commit:$Author$<br>
- * Date of last commit:$Date$<br>
+ * @version 1.0.0.0.1
+ * @notes Created on 2019年08月13日<br>
+ *        Revision of last commit:$Revision$<br>
+ *        Author of last commit:$Author$<br>
+ *        Date of last commit:$Date$<br>
+ *
  */
-public interface IFileEngine {
-
-    void init();
-
-    void start();
-
-    void stop();
-
-    void destroy();
+public class EngineConfig extends AbstractConfig{
 }

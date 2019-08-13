@@ -11,6 +11,8 @@
 package net.lizhaoweb.spring.file;
 
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -25,50 +27,58 @@ import java.util.List;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public class FileActuator implements IFileActuator {
+public class FileActuator implements IActuator<FileContext> {
+
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Setter
-    private FileConfig config;
+    private List<IHandler<FileContext>> beforeFileExecuteHandlers;
 
     @Setter
-    private List<IBeforeFileExecuteHandler> beforeFileExecuteHandlers;
+    private List<IHandler<FileContext>> afterFileExecuteHandlers;
 
     @Setter
-    private List<IAfterFileExecuteHandler> afterFileExecuteHandlers;
-
-    @Setter
-    private IFileExecutor executor;
+    private IExecutor<FileContext> executor;
 
     @Override
-    public void actuate(FileConfig config) {
-        FileContext context = new FileContext(config);
+    public void actuate(FileContext context) {
+        if (context == null) {
+            throw new IllegalArgumentException("The context for actuate file is null.");
+        }
 
-        // 执行文件处理前
-        if (executeHandlers(context, beforeFileExecuteHandlers)) return;
+        // 执行单个文件处理前
+        if (this.executeHandlers(context, this.beforeFileExecuteHandlers)) return;
 
-        // 执行文件处理
-        if (!executor.execute(context)) return;
+        // 执行单个文件处理
+        if (!this.executor.execute(context)) return;
 
 
-        // 执行文件处理后
-        if (executeHandlers(context, afterFileExecuteHandlers)) return;
+        // 执行单个文件处理后
+        if (this.executeHandlers(context, this.afterFileExecuteHandlers)) return;
 
         // 最后处理
-        System.out.println("All done.");
+        logger.error(FileConstant.logger.marker.FATAL, "The file-actuator is actuate-done.");
     }
 
-    private boolean executeHandlers(FileContext context, List<?> handlers) {
-        if (handlers != null) {
-            for (Object object : handlers) {
-                if (object == null) {
-                    continue;
-                }
-                if (!(object instanceof IFileHandler)) {
-                    continue;
-                }
-                IFileHandler handler = (IFileHandler) object;
+    public void actuate(FileConfig config) {
+        FileContext context = new FileContext(config);
+        this.actuate(context);
+    }
+
+    private boolean executeHandlers(FileContext context, List<IHandler<FileContext>> handlers) {
+        if (handlers == null) {
+            return false;
+        }
+        for (IHandler<FileContext> handler : handlers) {
+            try {
                 if (!handler.handle(context)) {
                     return true;
+                }
+            } catch (Throwable e) {
+                if (!context.continueOnExceptionForLoopFileHandler()) {
+                    throw e;
+                } else {
+                    logger.warn(e.getMessage(), e);
                 }
             }
         }

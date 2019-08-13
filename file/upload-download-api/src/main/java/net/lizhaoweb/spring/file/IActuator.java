@@ -6,12 +6,12 @@
  * @Package : net.lizhaoweb.spring.file
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
  * @EMAIL 404644381@qq.com
- * @Time : 10:36
+ * @Time : 10:44
  */
 package net.lizhaoweb.spring.file;
 
 /**
- * <h1>处理器 —— 文件处理执行器执行前</h1>
+ * <h1>启动器 [接口] —— 单个文件处理</h1>
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0.0.1
@@ -21,5 +21,12 @@ package net.lizhaoweb.spring.file;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public interface IBeforeFileExecuteHandler extends IFileHandler {
+public interface IActuator<Context> {
+
+    /**
+     * 启动
+     *
+     * @param context 文件处理上下
+     */
+    void actuate(Context context);
 }

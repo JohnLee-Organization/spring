@@ -11,7 +11,7 @@
 package net.lizhaoweb.spring.file;
 
 /**
- * <h1>执行器 -- 文件处理</h1>
+ * <h1>引擎 —— 文件处理</h1>
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0.0.1
@@ -21,10 +21,13 @@ package net.lizhaoweb.spring.file;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public interface IFileExecutor {
+public interface IEngine {
 
-    /**
-     * 执行
-     */
-    boolean execute(FileContext context);
+    void init();
+
+    void start();
+
+    void stop();
+
+    void destroy();
 }

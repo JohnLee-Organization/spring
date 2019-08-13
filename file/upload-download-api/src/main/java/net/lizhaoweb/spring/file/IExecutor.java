@@ -6,12 +6,12 @@
  * @Package : net.lizhaoweb.spring.file
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
  * @EMAIL 404644381@qq.com
- * @Time : 10:36
+ * @Time : 10:33
  */
 package net.lizhaoweb.spring.file;
 
 /**
- * <h1>处理器 —— 文件处理</h1>
+ * <h1>执行器 -- 单个文件处理</h1>
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0.0.1
@@ -21,13 +21,10 @@ package net.lizhaoweb.spring.file;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public interface IFileHandler {
+public interface IExecutor<Context> {
 
     /**
-     * 处理
-     *
-     * @param context 文件处理上下文
-     * @return boolean
+     * 执行
      */
-    boolean handle(FileContext context);
+    boolean execute(Context context);
 }
