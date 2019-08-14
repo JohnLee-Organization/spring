@@ -11,7 +11,7 @@
 package net.lizhaoweb.spring.file;
 
 /**
- * <h1>处理器 —— </h1>
+ * <h1>处理器 [接口]</h1>
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0.0.1

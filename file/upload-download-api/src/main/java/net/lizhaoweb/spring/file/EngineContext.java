@@ -10,6 +10,8 @@
  */
 package net.lizhaoweb.spring.file;
 
+import lombok.Setter;
+
 import java.util.List;
 
 /**
@@ -23,12 +25,18 @@ import java.util.List;
  */
 public class EngineContext extends AbstractContext<EngineConfig> {
 
+    @Setter
+    private IConverter<EngineContext, List<FileContext>> fileContextListConverter;
+
     public EngineContext(EngineConfig config) {
         super(config);
     }
 
     public List<FileContext> getFileContextList() {
-        return null;
+        if (this.fileContextListConverter == null) {
+            throw new NullPointerException("The converter for file-context-list is null.");
+        }
+        return this.fileContextListConverter.convert(this);
     }
 
     public void continueOnExceptionForLoopFile(boolean value) {
