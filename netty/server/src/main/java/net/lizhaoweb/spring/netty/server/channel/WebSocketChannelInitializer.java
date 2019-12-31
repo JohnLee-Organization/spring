@@ -11,7 +11,6 @@
 package net.lizhaoweb.spring.netty.server.channel;
 
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelPipeline;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
@@ -40,19 +39,18 @@ public class WebSocketChannelInitializer<C extends Channel> extends BasicChannel
 
     @Override
     protected void initChannel0(C channel) throws Exception {
-        ChannelPipeline pipeline = channel.pipeline();
+        channel.pipeline()
+                //HttpServerCodec: 针对http协议进行编解码
+                .addLast("httpServerCodec", new HttpServerCodec())
+                //ChunkedWriteHandler分块写处理，文件过大会将内存撑爆
+                .addLast("chunkedWriteHandler", new ChunkedWriteHandler())
+                /**
+                 * 作用是将一个Http的消息组装成一个完成的HttpRequest或者HttpResponse，那么具体的是什么
+                 * 取决于是请求还是响应, 该Handler必须放在HttpServerCodec后的后面
+                 */
+                .addLast("httpObjectAggregator", new HttpObjectAggregator(config.getMaxContentLength()))
 
-        //HttpServerCodec: 针对http协议进行编解码
-        pipeline.addLast("httpServerCodec", new HttpServerCodec());
-        //ChunkedWriteHandler分块写处理，文件过大会将内存撑爆
-        pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
-        /**
-         * 作用是将一个Http的消息组装成一个完成的HttpRequest或者HttpResponse，那么具体的是什么
-         * 取决于是请求还是响应, 该Handler必须放在HttpServerCodec后的后面
-         */
-        pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(config.getMaxContentLength()));
-
-        //用于处理webSocket, /ws为访问webSocket时的uri
-        pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(config.getWebSocketPath()));
+                //用于处理webSocket, /ws为访问webSocket时的uri
+                .addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler(config.getWebSocketPath()));
     }
 }

@@ -14,7 +14,6 @@ import io.netty.channel.Channel;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
-import lombok.NonNull;
 import net.lizhaoweb.spring.netty.server.config.ObjectConfiguration;
 
 /**
@@ -39,12 +38,10 @@ public class ObjectChannelInitializer<C extends Channel> extends BasicChannelIni
 
     @Override
     protected void initChannel0(C channel) throws Exception {
-
-        // 添加对象解码器 负责对序列化POJO对象进行解码 设置对象序列化最大长度为1M 防止内存溢出
-        // 设置线程安全的WeakReferenceMap对类加载器进行缓存 支持多线程并发访问  防止内存溢出
-        channel.pipeline().addLast(new ObjectDecoder(config.getMaxObjectSizeForDecoder(), ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader())));
-
-        // 添加对象编码器 在服务器对外发送消息的时候自动将实现序列化的POJO对象编码
-        channel.pipeline().addLast(new ObjectEncoder());
+        channel.pipeline()
+                // 添加对象解码器 负责对序列化POJO对象进行解码 设置对象序列化最大长度为1M 防止内存溢出
+                // 设置线程安全的WeakReferenceMap对类加载器进行缓存 支持多线程并发访问  防止内存溢出
+                .addLast(new ObjectDecoder(config.getMaxObjectSizeForDecoder(), ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader())))
+                .addLast(new ObjectEncoder());// 添加对象编码器 在服务器对外发送消息的时候自动将实现序列化的POJO对象编码
     }
 }

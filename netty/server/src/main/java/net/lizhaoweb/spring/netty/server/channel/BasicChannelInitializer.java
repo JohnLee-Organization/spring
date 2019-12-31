@@ -14,9 +14,12 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import net.lizhaoweb.spring.netty.server.config.BasicConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +50,9 @@ public class BasicChannelInitializer<C extends Channel> extends ChannelInitializ
     @NonNull
     private BasicConfiguration config; // Netty 配置
 
+    @Setter
+    protected LoggingHandler loggingHandler;
+
     /**
      * 初始化通道
      *
@@ -56,6 +62,9 @@ public class BasicChannelInitializer<C extends Channel> extends ChannelInitializ
     @Override
     protected void initChannel(C channel) throws Exception {
         ChannelPipeline channelPipeline = channel.pipeline();
+        if (loggingHandler != null) {
+            channelPipeline.addLast("logging", loggingHandler);
+        }
         channelPipeline.addLast("ping", new IdleStateHandler(config.getReaderIdleTime(), config.getWriterIdleTime(), config.getAllIdleTime(), config.getTimeUnit()));
 
         this.initChannel0(channel);

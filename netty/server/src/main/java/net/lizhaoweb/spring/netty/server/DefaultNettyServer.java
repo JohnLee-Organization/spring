@@ -74,11 +74,13 @@ public class DefaultNettyServer implements INettyServer {
             logger.info("Running netty server ...");
             ServerBootstrap serverBootstrap = new ServerBootstrap(); // (2)
             serverBootstrap.group(config.getParentGroup(), config.getChildGroup())
-                    .channel(NioServerSocketChannel.class) // (3)
+                    .channel(NioServerSocketChannel.class); // (3)
 //                    .handler(new LoggingHandler(LogLevel.INFO))
-                    .handler(loggingHandler)
+            if (loggingHandler != null) {
+                serverBootstrap.handler(loggingHandler);
+            }
 //                    .childHandler(new DefaultChannelInitializer(config))
-                    .childHandler(channelInitializer)
+            serverBootstrap.childHandler(channelInitializer)
                     .option(ChannelOption.SO_BACKLOG, config.getSocketBackLog())          // (5)
                     .option(ChannelOption.TCP_NODELAY, config.isTcpNoDelay())
                     .childOption(ChannelOption.SO_KEEPALIVE, config.isSocketKeepalive()); // (6)

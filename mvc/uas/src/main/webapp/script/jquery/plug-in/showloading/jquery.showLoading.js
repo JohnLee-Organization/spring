@@ -93,7 +93,7 @@ jQuery.fn.showLoading = function(options) {
 	}
 
 	if (settings.overlayHeight !== null) {
-		overlay_height = settings.overlayWidth;
+		overlay_height = settings.overlayHeight;
 	} else {
 		overlay_height = parseInt(jQuery(this).height()) + parseInt(jQuery(this).css('padding-top')) + parseInt(jQuery(this).css('padding-bottom'));
 	}
@@ -137,7 +137,7 @@ jQuery.fn.showLoading = function(options) {
 	var indicatorLeft = overlay_left_pos;
 
 	if (settings.marginLeft) {
-		indicatorLeft += parseInt(settings.marginTop);
+		indicatorLeft += parseInt(settings.marginLeft);
 	}
 
 	//
