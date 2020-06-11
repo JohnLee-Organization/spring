@@ -17,6 +17,10 @@ import lombok.RequiredArgsConstructor;
 
 import java.io.Closeable;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 /**
  * Netty 配置 - 抽象
@@ -33,6 +37,10 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 public abstract class AbstractConfiguration implements Cloneable, Serializable, Closeable {
 
+    private static final String CONFIG = AbstractConfiguration.class.getName() + "#CONFIG";
+
+    private Map<String, Map<String, Object>> maps = new ConcurrentHashMap<>();
+
     private EventLoopGroup parentGroup; // 父事件组
 
     private EventLoopGroup childGroup; // 子事件组
@@ -47,6 +55,122 @@ public abstract class AbstractConfiguration implements Cloneable, Serializable, 
     private int socketBackLog = 128; // 套节子...
     private boolean socketKeepalive = true; // 是否保持套节子
     private boolean tcpNoDelay = true; // 是否延迟
+
+    public AbstractConfiguration() {
+        maps.put(CONFIG, new ConcurrentHashMap<String, Object>());
+    }
+
+    public void set(String namespace, String name, Object value) {
+        Map<String, Object> namespaceMap = maps.get(namespace);
+        if (namespaceMap == null) {
+            maps.put(namespace, new ConcurrentHashMap<String, Object>());
+        }
+        maps.get(namespace).put(name, value);
+    }
+
+    public <T> T get(String namespace, String name, T defaultValue) {
+        Map<String, Object> namespaceMap = maps.get(namespace);
+        if (namespaceMap == null) {
+            return defaultValue;
+        }
+        return (T) maps.get(namespace).get(name);
+    }
+
+    public <T> T remove(String namespace, String name) {
+        Map<String, Object> namespaceMap = maps.get(namespace);
+        if (namespaceMap == null) {
+            return null;
+        }
+        return (T) maps.get(namespace).remove(name);
+    }
+
+    public void setConfig(String name, Object value) {
+        set(CONFIG, name, value);
+    }
+
+    public Byte getConfig(String name, Byte value) {
+        return get(CONFIG, name, value);
+    }
+
+    public byte getConfig(String name, byte value) {
+        return get(CONFIG, name, value);
+    }
+
+    public Short getConfig(String name, Short value) {
+        return get(CONFIG, name, value);
+    }
+
+    public short getConfig(String name, short value) {
+        return get(CONFIG, name, value);
+    }
+
+    public Integer getConfig(String name, Integer value) {
+        return get(CONFIG, name, value);
+    }
+
+    public int getConfig(String name, int value) {
+        return get(CONFIG, name, value);
+    }
+
+    public Long getConfig(String name, Long value) {
+        return get(CONFIG, name, value);
+    }
+
+    public long getConfig(String name, long value) {
+        return get(CONFIG, name, value);
+    }
+
+    public Float getConfig(String name, Float value) {
+        return get(CONFIG, name, value);
+    }
+
+    public float getConfig(String name, float value) {
+        return get(CONFIG, name, value);
+    }
+
+    public Double getConfig(String name, Double value) {
+        return get(CONFIG, name, value);
+    }
+
+    public double getConfig(String name, double value) {
+        return get(CONFIG, name, value);
+    }
+
+    public Character getConfig(String name, Character value) {
+        return get(CONFIG, name, value);
+    }
+
+    public char getConfig(String name, char value) {
+        return get(CONFIG, name, value);
+    }
+
+    public Boolean getConfig(String name, Boolean value) {
+        return get(CONFIG, name, value);
+    }
+
+    public boolean getConfig(String name, boolean value) {
+        return get(CONFIG, name, value);
+    }
+
+    public String getConfig(String name, String value) {
+        return get(CONFIG, name, value);
+    }
+
+    public Date getConfig(String name, Date value) {
+        return get(CONFIG, name, value);
+    }
+
+    public Pattern getConfig(String name, Pattern value) {
+        return get(CONFIG, name, value);
+    }
+
+    public <T> T getConfig(String name, T value) {
+        return get(CONFIG, name, value);
+    }
+
+    public <T> T removeConfig(String name) {
+        return remove(CONFIG, name);
+    }
 
     /**
      * 关闭配置中的一些设置
