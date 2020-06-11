@@ -24,6 +24,8 @@ import net.lizhaoweb.spring.netty.server.config.AbstractConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+
 /**
  * <h1>服务器 [实现] - Netty</h1>
  *
@@ -43,6 +45,9 @@ public class DefaultNettyServer implements INettyServer {
     @NonNull
     private AbstractConfiguration config;
 
+    @NonNull
+    private Map<String, Object> configMap;
+
     @Setter
     private LoggingHandler loggingHandler;
 
@@ -60,6 +65,14 @@ public class DefaultNettyServer implements INettyServer {
             logger.info("Initializing netty server ...");
             this.config.setParentGroup(new NioEventLoopGroup());// (1)
             this.config.setChildGroup(new NioEventLoopGroup());
+            if (configMap != null && configMap.size() > 0) {
+                for (Map.Entry<String, Object> entry : configMap.entrySet()) {
+                    if (entry == null) {
+                        continue;
+                    }
+                    this.config.setConfig(entry.getKey(), entry.getValue());
+                }
+            }
         } catch (Exception e) {
             logger.error("Init netty server", e);
         }
