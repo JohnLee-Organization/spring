@@ -35,7 +35,7 @@ public abstract class DefaultChannelManager<Ch> implements IChannelManager<Ch> {
     @Override
     public Ch getMessageChannel(Channel channel) {
         String channelId = channel.id().toString();
-        return getMessageChannel(channelId);
+        return channelId == null ? null : getMessageChannel(channelId);
     }
 
     @Override
@@ -46,13 +46,13 @@ public abstract class DefaultChannelManager<Ch> implements IChannelManager<Ch> {
     @Override
     public Ch getMessageChannelByMac(String boxMac) {
         String channelId = macChannelMap.get(boxMac);
-        return getMessageChannel(channelId);
+        return channelId == null ? null : getMessageChannel(channelId);
     }
 
     @Override
     public Ch removeMessageChannel(Channel channel) {
         String channelId = channel.id().toString();
-        return removeMessageChannel(channelId);
+        return channelId == null ? null : removeMessageChannel(channelId);
     }
 
     @Override
@@ -63,7 +63,7 @@ public abstract class DefaultChannelManager<Ch> implements IChannelManager<Ch> {
     @Override
     public Ch removeMessageChannelByMac(String boxMac) {
         String channelId = macChannelMap.remove(boxMac);
-        return channelMap.remove(channelId);
+        return channelId == null ? null : channelMap.remove(channelId);
     }
 
     @Override
