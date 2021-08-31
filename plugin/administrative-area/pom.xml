@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>net.lizhaoweb.spring</groupId>
+        <artifactId>plugin</artifactId>
+        <version>JL.SPRING.2.0.0.0.1.0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>net.lizhaoweb.spring.plugin</groupId>
+    <artifactId>administrative-area</artifactId>
+    <version>JL.SPRING.2.4.0.0.1.0.1-SNAPSHOT</version>
+
+    <name>Spring Plugin [Administrative Area]</name>
+    <url>http://www.lizhaoweb.cn</url>
+    <packaging>jar</packaging>
+
+    <dependencies>
+
+        <!-- 常用插件 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Logger -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <!-- 将现有的jakarta commons logging的调用转换成lsf4j的调用。 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <!-- Hack：确保commons-logging的jar包不被引入，否则将和jcl-over-slf4j冲突 -->
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!-- slf4j的实现：logback，用来取代log4j。更快、更强！ -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- MyBatis -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-jxpath</groupId>
+            <artifactId>commons-jxpath</artifactId>
+        </dependency>
+
+        <!-- 自定义插件 -->
+        <dependency>
+            <groupId>net.lizhaoweb.common.util</groupId>
+            <artifactId>base</artifactId>
+            <version>JL.COMMON.1.1.0.0.1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lizhaoweb.spring.mvc</groupId>
+            <artifactId>model</artifactId>
+            <version>JL.SPRING.1.1.0.0.1.0.1-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

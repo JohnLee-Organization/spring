@@ -21,6 +21,7 @@
         <module>mybatis</module>
         <module>word-segmenter</module>
         <module>ssdp</module>
+        <module>administrative-area</module>
     </modules>
 
 </project>
