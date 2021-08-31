@@ -1,3 +1,4 @@
+USE sys;
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -16,9 +17,9 @@ CREATE TABLE `district` (
     `parent_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0 COMMENT '父标识',
     `type` TINYINT(4) UNSIGNED DEFAULT NULL COMMENT '类型。0是国，1是省，2是市，3是区、县',
     `hierarchy` TINYINT(4) UNSIGNED DEFAULT NULL COMMENT '所处的层级',
-    `district_code` VARCHAR(12) NOT NULL DEFAULT NULL COMMENT '行政编码',
-    `post_code` VARCHAR(6) NOT NULL DEFAULT NULL COMMENT '邮政编码',
-    `area_codes` VARCHAR(4) NOT NULL DEFAULT NULL COMMENT '区号',
+    `district_code` VARCHAR(12) DEFAULT NULL COMMENT '行政编码',
+    `post_code` VARCHAR(6) DEFAULT NULL COMMENT '邮政编码',
+    `area_codes` VARCHAR(4) DEFAULT NULL COMMENT '区号',
     `lng` VARCHAR(45) DEFAULT NULL COMMENT 'GCJ02坐标系经度',
     `lat` VARCHAR(45) DEFAULT NULL COMMENT 'GCJ02坐标系纬度',
     `memo` VARCHAR(254) DEFAULT NULL COMMENT '备注',
