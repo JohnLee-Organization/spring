@@ -15,6 +15,7 @@
 
     <name>Spring Plugin [Administrative Area]</name>
     <url>http://www.lizhaoweb.cn</url>
+    <description>个人行政区划项目</description>
     <packaging>jar</packaging>
 
     <dependencies>
