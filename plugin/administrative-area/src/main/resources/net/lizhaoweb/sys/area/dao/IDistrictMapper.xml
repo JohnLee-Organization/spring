@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.lizhaoweb.sys.area.dao.IDistrictMapper">
+
+    <insert id="insert" parameterType="net.lizhaoweb.sys.area.model.District" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO district (
+        <if test="name != null and name != ''">name,</if>
+        <if test="shortName != null and shortName != ''">short_name,</if>
+        <if test="fullName != null and fullName != ''">full_name,</if>
+        <if test="englishName != null and englishName != ''">english_name,</if>
+        <if test="pinYin != null and pinYin != ''">pinyin,</if>
+        <if test="shortPinYin != null and shortPinYin != ''">short_pinyin,</if>
+        <if test="parentId != null and parentId != 0">parent_id,</if>
+        <if test="type != null and type != 0">type,</if>
+        <if test="hierarchy != null and hierarchy != 0">hierarchy,</if>
+        <if test="districtCode != null and districtCode != ''">district_code,</if>
+        <if test="postCode != null and postCode != ''">post_code,</if>
+        <if test="areaCode != null and areaCode != ''">area_codes,</if>
+        <if test="lngWGS84 != null and lngWGS84 != ''">lng_wgs84,</if>
+        <if test="latWGS84 != null and latWGS84 != ''">lat_wgs84,</if>
+        <if test="lngGCJ02 != null and lngGCJ02 != ''">lng_gcj02,</if>
+        <if test="latGCJ02 != null and latGCJ02 != ''">lat_gcj02,</if>
+        <if test="lngDB09 != null and lngDB09 != ''">lng_bd09,</if>
+        <if test="latDB09 != null and latDB09 != ''">lat_bd09,</if>
+        <if test="memo != null and memo != ''">memo,</if>
+        <if test="state != null and state != 0">state,</if>
+        <if test="statisticalDate != null">statistical_date,</if>
+        create_time,update_time
+        )VALUES(
+        <if test="name != null and name != ''">#{name},</if>
+        <if test="shortName != null and shortName != ''">#{shortName},</if>
+        <if test="fullName != null and fullName != ''">#{fullName},</if>
+        <if test="englishName != null and englishName != ''">#{englishName},</if>
+        <if test="pinYin != null and pinYin != ''">#{pinYin},</if>
+        <if test="shortPinYin != null and shortPinYin != ''">#{shortPinYin},</if>
+        <if test="parentId != null and parentId != 0">#{parentId},</if>
+        <if test="type != null and type != 0">#{type},</if>
+        <if test="hierarchy != null and hierarchy != 0">#{hierarchy},</if>
+        <if test="districtCode != null and districtCode != ''">#{districtCode},</if>
+        <if test="postCode != null and postCode != ''">#{postCode},</if>
+        <if test="areaCode != null and areaCode != ''">#{areaCode},</if>
+        <if test="lngWGS84 != null and lngWGS84 != ''">#{lngWGS84},</if>
+        <if test="latWGS84 != null and latWGS84 != ''">#{latWGS84},</if>
+        <if test="lngGCJ02 != null and lngGCJ02 != ''">#{lngGCJ02},</if>
+        <if test="latGCJ02 != null and latGCJ02 != ''">#{latGCJ02},</if>
+        <if test="lngDB09 != null and lngDB09 != ''">#{lngDB09},</if>
+        <if test="latDB09 != null and latDB09 != ''">#{latDB09},</if>
+        <if test="memo != null and memo != ''">#{memo},</if>
+        <if test="state != null and state != 0">#{state},</if>
+        <if test="statisticalDate != null">#{statisticalDate},</if>
+        SYSDATE(),SYSDATE()
+        )
+    </insert>
+
+    <update id="update" parameterType="net.lizhaoweb.sys.area.model.District">
+        UPDATE district
+        <set>
+            <if test="name != null and name != ''">name=#{name},</if>
+            <if test="shortName != null and shortName != ''">short_name=#{shortName},</if>
+            <if test="fullName != null and fullName != ''">full_name=#{fullName},</if>
+            <if test="englishName != null and englishName != ''">english_name=#{englishName},</if>
+            <if test="pinYin != null and pinYin != ''">pinyin=#{pinYin},</if>
+            <if test="shortPinYin != null and shortPinYin != ''">short_pinyin=#{shortPinYin},</if>
+            <if test="parentId != null and parentId != 0">parent_id=#{parentId},</if>
+            <if test="type != null and type != 0">type=#{type},</if>
+            <if test="hierarchy != null and hierarchy != 0">hierarchy=#{hierarchy},</if>
+            <if test="districtCode != null and districtCode != ''">district_code=#{districtCode},</if>
+            <if test="postCode != null and postCode != ''">post_code=#{postCode},</if>
+            <if test="areaCode != null and areaCode != ''">area_codes=#{areaCode},</if>
+            <if test="lngWGS84 != null and lngWGS84 != ''">lng_wgs84=#{lngWGS84},</if>
+            <if test="latWGS84 != null and latWGS84 != ''">lat_wgs84=#{latWGS84},</if>
+            <if test="lngGCJ02 != null and lngGCJ02 != ''">lng_gcj02=#{lngGCJ02},</if>
+            <if test="latGCJ02 != null and latGCJ02 != ''">lat_gcj02=#{latGCJ02},</if>
+            <if test="lngDB09 != null and lngDB09 != ''">lng_bd09=#{lngDB09},</if>
+            <if test="latDB09 != null and latDB09 != ''">lat_bd09=#{latDB09},</if>
+            <if test="memo != null and memo != ''">memo=#{memo},</if>
+            <if test="state != null and state != 0">state=#{state},</if>
+            <if test="statisticalDate != null">statistical_date=#{statisticalDate},</if>
+            update_time=SYSDATE()
+        </set>
+        <where>id=#{id}</where>
+    </update>
+
+    <delete id="deleteById" parameterType="Long">
+        UPDATE district
+        <set>state=0</set>
+        <where>id=#{id}</where>
+    </delete>
+</mapper>
