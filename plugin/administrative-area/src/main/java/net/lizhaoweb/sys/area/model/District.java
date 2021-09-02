@@ -10,6 +10,8 @@
  */
 package net.lizhaoweb.sys.area.model;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -21,6 +23,7 @@ import java.util.Date;
  * @version 1.0.1
  * @email 404644381@qq.com
  */
+@Data
 public class District {
 
     /**

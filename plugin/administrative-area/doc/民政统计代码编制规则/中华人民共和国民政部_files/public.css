@@ -1,0 +1,83 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* --------------全局定义--------------- */
+html{font-size:62.5%;}  
+*{ margin:0;padding:0; font-family:"微软雅黑";}
+
+/* 取消基本标签默认样式，防止不同浏览器显示效果不同，text-align:center; 解决不同浏览器居中问题 */
+body{color:#333333; background: url(../images/body_bg.png) repeat; font-size:100%; font-size:16px; font-size:1.6rem; line-height:180%; text-align:center;}
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,tr{ margin:0; padding:0;}
+input,select{ font-size:14px; vertical-align:middle; color:#bdbdbd;}
+
+/* 设置内容左对齐，恢复因BODY设置剧中产生的继承 */
+/*body div{text-align:left;}
+*/
+/* 标签属性，textarea,input 强制输入时内容超出时换行 */
+textarea,input{word-wrap:break-word;word-break:break-all;padding:0px; border:0;}
+
+/* 清除ul列表标记的样式 */
+li{list-style-type:none;}
+
+/* 定义图片边框 */
+img{ border:0 none;}
+
+/* 定义默认的链接样式 */
+a{color:#333333;text-decoration:none; display:block;}
+a:hover{color:#087cd6;text-decoration:none;}
+
+/* 去掉链接的虚线框 */
+a {outline:none;star:expression(this.onFocus=this.blur());}
+
+/* 定义H系列标签，覆盖H系列标签默认属性 */
+h1{font-size:24px;}
+h2{font-size:20px;}
+h3{font-size:18px;}
+h4{font-size:16px;}
+h5{font-size:14px;}
+h6{font-size:12px;}
+
+/* --------------通用属性定义--------------- */
+/* 取消边框 */
+.noborder{ border:0 none;}
+
+.nopadding{padding:0; }
+
+/* 浮动定义 */
+.fl{float:left;}
+.fr{float:right;}
+
+/* 清理浮动元素,当浮动换行时后面元素不希望浮动，添加此属性，防止IE BUG */
+.clear{clear:both;height:0px;width:100%;font-size:1px;line-height:0px;visibility:hidden;overflow:hidden;}
+
+/* -----------------常用样式定义----------------- */
+
+/* 颜色功能定义，由小写c开头,表示color */
+.cred{color:#f00;}
+.cwhite{color:#fff;}
+.cgreen{color:#0f0;}
+.cgray{color:#666;}
+.cblue{color:#00f;}
+.cblack{color:#000;}
+.cyellow {color:#bf0000;}
+
+/*外边距*/
+.mb20{ margin-bottom:20px;}
+.mt50{ margin-top:50px;}
+.mt10{ margin-top:10px;}
+.mt20{ margin-top:20px;}
+.ml48{ margin-left:48px;}
+
+/*内边距*/
+/*.pt10{ padding-top:20px;}*/
+
+/*页面布局*/
+#wrap{clear:both;} /*页面整体包含*/
+#content{ clear:both; width:1130px; margin:20px auto 0;text-align:left; } /*页面主体内容包含*/
+#main{width:980px; /* background: #fff; */ margin:0 auto;clear:both; overflow:hidden; text-align:left;} /*页面主体内容包含*/
+
+
+
+
+
+

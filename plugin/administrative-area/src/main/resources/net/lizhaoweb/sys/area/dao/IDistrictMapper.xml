@@ -5,6 +5,14 @@
 <mapper namespace="net.lizhaoweb.sys.area.dao.IDistrictMapper">
 
     <insert id="insert" parameterType="net.lizhaoweb.sys.area.model.District" keyProperty="id" useGeneratedKeys="true">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE">
+            <if test="_databaseId == 'oracle'">
+                select seq_district.nextval from dual
+            </if>
+            <if test="_databaseId == 'db2'">
+                select nextval for seq_district from sysibm.sysdummy1"
+            </if>
+        </selectKey>
         INSERT INTO district (
         <if test="name != null and name != ''">name,</if>
         <if test="shortName != null and shortName != ''">short_name,</if>

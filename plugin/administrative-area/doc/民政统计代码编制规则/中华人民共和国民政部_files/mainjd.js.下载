@@ -1,0 +1,106 @@
+$(function(){
+	/*移动端页面出现按钮点击展开事*/
+	$('.top2box_c .n_icon').click(function(){
+	   $('.searchbox').slideToggle(500);
+	   $(this).toggleClass("closeBtn");
+	 });
+
+ 
+    //列表页左侧高度等于右侧高度
+	$(".list_left").css("height",$(".list_right").height()+20);
+	
+	
+	/*头部导航背景变色*/
+	$(".nav li a.lks").each(function(){
+        $this = $(this);     
+		if($this[0].href==String(window.location)){
+			 $this.addClass("current");    
+ 	        }
+	}); 
+	
+	/*列表页左侧导航背景变色*/
+	$(".bld_ul li a").each(function(){
+        $this = $(this);     
+		if($this[0].href==String(window.location)){
+			$this.addClass("cur");    
+ 	       }
+	}); 
+	
+	/*机构设置列表页右侧导航背景变色*/
+	$(".jgsj_c li a").each(function(){
+        $this = $(this);     
+		if($this[0].href==String(window.location)){
+			 $this.addClass("cur");
+			  
+ 	        }
+	}); 
+	
+	/*社会团体列表页右侧导航字体变色*/
+	$(".xzsp_p1 a").each(function(){
+        $this = $(this);     
+		if($this[0].href==String(window.location)){
+			 $this.addClass("cur");
+			  
+ 	        }
+	});
+	/*婚姻登记收缩展开效果*/
+	$('.jhdj_t .arrow').click(function(){
+	   $('.show').slideToggle(500);
+	   $(this).toggleClass("arrowtop");
+	 });
+	 
+	 
+	 $('.lhdj_t .arrowtop').click(function(){
+	   $('.show_lh').slideToggle(500);
+	   $(this).toggleClass("arrowbot");
+	 });
+	 
+	 $('.ndgm_t .arrowtop').click(function(){
+	   $('.show_lh').slideToggle(500);
+	   $(this).toggleClass("arrowbot");
+	 });
+	 
+	 $('.swsy_t .arrowtop').click(function(){
+	   $('.show_swsy').slideToggle(500);
+	   $(this).toggleClass("arrowbot");
+	 });
+	 
+	 $('.gat_t .arrowtop').click(function(){
+	   $('.show_gat').slideToggle(500);
+	   $(this).toggleClass("arrowbot");
+	 });
+	 
+	 $('.kncjr_t .arrowtop').click(function(){
+	   $('.show_kncjr').slideToggle(500);
+	   $(this).toggleClass("arrowbot");
+	 });
+	
+ 
+ })
+
+
+/*焦点图轮播*/
+var mySwiperArray = new Array(10);
+
+function swiperOpertion(ind){
+	if(mySwiperArray[ind-1]==undefined){
+		var mySwiper3 = new Swiper('#swiper-container'+ind,{
+		mode:'horizontal',
+		pagination: '#pagination'+ind,
+		loop:true,
+		autoplay:5000,
+		grabCursor: true,
+		paginationClickable: true
+	  })
+	  $('.arrow-left'+ind).on('click', function(e){
+		e.preventDefault();
+		mySwiper3.swipePrev();
+	  })
+	  $('.arrow-right'+ind).on('click', function(e){
+		e.preventDefault();
+		mySwiper3.swipeNext();
+	  })
+	  mySwiperArray[ind-1]=mySwiper3;
+	}
+}
+

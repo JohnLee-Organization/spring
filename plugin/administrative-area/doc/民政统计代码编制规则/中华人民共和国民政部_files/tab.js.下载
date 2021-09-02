@@ -1,0 +1,13 @@
+function Show_Tab(tabid,tabnum,tabtotal,stylenormal,styleon){
+	// 对象名称为：tabmenu_12 参数为：tabid=1 tabnum=2 tabtotal=4 stylenormal=默认状态 styleon=选中状态
+   for(var i=0;i<tabtotal;i++)
+  {   
+    if(document.getElementById("tabcontent_"+tabid+i)) document.getElementById("tabcontent_"+tabid+i).style.display="none";
+	if(document.getElementById("tablink_"+tabid+i)) document.getElementById("tablink_"+tabid+i).style.display="none";
+	if(document.getElementById("tabmenu_"+tabid+i)) document.getElementById("tabmenu_"+tabid+i).className=stylenormal;
+  }
+	if(document.getElementById("tabmenu_"+tabid+tabnum)) document.getElementById("tabmenu_"+tabid+tabnum).className=styleon;	
+	if(document.getElementById("tabcontent_"+tabid+tabnum)) document.getElementById("tabcontent_"+tabid+tabnum).style.display="block";
+	if(document.getElementById("tablink_"+tabid+tabnum)) document.getElementById("tablink_"+tabid+tabnum).style.display="block";
+   }
+   
