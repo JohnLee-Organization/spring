@@ -47,7 +47,7 @@ public class TestDistrict {
      */
     @Test
     public void importAndAnalysisDistrict() throws ParseException {
-        String importDataFile = "C:\\Users\\Admin\\Downloads\\2012年基层自治组织统计代码（截止2012年12月31日）.Txt";
+        String importDataFile = "E:\\WorkSpace\\GitHub\\spring\\plugin\\administrative-area\\doc\\2012年基层自治组织统计代码（截止2012年12月31日）.Txt";
         Date statisticalDate = DateUtils.parseDate("2012-12-31", parsePatterns);
         service.importAndAnalysisDistrict(importDataFile, statisticalDate);
     }
