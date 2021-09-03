@@ -30,7 +30,7 @@ import java.util.Date;
  * @email 404644381@qq.com
  */
 public class TestDistrict {
-    private static String[] parsePatterns = {"yyyy-MM-dd",
+    private static String[] PARSE_PATTERNS = {"yyyy-MM-dd",
             "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM", "yyyy/MM/dd",
             "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM", "yyyy.MM.dd",
             "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM"};
@@ -48,7 +48,7 @@ public class TestDistrict {
     @Test
     public void importAndAnalysisDistrict() throws ParseException {
         String importDataFile = "E:\\WorkSpace\\GitHub\\spring\\plugin\\administrative-area\\doc\\2012年基层自治组织统计代码（截止2012年12月31日）.Txt";
-        Date statisticalDate = DateUtils.parseDate("2012-12-31", parsePatterns);
+        Date statisticalDate = DateUtils.parseDate("2012-12-31", PARSE_PATTERNS);
         service.importAndAnalysisDistrict(importDataFile, statisticalDate);
     }
 
