@@ -64,17 +64,15 @@ public class GPSUtil {
     public static boolean outOfChina(double lat, double lon) {
         if (lon < 72.004 || lon > 137.8347)
             return true;
-        if (lat < 0.8293 || lat > 55.8271)
-            return true;
-        return false;
+        return lat < 0.8293 || lat > 55.8271;
     }
 
     /**
      * 84 to 火星坐标系 (GCJ-02) World Geodetic System ==> Mars Geodetic System
      *
-     * @param lat
-     * @param lon
-     * @return
+     * @param lat 纬度
+     * @param lon 经度
+     * @return 转换后的坐标
      */
     public static double[] gps84_To_Gcj02(double lat, double lon) {
         if (outOfChina(lat, lon)) {
@@ -94,7 +92,11 @@ public class GPSUtil {
     }
 
     /**
-     * * 火星坐标系 (GCJ-02) to 84 * * @param lon * @param lat * @return
+     * 火星坐标系 (GCJ-02) to 84
+     *
+     * @param lat 纬度
+     * @param lon 经度
+     * @return 转换后的坐标
      */
     public static double[] gcj02_To_Gps84(double lat, double lon) {
         double[] gps = transform(lat, lon);
@@ -106,22 +108,25 @@ public class GPSUtil {
     /**
      * 火星坐标系 (GCJ-02) 与百度坐标系 (BD-09) 的转换算法 将 GCJ-02 坐标转换成 BD-09 坐标
      *
-     * @param lat
-     * @param lon
+     * @param lat 纬度
+     * @param lon 经度
+     * @return 转换后的坐标
      */
     public static double[] gcj02_To_Bd09(double lat, double lon) {
-        double x = lon, y = lat;
-        double z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
-        double theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+        double z = Math.sqrt(lon * lon + lat * lat) + 0.00002 * Math.sin(lat * x_pi);
+        double theta = Math.atan2(lat, lon) + 0.000003 * Math.cos(lon * x_pi);
         double tempLon = z * Math.cos(theta) + 0.0065;
         double tempLat = z * Math.sin(theta) + 0.006;
-        double[] gps = {tempLat, tempLon};
-        return gps;
+        return new double[]{tempLat, tempLon};
     }
 
     /**
-     * * 火星坐标系 (GCJ-02) 与百度坐标系 (BD-09) 的转换算法 * * 将 BD-09 坐标转换成GCJ-02 坐标 * * @param
-     * bd_lat * @param bd_lon * @return
+     * 火星坐标系 (GCJ-02) 与百度坐标系 (BD-09) 的转换算法
+     * 将 BD-09 坐标转换成GCJ-02 坐标
+     *
+     * @param lat 纬度
+     * @param lon 经度
+     * @return 转换后的坐标
      */
     public static double[] bd09_To_Gcj02(double lat, double lon) {
         double x = lon - 0.0065, y = lat - 0.006;
@@ -129,21 +134,19 @@ public class GPSUtil {
         double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi);
         double tempLon = z * Math.cos(theta);
         double tempLat = z * Math.sin(theta);
-        double[] gps = {tempLat, tempLon};
-        return gps;
+        return new double[]{tempLat, tempLon};
     }
 
     /**
      * 将gps84转为bd09
      *
-     * @param lat
-     * @param lon
-     * @return
+     * @param lat 纬度
+     * @param lon 经度
+     * @return 转换后的坐标
      */
     public static double[] gps84_To_bd09(double lat, double lon) {
         double[] gcj02 = gps84_To_Gcj02(lat, lon);
-        double[] bd09 = gcj02_To_Bd09(gcj02[0], gcj02[1]);
-        return bd09;
+        return gcj02_To_Bd09(gcj02[0], gcj02[1]);
     }
 
     public static double[] bd09_To_gps84(double lat, double lon) {
@@ -163,7 +166,7 @@ public class GPSUtil {
      */
     private static double retain6(double num) {
         String result = String.format("%.6f", num);
-        return Double.valueOf(result);
+        return Double.parseDouble(result);
     }
 
     public static void main(String[] args) {
@@ -172,8 +175,8 @@ public class GPSUtil {
         String res = "";
         for (String s : arr) {
             String[] lntlat = s.split(",");
-            Double lnt = Double.parseDouble(lntlat[0]);
-            Double lat = Double.parseDouble(lntlat[1]);
+            double lnt = Double.parseDouble(lntlat[0]);
+            double lat = Double.parseDouble(lntlat[1]);
 
             double[] bd09 = gps84_To_bd09(lnt, lat);
             res += bd09[0] + "," + bd09[1] + ";";
