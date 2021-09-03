@@ -23,11 +23,11 @@ import net.lizhaoweb.sys.area.model.District;
  */
 public interface IDistrictMapper {
 
-    public Long insert(District bean);
+    Long insert(District bean);
 
-    public Long update(District bean);
+    Long update(District bean);
 
-    public District get(Long id);
+    District get(Long id);
 
-    public District deleteById(Long id);
+    District deleteById(Long id);
 }
