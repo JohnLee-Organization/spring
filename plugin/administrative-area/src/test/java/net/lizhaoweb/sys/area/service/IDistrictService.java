@@ -10,6 +10,8 @@
  */
 package net.lizhaoweb.sys.area.service;
 
+import java.util.Date;
+
 /**
  * [服务] [接口] - 行政区划
  * <p>
@@ -21,5 +23,5 @@ package net.lizhaoweb.sys.area.service;
  */
 public interface IDistrictService {
 
-    void importAndAnalysisDistrict(String importDataFile);
+    void importAndAnalysisDistrict(String importDataFile, Date statisticalDate);
 }

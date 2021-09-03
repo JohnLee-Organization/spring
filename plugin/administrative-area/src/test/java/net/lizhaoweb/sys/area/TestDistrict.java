@@ -13,8 +13,12 @@ package net.lizhaoweb.sys.area;
 import net.lizhaoweb.sys.area.service.IDistrictService;
 import net.lizhaoweb.sys.area.service.impl.DistrictService;
 import net.lizhaoweb.sys.area.util.CoordinateTransformUtil;
+import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.text.ParseException;
+import java.util.Date;
 
 /**
  * [测试] - 行政区划
@@ -26,6 +30,10 @@ import org.junit.Test;
  * @email 404644381@qq.com
  */
 public class TestDistrict {
+    private static String[] parsePatterns = {"yyyy-MM-dd",
+            "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM", "yyyy/MM/dd",
+            "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM", "yyyy.MM.dd",
+            "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM"};
 
     private IDistrictService service;
 
@@ -38,9 +46,10 @@ public class TestDistrict {
      * 导入并分析中华人民共和国民政局给定的行政区划数据
      */
     @Test
-    public void importAndAnalysisDistrict() {
+    public void importAndAnalysisDistrict() throws ParseException {
         String importDataFile = "C:\\Users\\Admin\\Downloads\\2012年基层自治组织统计代码（截止2012年12月31日）.Txt";
-        service.importAndAnalysisDistrict(importDataFile);
+        Date statisticalDate = DateUtils.parseDate("2012-12-31", parsePatterns);
+        service.importAndAnalysisDistrict(importDataFile, statisticalDate);
     }
 
     @Test
