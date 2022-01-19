@@ -51,9 +51,10 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter impl
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
+     * <p>
      * preHandle 方法是进行处理器拦截用的。
      * 顾名思义，该方法将在 Controller 处理之前进行调用。
-     * <p/>
+     * </p>
      * SpringMVC 中的 Interceptor 是链式的，可以同时存在多个 Interceptor，然后 SpringMVC 会根据声明的前后顺序一个接一个
      * 的执行，而且所有的 Interceptor 中的 preHandle 方法都会在 Controller 方法调用之前调用。
      * SpringMVC 的这种 Interceptor 链式结构也是可以进行中断的，这种中断方式是令 preHandle 的返回值为 false，当 preHandle
@@ -185,7 +186,6 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter impl
      * @param response     响应对象
      * @param handler      处理器
      * @param modelAndView 视图模型
-     * @return boolean
      * @throws Exception 异常
      */
     protected abstract void afterMethodExecute(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception;

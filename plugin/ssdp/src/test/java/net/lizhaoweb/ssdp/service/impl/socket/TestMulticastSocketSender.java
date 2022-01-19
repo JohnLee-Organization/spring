@@ -5,7 +5,7 @@
  * @Project : common
  * @Package : net.lizhaoweb.ssdp.service.impl.socket
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 11:57
  */
 package net.lizhaoweb.ssdp.service.impl.socket;
@@ -31,7 +31,6 @@ import java.net.InetSocketAddress;
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
- * <p/>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({

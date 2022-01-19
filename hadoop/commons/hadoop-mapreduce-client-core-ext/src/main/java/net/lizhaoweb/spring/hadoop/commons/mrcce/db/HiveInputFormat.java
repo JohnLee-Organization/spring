@@ -5,7 +5,7 @@
  * @Project : hadoop
  * @Package : org.apache.hadoop.mapreduce.lib.db
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 18:39
  */
 package net.lizhaoweb.spring.hadoop.commons.mrcce.db;
@@ -33,7 +33,7 @@ import java.util.List;
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0.0.1
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @notes Created on 2018年06月19日<br>
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
@@ -133,7 +133,7 @@ public class HiveInputFormat<T extends DBWritable> extends DBInputFormat<T> {
      * @param job        The map-reduce job
      * @param inputClass the class object implementing DBWritable, which is the Java object holding tuple fields.
      * @param tableName  The table to read data from
-     * @param conditions The condition which to select data with, eg. '(updated > 20070101 AND length > 0)'
+     * @param conditions The condition which to select data with, eg. '(updated &gt; 20070101 AND length &gt; 0)'
      * @param orderBy    the fieldNames in the orderBy clause.
      * @param fieldNames The field names in the table
      * @see #setInput(Job, Class, String, String)

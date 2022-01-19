@@ -5,7 +5,7 @@
  * @Project : spring
  * @Package : net.lizhaoweb.spring.mvc.uas.controller
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 20:51
  */
 package net.lizhaoweb.spring.mvc.uas.controller;

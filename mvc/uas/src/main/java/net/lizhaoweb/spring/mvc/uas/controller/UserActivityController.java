@@ -5,7 +5,7 @@
  * @Project : spring
  * @Package : net.lizhaoweb.spring.mvc.uas.controller
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 18:17
  */
 package net.lizhaoweb.spring.mvc.uas.controller;
@@ -53,7 +53,7 @@ public class UserActivityController extends UASAbstractController {
         try {
             result = accountService.login(request, response, search);
         } catch (Exception e) {
-            result = new DataDeliveryWrapper<Map<String, Object>>(StatusCode.SERVER_INTERNAL_EXCEPTION, "用户登录异常", null);
+            result = new DataDeliveryWrapper<Map<String, Object>>(StatusCode.SERVER_INTERNAL_EXCEPTION, "用户登录异常", (Map<String, Object>) null);
             logger.error(e.getMessage(), e);
         }
         return result;
@@ -66,7 +66,7 @@ public class UserActivityController extends UASAbstractController {
         try {
             result = accountService.logout(request, response);
         } catch (Exception e) {
-            result = new DataDeliveryWrapper<Account>(StatusCode.SERVER_INTERNAL_EXCEPTION, "用户登出异常", null);
+            result = new DataDeliveryWrapper<Account>(StatusCode.SERVER_INTERNAL_EXCEPTION, "用户登出异常", (Account) null);
             logger.error(e.getMessage(), e);
         }
         return result;

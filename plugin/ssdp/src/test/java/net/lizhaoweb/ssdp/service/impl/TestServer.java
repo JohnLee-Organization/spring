@@ -5,7 +5,7 @@
  * @Project : common
  * @Package : net.lizhaoweb.ssdp.service.impl
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 21:08
  */
 package net.lizhaoweb.ssdp.service.impl;

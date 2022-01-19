@@ -65,5 +65,13 @@ public class TestDistrict {
 //        System.out.printf("BD09[%s,%s] ==> GCJ02[%s,%s]\n", db09lat_1, db09lng_1, dcj02Array_1[0], dcj02Array_1[1]);
         double[] dcj02Array_1 = CoordinateTransformUtil.bd09togcj02(db09lng_1, db09lat_1);
         System.out.printf("BD09[%s,%s] ==> GCJ02[%s,%s]\n", db09lat_1, db09lng_1, dcj02Array_1[1], dcj02Array_1[0]);
+
+//        System.out.println(new BigDecimal(1).add(new BigDecimal(2)).multiply(new BigDecimal(3)));
+//        System.out.println(new BigDecimal(1).add(new BigDecimal(2).multiply(new BigDecimal(3))));
+//        System.out.println(new BigDecimal(2).multiply(new BigDecimal(3)).add(new BigDecimal(1)));
+
+//        BigDecimal aaa = new BigDecimal(2);
+//        System.out.println(aaa.add(new BigDecimal(3)));
+//        System.out.println(aaa.add(new BigDecimal(4)));
     }
 }

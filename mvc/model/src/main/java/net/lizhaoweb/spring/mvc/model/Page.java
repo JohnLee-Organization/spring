@@ -5,7 +5,7 @@
  * @Project : spring
  * @Package : net.lizhaoweb.spring.mvc.model
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 14:20
  */
 package net.lizhaoweb.spring.mvc.model;
@@ -81,15 +81,19 @@ public class Page implements Serializable {
     }
 
     /**
-     * @param pageNo
+     * 分页构造
+     *
+     * @param pageNo 页码
      */
     public Page(int pageNo) {
         this(pageNo, DEFAULT_PAGESIZE);
     }
 
     /**
-     * @param pageNo
-     * @param pageSize
+     * 分页构造
+     *
+     * @param pageNo   页码
+     * @param pageSize 页大小
      */
     public Page(int pageNo, int pageSize) {
         super();

@@ -5,7 +5,7 @@
  * @Project : spring
  * @Package : net.lizhaoweb.hive.plugin.path
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 14:33
  */
 package net.lizhaoweb.hive.plugin.path;

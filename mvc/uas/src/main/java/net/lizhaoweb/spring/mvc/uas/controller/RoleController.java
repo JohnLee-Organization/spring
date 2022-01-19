@@ -5,7 +5,7 @@
  * @Project : spring
  * @Package : net.lizhaoweb.spring.mvc.uas.controller
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 20:44
  */
 package net.lizhaoweb.spring.mvc.uas.controller;
@@ -102,7 +102,7 @@ public class RoleController extends UASAbstractController {
         try {
             result = service.pageList(search);
         } catch (Exception e) {
-            result = new DataDeliveryWrapper<PageResult<List<Role>>>(StatusCode.SERVER_INTERNAL_EXCEPTION, "获取角色列表异常", null);
+            result = new DataDeliveryWrapper<PageResult<List<Role>>>(StatusCode.SERVER_INTERNAL_EXCEPTION, "获取角色列表异常", (PageResult<List<Role>>) null);
             logger.error(e.getMessage(), e);
         }
         return result;

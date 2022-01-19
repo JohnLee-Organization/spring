@@ -5,7 +5,7 @@
  * @Project : spring
  * @Package : net.lizhaoweb.spring.cache.mybatis
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 16:39
  */
 package net.lizhaoweb.spring.cache.mybatis;
@@ -29,7 +29,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0.0.1
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @notes Created on 2018年05月23日<br>
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>

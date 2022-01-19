@@ -5,7 +5,7 @@
  * @Project : word-segmenter
  * @Package : org.wltea.analyzer.util
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 9:56
  */
 package net.lizhaoweb.spring.wordsegmenter.ikanalyzer.util;

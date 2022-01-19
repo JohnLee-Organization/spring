@@ -5,7 +5,7 @@
  * @Project : spring
  * @Package : net.lizhaoweb.spring.hadoop.commons.utils
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 13:30
  */
 package net.lizhaoweb.spring.hadoop.commons.utils;
@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0.0.1
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @notes Created on 2017年08月16日<br>
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>

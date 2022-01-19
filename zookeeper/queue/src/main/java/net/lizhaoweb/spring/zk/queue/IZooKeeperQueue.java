@@ -5,7 +5,7 @@
  * @Project : spring
  * @Package : net.lizhaoweb.spring.zk.queue
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 12:08
  */
 package net.lizhaoweb.spring.zk.queue;
@@ -13,7 +13,7 @@ package net.lizhaoweb.spring.zk.queue;
 /**
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @version 1.0.0.0.1
  * @notes Created on 2017年07月18日<br>
  *        Revision of last commit:$Revision$<br>

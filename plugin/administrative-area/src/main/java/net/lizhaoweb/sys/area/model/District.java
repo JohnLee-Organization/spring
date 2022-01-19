@@ -39,6 +39,11 @@ public class District {
     /**
      * 简称
      */
+    private String alias;
+
+    /**
+     * 短名称
+     */
     private String shortName;
 
     /**

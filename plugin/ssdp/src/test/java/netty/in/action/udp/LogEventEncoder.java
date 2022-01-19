@@ -5,7 +5,7 @@
  * @Project : common
  * @Package : netty.in.action.udp
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 10:02
  */
 package netty.in.action.udp;
@@ -26,7 +26,6 @@ import java.util.List;
  * Revision of last commit:$Revision$<br>
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
- * <p/>
  */
 public class LogEventEncoder extends MessageToMessageEncoder<LogEvent> {
 

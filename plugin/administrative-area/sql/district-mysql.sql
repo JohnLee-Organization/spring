@@ -10,7 +10,8 @@ CREATE TABLE `district`
 (
     `id`               BIGINT(20) UNSIGNED NOT NULL       DEFAULT 0 COMMENT '自增主键',
     `name`             VARCHAR(45) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '名称',
-    `short_name`       VARCHAR(45) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '简称',
+    `alias`            VARCHAR(20) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '简称',
+    `short_name`       VARCHAR(45) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '短名称',
     `full_name`        VARCHAR(254) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '全称',
     `english_name`     VARCHAR(254)                       DEFAULT NULL COMMENT '英文名称',
     `pinyin`           VARCHAR(100)                       DEFAULT NULL COMMENT '拼音',
@@ -40,4 +41,6 @@ CREATE TABLE `district`
 -- ----------------------------
 -- Records of `district`
 -- ----------------------------
-INSERT INTO `district` VALUES (1, '中国', '中国', '中华人民共和国', 'the People\'s Republic of China', 'ZhongGuo', 'ZG', 0, 0, 1, '', '', '+86', '', '', '', '', '', '', '', 0x01, '2012-12-31', '2021-08-31 17:42:00', '2021-08-31 17:43:00');
+INSERT INTO `district`
+VALUES (1, '中国', '中国', '中华人民共和国', 'the People\'s Republic of China', 'ZhongGuo', 'ZG', 0, 0, 1, '', '', '+86', '', '',
+        '', '', '', '', '', 0x01, '2012-12-31', '2021-08-31 17:42:00', '2021-08-31 17:43:00');

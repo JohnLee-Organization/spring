@@ -5,7 +5,7 @@
  * @Project : spring
  * @Package : net.lizhaoweb.spring.mvc.uas.service.impl
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 18:28
  */
 package net.lizhaoweb.spring.mvc.uas.service.impl;
@@ -167,10 +167,10 @@ public class AccountService extends UASAbstractService implements IAccountServic
             throw new IllegalArgumentException("Search model is null");
         }
         if (StringUtil.isBlank(search.getLoginName())) {
-            return new DataDeliveryWrapper<Map<String, Object>>(StatusCode.USER_NAME_PASS_ERROR, "用户名不能为空", null);
+            return new DataDeliveryWrapper<Map<String, Object>>(StatusCode.USER_NAME_PASS_ERROR, "用户名不能为空", (Map<String, Object>) null);
         }
         if (StringUtil.isBlank(search.getPassword())) {
-            return new DataDeliveryWrapper<Map<String, Object>>(StatusCode.USER_NAME_PASS_ERROR, "密码不能为空", null);
+            return new DataDeliveryWrapper<Map<String, Object>>(StatusCode.USER_NAME_PASS_ERROR, "密码不能为空", (Map<String, Object>) null);
         }
         String inputPassword = search.getPassword();
         logger.trace("[Action]{} [LoginName]{} [InputPassword]{}", "Login", search.getLoginName(), inputPassword);
@@ -179,7 +179,7 @@ public class AccountService extends UASAbstractService implements IAccountServic
         search.setPassword(encryptedPassword);
         List<Account> list = readMapper.findAll(search);
         if (list == null || list.size() < 1) {
-            return new DataDeliveryWrapper<Map<String, Object>>(StatusCode.USER_NAME_PASS_ERROR, "用户名或密码错误", null);
+            return new DataDeliveryWrapper<Map<String, Object>>(StatusCode.USER_NAME_PASS_ERROR, "用户名或密码错误", (Map<String, Object>) null);
         }
         String jumpURL = request.getParameter(Constant.Application.System.Config.JUMP_TO_KEY);
         Account account = list.get(0);

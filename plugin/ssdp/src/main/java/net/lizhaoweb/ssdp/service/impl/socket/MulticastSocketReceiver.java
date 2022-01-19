@@ -5,7 +5,7 @@
  * @Project : common
  * @Package : net.lizhaoweb.ssdp.service.impl.socket
  * @author <a href="http://www.lizhaoweb.net">李召(John.Lee)</a>
- * @EMAIL 404644381@qq.com
+ * @email 404644381@qq.com
  * @Time : 13:53
  */
 package net.lizhaoweb.ssdp.service.impl.socket;
@@ -75,8 +75,6 @@ public class MulticastSocketReceiver<T extends AbstractMessage> implements IRece
 
     /**
      * 关闭套接子
-     *
-     * @throws IOException 输入输出异常。
      */
     @Override
     public void close() {
