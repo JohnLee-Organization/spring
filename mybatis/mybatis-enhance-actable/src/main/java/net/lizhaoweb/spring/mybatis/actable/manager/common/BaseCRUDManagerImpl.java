@@ -49,8 +49,8 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<Object, Object> tableMap = new HashMap<Object, Object>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
+        Map<String, Object> tableMap = new HashMap<String, Object>();
+        Map<String, Object> dataMap = new HashMap<String, Object>();
         for (Field field : declaredFields) {
             // 设置访问权限
             field.setAccessible(true);
@@ -111,8 +111,8 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
         if (null == keyField) {
             throw new RuntimeException("当前对象没有主键不能使用该方法！");
         }
-        Map<Object, Object> tableMap = new HashMap<Object, Object>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
+        Map<String, Object> tableMap = new HashMap<String, Object>();
+        Map<String, Object> dataMap = new HashMap<String, Object>();
         try {
             // 设置访问权限
             keyField.setAccessible(true);
@@ -165,8 +165,8 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
-        Map<Object, Object> tableMap = new HashMap<Object, Object>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
+        Map<String, Object> tableMap = new HashMap<String, Object>();
+        Map<String, Object> dataMap = new HashMap<String, Object>();
         tableMap.put(tableName, dataMap);
         List<Map<String, Object>> query = baseCRUDMapper.select(tableMap);
 
@@ -245,8 +245,8 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<Object, Object> tableMap = new HashMap<Object, Object>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
+        Map<String, Object> tableMap = new HashMap<String, Object>();
+        Map<String, Object> dataMap = new HashMap<String, Object>();
         for (Field field : declaredFields) {
             // 设置访问权限
             field.setAccessible(true);
@@ -750,8 +750,8 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<Object, Object> tableMap = new HashMap<Object, Object>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
+        Map<String, Object> tableMap = new HashMap<String, Object>();
+        Map<String, Object> dataMap = new HashMap<String, Object>();
         for (Field field : declaredFields) {
             // 设置访问权限
             field.setAccessible(true);
@@ -796,7 +796,7 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             log.error("结果集转对象失败", e);
             throw new RuntimeException("结果集转对象失败");
         }
-        if (null != list && list.size() > 0) {
+        if (list.size() > 0) {
             pageResultCommand.setData(list);
             int queryCount = selectCount(t);
             pageResultCommand.setRecordsFiltered(queryCount);
@@ -834,8 +834,8 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<Object, Object> tableMap = new HashMap<Object, Object>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
+        Map<String, Object> tableMap = new HashMap<String, Object>();
+        Map<String, Object> dataMap = new HashMap<String, Object>();
         for (Field field : declaredFields) {
             // 设置访问权限
             field.setAccessible(true);
@@ -894,7 +894,7 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             log.error("结果集转对象失败", e);
             throw new RuntimeException("结果集转对象失败");
         }
-        if (null != list && list.size() > 0) {
+        if (list.size() > 0) {
             pageResultCommand.setData(list);
             int queryCount = selectCount(t);
             pageResultCommand.setRecordsFiltered(queryCount);

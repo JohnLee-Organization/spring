@@ -24,7 +24,7 @@ public interface BaseCRUDMapper {
      *
      * @param tableMap 表结构的map
      */
-    List<Map<String, Object>> select(@Param("tableMap") Map<Object, Object> tableMap);
+    List<Map<String, Object>> select(@Param("tableMap") Map<String, Object> tableMap);
 
     /**
      * 根据实体对象的非Null字段作为Where条件查询结果集的Count，如果对象的属性值都为null则Count全表
