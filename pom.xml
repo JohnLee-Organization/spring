@@ -274,11 +274,12 @@
         <module>mvc</module>
         <module>plugin</module>
         <module>solr</module>
-        <module>zookeeper</module>
         <module>hadoop</module>
+        <module>zookeeper</module>
         <module>cache</module>
         <module>file</module>
         <module>netty</module>
         <module>websocket</module>
+        <module>mybatis</module>
     </modules>
 </project>
