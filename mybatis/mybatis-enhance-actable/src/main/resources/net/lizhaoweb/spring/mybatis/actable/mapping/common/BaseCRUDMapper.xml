@@ -48,6 +48,16 @@
 		</foreach>
 	</insert>
 
+	<!-- 保存 允许保存null -->
+	<insert id="insertList" parameterType="java.util.Map">
+		<foreach collection="tableMap" index="key" item="dataMap">
+			INSERT INTO `${key}`(<foreach collection="dataMap.columns" item="col" separator=",">`${col}`</foreach>)
+			VALUES <foreach collection="dataMap.dataList" item="bean" separator=",">
+				<foreach collection="bean" item="value" open="(" separator="," close=")">#{value}</foreach>
+			</foreach>
+		</foreach>
+	</insert>
+
 	<!-- 保存 不允许保存null -->
 	<insert id="insertSelective" parameterType="net.lizhaoweb.spring.mybatis.actable.command.SaveOrUpdateDataCommand" useGeneratedKeys="true" keyProperty="id">
 		<foreach collection="tableMap" index="key" item="value">

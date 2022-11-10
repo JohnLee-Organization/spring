@@ -2,6 +2,7 @@ package net.lizhaoweb.spring.mybatis.actable.manager.common;
 
 import net.lizhaoweb.spring.mybatis.actable.command.PageResultCommand;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -90,6 +91,14 @@ public interface BaseCRUDManager {
      * @return 实体对象
      */
     <T> T insert(T t);
+
+    /**
+     * 根据实体对象保存一条数据，主键如果没有设置自增属性则必须不能为null
+     *
+     * @param list 实体对象
+     * @return 实体对象
+     */
+    long insert(Collection<?> list);
 
     /**
      * 根据实体对象保存一条数据，如果属性值为null则不插入默认使用数据库的字段默认值，主键如果没有设置自增属性则必须不能为null

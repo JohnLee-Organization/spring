@@ -31,14 +31,14 @@ public interface BaseCRUDMapper {
      *
      * @param tableMap 表结构的map
      */
-    int selectCount(@Param("tableMap") Map<Object, Object> tableMap);
+    int selectCount(@Param("tableMap") Map<String, Object> tableMap);
 
     /**
      * 根据实体对象的非Null字段作为Where条件进行删除操作，如果对象的属性值都为null则删除表全部数据
      *
      * @param tableMap 表结构的map
      */
-    int delete(@Param("tableMap") Map<Object, Object> tableMap);
+    int delete(@Param("tableMap") Map<String, Object> tableMap);
 
     /**
      * 根据实体对象保存一条数据，主键如果没有设置自增属性则必须不能为null
@@ -46,6 +46,13 @@ public interface BaseCRUDMapper {
      * @param saveOrUpdateDataCommand id+表结构的map
      */
     int insert(SaveOrUpdateDataCommand saveOrUpdateDataCommand);
+
+    /**
+     * 根据实体对象保存一条数据，主键如果没有设置自增属性则必须不能为null
+     *
+     * @param tableMap id+表结构的map
+     */
+    int insertList(@Param("tableMap") Map<String, Map<String, ?>> tableMap);
 
     /**
      * 根据实体对象保存一条数据，如果属性值为null则不插入默认使用数据库的字段默认值，主键如果没有设置自增属性则必须不能为null

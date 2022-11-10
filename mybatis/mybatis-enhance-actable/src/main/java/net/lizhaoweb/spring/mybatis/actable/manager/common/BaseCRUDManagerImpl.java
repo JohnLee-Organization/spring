@@ -41,25 +41,25 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
      */
     @Override
     public <T> List<T> select(T t) {
-
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<String, Object> tableMap = new HashMap<String, Object>();
-        Map<String, Object> dataMap = new HashMap<String, Object>();
+        Map<String, Object> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         for (Field field : declaredFields) {
             // 设置访问权限
             field.setAccessible(true);
-            if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+            if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                 log.debug("该field没有配置注解不是表中在字段！");
                 continue;
             }
             try {
-                dataMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                dataMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
             } catch (Exception e) {
                 log.error("操作对象的Field出现异常", e);
                 throw new RuntimeException("操作对象的Field出现异常");
@@ -68,18 +68,18 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
         tableMap.put(tableName, dataMap);
         List<Map<String, Object>> query = baseCRUDMapper.select(tableMap);
 
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         try {
             for (Map<String, Object> map : query) {
-                T newInstance = (T) t.getClass().newInstance();
+                T newInstance = (T) clazz.newInstance();
                 Field[] declaredFields2 = FieldUtils.getAllFields(newInstance);
                 for (Field field : declaredFields2) {
                     field.setAccessible(true);
-                    if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+                    if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                         log.debug("该field没有配置注解不是表中在字段！");
                         continue;
                     }
-                    String name = ColumnUtils.getColumnName(field, t.getClass());
+                    String name = ColumnUtils.getColumnName(field, clazz);
                     buildFieldValue(map, newInstance, field, name);
                 }
                 list.add(newInstance);
@@ -100,9 +100,9 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
      */
     @Override
     public <T> T selectByPrimaryKey(T t) {
-
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
@@ -111,8 +111,8 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
         if (null == keyField) {
             throw new RuntimeException("当前对象没有主键不能使用该方法！");
         }
-        Map<String, Object> tableMap = new HashMap<String, Object>();
-        Map<String, Object> dataMap = new HashMap<String, Object>();
+        Map<String, Object> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         try {
             // 设置访问权限
             keyField.setAccessible(true);
@@ -120,7 +120,7 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             if (null == keyValue) {
                 throw new RuntimeException("主键字段不能为null");
             }
-            dataMap.put(ColumnUtils.getColumnName(keyField, t.getClass()), keyField.get(t));
+            dataMap.put(ColumnUtils.getColumnName(keyField, clazz), keyField.get(t));
         } catch (IllegalAccessException e) {
             log.error("操作对象的Field出现异常", e);
             throw new RuntimeException("操作对象的Field出现异常");
@@ -132,15 +132,15 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
         }
         Map<String, Object> stringObjectMap = query.get(0);
         try {
-            T newInstance = (T) t.getClass().newInstance();
+            T newInstance = (T) clazz.newInstance();
             Field[] declaredFields2 = FieldUtils.getAllFields(newInstance);
             for (Field field : declaredFields2) {
                 field.setAccessible(true);
-                if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+                if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                     log.debug("该field没有配置注解不是表中在字段！");
                     continue;
                 }
-                String name = ColumnUtils.getColumnName(field, t.getClass());
+                String name = ColumnUtils.getColumnName(field, clazz);
                 buildFieldValue(stringObjectMap, newInstance, field, name);
             }
             return newInstance;
@@ -165,15 +165,15 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
-        Map<String, Object> tableMap = new HashMap<String, Object>();
-        Map<String, Object> dataMap = new HashMap<String, Object>();
+        Map<String, Object> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         tableMap.put(tableName, dataMap);
         List<Map<String, Object>> query = baseCRUDMapper.select(tableMap);
 
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         try {
             for (Map<String, Object> map : query) {
-                T newInstance = (T) clasz.newInstance();
+                T newInstance = clasz.newInstance();
                 Field[] declaredFields2 = FieldUtils.getAllFields(newInstance);
                 for (Field field : declaredFields2) {
                     field.setAccessible(true);
@@ -202,24 +202,25 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
      */
     @Override
     public <T> int selectCount(T t) {
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<Object, Object> tableMap = new HashMap<Object, Object>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
+        Map<String, Object> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         for (Field field : declaredFields) {
             // 设置访问权限
             field.setAccessible(true);
-            if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+            if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                 log.debug("该field没有配置注解不是表中在字段！");
                 continue;
             }
             try {
-                dataMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                dataMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
             } catch (Exception e) {
                 log.error("操作对象的Field出现异常", e);
                 throw new RuntimeException("操作对象的Field出现异常");
@@ -238,24 +239,25 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
      */
     @Override
     public <T> T selectOne(T t) {
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<String, Object> tableMap = new HashMap<String, Object>();
-        Map<String, Object> dataMap = new HashMap<String, Object>();
+        Map<String, Object> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         for (Field field : declaredFields) {
             // 设置访问权限
             field.setAccessible(true);
-            if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+            if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                 log.debug("该field没有配置注解不是表中在字段！");
                 continue;
             }
             try {
-                dataMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                dataMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
             } catch (Exception e) {
                 log.error("操作对象的Field出现异常", e);
                 throw new RuntimeException("操作对象的Field出现异常");
@@ -268,15 +270,15 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
         }
         Map<String, Object> stringObjectMap = query.get(0);
         try {
-            T newInstance = (T) t.getClass().newInstance();
+            T newInstance = (T) clazz.newInstance();
             Field[] declaredFields2 = FieldUtils.getAllFields(newInstance);
             for (Field field : declaredFields2) {
                 field.setAccessible(true);
-                if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+                if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                     log.debug("该field没有配置注解不是表中在字段！");
                     continue;
                 }
-                String name = ColumnUtils.getColumnName(field, t.getClass());
+                String name = ColumnUtils.getColumnName(field, clazz);
                 buildFieldValue(stringObjectMap, newInstance, field, name);
             }
             return newInstance;
@@ -295,25 +297,25 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
      */
     @Override
     public <T> int delete(T t) {
-
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<Object, Object> tableMap = new HashMap<Object, Object>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
+        Map<String, Object> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         for (Field field : declaredFields) {
             // 设置访问权限
             field.setAccessible(true);
-            if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+            if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                 log.debug("该field没有配置注解不是表中在字段！");
                 continue;
             }
             try {
-                dataMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                dataMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
             } catch (Exception e) {
                 log.error("操作对象的Field出现异常", e);
                 throw new RuntimeException("操作对象的Field出现异常");
@@ -332,8 +334,9 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
      */
     @Override
     public <T> int deleteByPrimaryKey(T t) {
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
@@ -342,8 +345,8 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
         if (null == keyField) {
             throw new RuntimeException("当前对象没有主键不能使用该方法！");
         }
-        Map<Object, Object> tableMap = new HashMap<Object, Object>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
+        Map<String, Object> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         try {
             // 设置访问权限
             keyField.setAccessible(true);
@@ -351,7 +354,7 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             if (null == keyValue) {
                 throw new RuntimeException("主键字段不能为null");
             }
-            dataMap.put(ColumnUtils.getColumnName(keyField, t.getClass()), keyField.get(t));
+            dataMap.put(ColumnUtils.getColumnName(keyField, clazz), keyField.get(t));
         } catch (IllegalAccessException e) {
             log.error("操作对象的Field出现异常", e);
             throw new RuntimeException("操作对象的Field出现异常");
@@ -370,10 +373,7 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
     @Override
     public <T> boolean existsByPrimaryKey(T t) {
         T result = selectByPrimaryKey(t);
-        if (null == result) {
-            return false;
-        }
-        return true;
+        return null != result;
     }
 
     /**
@@ -385,29 +385,29 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
      */
     @Override
     public <T> T insert(T t) {
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<Object, Map<Object, Object>> tableMap = new HashMap<Object, Map<Object, Object>>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
-        Map<String, Object> keyFieldMap = new HashMap<String, Object>();
+        Map<String, Map<String, Object>> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         Field keyField = null;
         for (Field field : declaredFields) {
             try {
                 // 私有属性需要设置访问权限
                 field.setAccessible(true);
-                if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+                if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                     log.debug("该field没有配置注解不是表中在字段！");
                     continue;
                 }
                 // 是否主键字段
-                boolean isKey = ColumnUtils.isKey(field, t.getClass());
+                boolean isKey = ColumnUtils.isKey(field, clazz);
                 // 是否自增
-                boolean autoIncrement = ColumnUtils.isAutoIncrement(field, t.getClass());
+                boolean autoIncrement = ColumnUtils.isAutoIncrement(field, clazz);
                 if (isKey) {
                     keyField = field;
                 }
@@ -424,7 +424,7 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
                     continue;
                 }
 
-                dataMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                dataMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
             } catch (IllegalAccessException e) {
                 log.error("操作对象的Field出现异常", e);
                 throw new RuntimeException("操作对象的Field出现异常");
@@ -443,7 +443,7 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             return selectOne(t);
         }
         // 表示是自增
-        if (ColumnUtils.isAutoIncrement(keyField, t.getClass())) {
+        if (ColumnUtils.isAutoIncrement(keyField, clazz)) {
             keyField.setAccessible(true);
             try {
                 String type = keyField.getGenericType().toString();
@@ -465,6 +465,79 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
     }
 
     /**
+     * 根据实体对象保存一条数据，允许没有主键，如果有主键的情况下且主键如果没有设置自增属性则必须不能为null
+     *
+     * @param list 实体对象
+     * @return 实体对象
+     */
+    @Override
+    public long insert(Collection<?> list) {
+        if (!(list instanceof List) && !(list instanceof Set)) {
+            throw new RuntimeException("This collection type is not supported");
+        }
+        Object[] objects = list.toArray();
+        Class<?> clazz = objects[0].getClass();
+        // 得到表名
+        String tableName = ColumnUtils.getTableName(clazz);
+        if (StringUtils.isEmpty(tableName)) {
+            log.error("必须使用model中的对象！");
+            throw new RuntimeException("必须使用model中的对象！");
+        }
+        Field[] declaredFields = FieldUtils.getAllFields(clazz);
+        Map<String, Map<String, ?>> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
+        List<String> columnList = new ArrayList<>();
+        List<List<Object>> dataList = new ArrayList<>();
+        boolean isGetColumnName = true;
+        for (Object bean : list) {
+            List<Object> valueList = new ArrayList<>();
+            for (Field field : declaredFields) {
+                try {
+                    // 私有属性需要设置访问权限
+                    field.setAccessible(true);
+                    if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
+                        log.debug("该field没有配置注解不是表中在字段！");
+                        continue;
+                    }
+                    // 是否主键字段
+                    boolean isKey = ColumnUtils.isKey(field, clazz);
+                    // 是否自增
+                    boolean autoIncrement = ColumnUtils.isAutoIncrement(field, clazz);
+
+                    // 如果是主键，但不是自增，那么主键不能为空
+                    if (isKey && !autoIncrement && field.get(bean) == null) {
+                        log.error("主键非自增的情况下保存时不能为null！");
+                        throw new RuntimeException("主键非自增的情况下保存时不能为null！");
+                    }
+
+                    // 如果是自增,不需要添加到map中做保存
+                    if (autoIncrement) {
+                        log.warn("字段：" + field.getName() + "是自增的不需要设置值");
+                        continue;
+                    }
+
+                    if (isGetColumnName) {
+                        columnList.add(ColumnUtils.getColumnName(field, clazz));
+                    }
+                    valueList.add(field.get(bean));
+                } catch (IllegalAccessException e) {
+                    log.error("操作对象的Field出现异常", e);
+                    throw new RuntimeException("操作对象的Field出现异常");
+                }
+            }
+            if (isGetColumnName) {
+                dataMap.put("columns", columnList);
+            }
+            dataList.add(valueList);
+            isGetColumnName = false;
+        }
+        dataMap.put("dataList", dataList);
+        tableMap.put(tableName, dataMap);
+        // 执行保存操作
+        return baseCRUDMapper.insertList(tableMap);
+    }
+
+    /**
      * 根据实体对象保存一条数据，如果属性值为null则不插入默认使用数据库的字段默认值，主键如果没有设置自增属性则必须不能为null
      *
      * @param t   实体对象
@@ -473,32 +546,32 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
      */
     @Override
     public <T> T insertSelective(T t) {
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<Object, Map<Object, Object>> tableMap = new HashMap<Object, Map<Object, Object>>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
-        Map<String, Object> keyFieldMap = new HashMap<String, Object>();
+        Map<String, Map<String, Object>> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         Field keyField = null;
         for (Field field : declaredFields) {
             try {
                 // 私有属性需要设置访问权限
                 field.setAccessible(true);
-                if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+                if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                     log.debug("该field没有配置注解不是表中在字段！");
                     continue;
                 }
                 // 是否主键字段
-                boolean isKey = ColumnUtils.isKey(field, t.getClass());
-                // 是否自增
-                boolean autoIncrement = ColumnUtils.isAutoIncrement(field, t.getClass());
+                boolean isKey = ColumnUtils.isKey(field, clazz);
                 if (isKey) {
                     keyField = field;
                 }
+                // 是否自增
+                boolean autoIncrement = ColumnUtils.isAutoIncrement(field, clazz);
 
                 // 如果是主键，但不是自增，那么主键不能为空
                 if (isKey && !autoIncrement && field.get(t) == null) {
@@ -512,7 +585,7 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
                     continue;
                 }
 
-                dataMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                dataMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
             } catch (IllegalAccessException e) {
                 log.error("操作对象的Field出现异常", e);
                 throw new RuntimeException("操作对象的Field出现异常");
@@ -531,7 +604,7 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
             return selectOne(t);
         }
         // 表示是自增
-        if (ColumnUtils.isAutoIncrement(keyField, t.getClass())) {
+        if (ColumnUtils.isAutoIncrement(keyField, clazz)) {
             keyField.setAccessible(true);
             try {
                 String type = keyField.getGenericType().toString();
@@ -561,34 +634,35 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
      */
     @Override
     public <T> boolean updateByPrimaryKey(T t) {
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<Object, Map<Object, Object>> tableMap = new HashMap<Object, Map<Object, Object>>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
-        Map<String, Object> keyFieldMap = new HashMap<String, Object>();
+        Map<String, Map<String, Object>> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
+        Map<String, Object> keyFieldMap = new HashMap<>();
         for (Field field : declaredFields) {
             try {
                 // 私有属性需要设置访问权限
                 field.setAccessible(true);
-                if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+                if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                     log.debug("该field没有配置注解不是表中在字段！");
                     continue;
                 }
                 // 如果是主键，并且不是空的时候，这时候应该是更新操作
-                if (ColumnUtils.isKey(field, t.getClass())) {
+                if (ColumnUtils.isKey(field, clazz)) {
                     if (field.get(t) != null) {
-                        keyFieldMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                        keyFieldMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
                     } else {
                         log.error("主键更新的情况下不能为null！");
                         throw new RuntimeException("主键更新的情况下不能为null！");
                     }
                 }
-                dataMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                dataMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
             } catch (IllegalAccessException e) {
                 log.error("操作对象的Field出现异常", e);
                 throw new RuntimeException("操作对象的Field出现异常");
@@ -605,10 +679,7 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
         // 执行更新操作根据主键
         int count = baseCRUDMapper.updateByPrimaryKey(saveOrUpdateDataCommand);
         // 没有保存成功
-        if (count <= 0) {
-            return false;
-        }
-        return true;
+        return count > 0;
     }
 
     /**
@@ -620,34 +691,35 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
      */
     @Override
     public <T> boolean updateByPrimaryKeySelective(T t) {
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<Object, Map<Object, Object>> tableMap = new HashMap<Object, Map<Object, Object>>();
-        Map<Object, Object> dataMap = new HashMap<Object, Object>();
-        Map<String, Object> keyFieldMap = new HashMap<String, Object>();
+        Map<String, Map<String, Object>> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
+        Map<String, Object> keyFieldMap = new HashMap<>();
         for (Field field : declaredFields) {
             try {
                 // 私有属性需要设置访问权限
                 field.setAccessible(true);
-                if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+                if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                     log.debug("该field没有配置注解不是表中在字段！");
                     continue;
                 }
                 // 如果是主键，并且不是空的时候，这时候应该是更新操作
-                if (ColumnUtils.isKey(field, t.getClass())) {
+                if (ColumnUtils.isKey(field, clazz)) {
                     if (field.get(t) != null) {
-                        keyFieldMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                        keyFieldMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
                     } else {
                         log.error("主键更新的情况下不能为null！");
                         throw new RuntimeException("主键更新的情况下不能为null！");
                     }
                 }
-                dataMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                dataMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
             } catch (IllegalAccessException e) {
                 log.error("操作对象的Field出现异常", e);
                 throw new RuntimeException("操作对象的Field出现异常");
@@ -664,10 +736,7 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
         // 执行更新操作根据主键
         int count = baseCRUDMapper.updateByPrimaryKeySelective(saveOrUpdateDataCommand);
         // 没有保存成功
-        if (count <= 0) {
-            return false;
-        }
-        return true;
+        return count > 0;
     }
 
     /**
@@ -699,14 +768,16 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
         if (null == query || query.size() == 0) {
             return null;
         }
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         for (Map<String, Object> map : query) {
             try {
                 T t = beanClass.newInstance();
+//                Class<?> clazz=t.getClass();
                 Field[] fields = FieldUtils.getAllFields(t);
                 for (Field field : fields) {
                     field.setAccessible(true);
-                    String name = ColumnUtils.getColumnName(field, t.getClass());
+//                    String name = ColumnUtils.getColumnName(field, clazz);
+                    String name = ColumnUtils.getColumnName(field, beanClass);
                     if (null == map.get(name)) {
                         continue;
                     }
@@ -735,59 +806,59 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
     public <T> PageResultCommand<T> search(T t, Integer currentPage, Integer pageSize, LinkedHashMap<String, String> orderby) {
         String startKey = "start";
         String sizeKey = "pageSize";
-        String currentPageKey = "currentPage";
+//        String currentPageKey = "currentPage";
         String orderByKey = "orderBy";
-        Integer sizeVal = (pageSize == null ? 10 : pageSize);
-        Integer currentPageVal = (currentPage == null ? 1 : currentPage);
+        int sizeVal = (pageSize == null ? 10 : pageSize);
+        int currentPageVal = (currentPage == null ? 1 : currentPage);
         Integer startVal = (currentPageVal - 1) * sizeVal;
-        LinkedHashMap<String, String> orderByVal = orderby;
-        PageResultCommand<T> pageResultCommand = new PageResultCommand<T>();
+        PageResultCommand<T> pageResultCommand = new PageResultCommand<>();
 
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<String, Object> tableMap = new HashMap<String, Object>();
-        Map<String, Object> dataMap = new HashMap<String, Object>();
+        Map<String, Object> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         for (Field field : declaredFields) {
             // 设置访问权限
             field.setAccessible(true);
             try {
-                if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+                if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                     log.debug("该field没有配置注解不是表中在字段！");
                     continue;
                 }
-                dataMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                dataMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
             } catch (Exception e) {
                 log.error("操作对象的Field出现异常", e);
                 throw new RuntimeException("操作对象的Field出现异常");
             }
         }
         tableMap.put(tableName, dataMap);
-        if (currentPageVal != null && currentPageVal > 0) {
+        if (currentPageVal > 0) {
             tableMap.put(startKey, startVal);
             tableMap.put(sizeKey, sizeVal);
         }
-        if (orderByVal != null && orderByVal.size() > 0) {
-            tableMap.put(orderByKey, orderByVal);
+        if (orderby != null && orderby.size() > 0) {
+            tableMap.put(orderByKey, orderby);
         }
         List<Map<String, Object>> query = baseCRUDMapper.select(tableMap);
 
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         try {
             for (Map<String, Object> map : query) {
-                T newInstance = (T) t.getClass().newInstance();
+                T newInstance = (T) clazz.newInstance();
                 Field[] declaredFields2 = FieldUtils.getAllFields(newInstance);
                 for (Field field : declaredFields2) {
                     field.setAccessible(true);
-                    if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+                    if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                         log.debug("该field没有配置注解不是表中在字段！");
                         continue;
                     }
-                    String name = ColumnUtils.getColumnName(field, t.getClass());
+                    String name = ColumnUtils.getColumnName(field, clazz);
                     buildFieldValue(map, newInstance, field, name);
                 }
                 list.add(newInstance);
@@ -825,17 +896,18 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
         Integer sizeVal = null;
         Integer currentPageVal = null;
         LinkedHashMap<String, String> orderByVal = null;
-        PageResultCommand<T> pageResultCommand = new PageResultCommand<T>();
+        PageResultCommand<T> pageResultCommand = new PageResultCommand<>();
 
+        Class<?> clazz = t.getClass();
         // 得到表名
-        String tableName = ColumnUtils.getTableName(t.getClass());
+        String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
             log.error("必须使用model中的对象！");
             throw new RuntimeException("必须使用model中的对象！");
         }
         Field[] declaredFields = FieldUtils.getAllFields(t);
-        Map<String, Object> tableMap = new HashMap<String, Object>();
-        Map<String, Object> dataMap = new HashMap<String, Object>();
+        Map<String, Object> tableMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
         for (Field field : declaredFields) {
             // 设置访问权限
             field.setAccessible(true);
@@ -854,11 +926,11 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
                     orderByVal = (LinkedHashMap<String, String>) field.get(t);
                 }
 
-                if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+                if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                     log.debug("该field没有配置注解不是表中在字段！");
                     continue;
                 }
-                dataMap.put(ColumnUtils.getColumnName(field, t.getClass()), field.get(t));
+                dataMap.put(ColumnUtils.getColumnName(field, clazz), field.get(t));
             } catch (Exception e) {
                 log.error("操作对象的Field出现异常", e);
                 throw new RuntimeException("操作对象的Field出现异常");
@@ -874,18 +946,18 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
         }
         List<Map<String, Object>> query = baseCRUDMapper.select(tableMap);
 
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         try {
             for (Map<String, Object> map : query) {
-                T newInstance = (T) t.getClass().newInstance();
+                T newInstance = (T) clazz.newInstance();
                 Field[] declaredFields2 = FieldUtils.getAllFields(newInstance);
                 for (Field field : declaredFields2) {
                     field.setAccessible(true);
-                    if (!ColumnUtils.hasColumnAnnotation(field, t.getClass())) {
+                    if (!ColumnUtils.hasColumnAnnotation(field, clazz)) {
                         log.debug("该field没有配置注解不是表中在字段！");
                         continue;
                     }
-                    String name = ColumnUtils.getColumnName(field, t.getClass());
+                    String name = ColumnUtils.getColumnName(field, clazz);
                     buildFieldValue(map, newInstance, field, name);
                 }
                 list.add(newInstance);

@@ -15,7 +15,7 @@ public class SaveOrUpdateDataCommand {
     @Setter
     @Getter
     @NonNull
-    private Map<Object, Map<Object, Object>> tableMap;
+    private Map<String, Map<String, Object>> tableMap;
 
 //    public SaveOrUpdateDataCommand(Map<Object, Map<Object, Object>> tableMap) {
 //        this.tableMap = tableMap;

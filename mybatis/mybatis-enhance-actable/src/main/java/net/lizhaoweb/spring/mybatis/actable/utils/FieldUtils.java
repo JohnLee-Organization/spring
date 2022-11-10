@@ -27,6 +27,14 @@ public class FieldUtils {
         return declaredFields;
     }
 
+    public static Field[] getAllFields(Class<?> cla) {
+        Field[] declaredFields = cla.getDeclaredFields();
+
+        // 递归扫描父类的filed
+        declaredFields = recursionParents(cla, declaredFields);
+        return declaredFields;
+    }
+
     /**
      * 递归扫描父类的fields
      *
