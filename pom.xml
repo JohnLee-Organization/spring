@@ -39,7 +39,7 @@
 
     <properties>
         <spring.version>4.3.0.RELEASE</spring.version>
-        <solr.version>4.10.4</solr.version>
+        <solr.version>8.8.2</solr.version>
         <aspect.version>1.8.9</aspect.version>
     </properties>
 
