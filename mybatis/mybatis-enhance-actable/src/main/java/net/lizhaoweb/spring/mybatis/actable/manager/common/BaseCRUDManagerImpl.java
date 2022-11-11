@@ -467,16 +467,18 @@ public class BaseCRUDManagerImpl implements BaseCRUDManager {
     /**
      * 根据实体对象保存一条数据，允许没有主键，如果有主键的情况下且主键如果没有设置自增属性则必须不能为null
      *
-     * @param list 实体对象
+     * @param beanCollection 实体对象集合
      * @return 实体对象
      */
     @Override
-    public long insert(Collection<?> list) {
-        if (!(list instanceof List) && !(list instanceof Set)) {
-            throw new RuntimeException("This collection type is not supported");
-        }
-        Object[] objects = list.toArray();
-        Class<?> clazz = objects[0].getClass();
+    public long insert(Collection<?> beanCollection) {
+//        if (!(list instanceof List) && !(list instanceof Set)) {
+//            throw new RuntimeException("This collection type is not supported");
+//        }
+        List<?> list = new ArrayList<>(beanCollection);
+//        Object[] objects = list.toArray();
+//        Class<?> clazz = objects[0].getClass();
+        Class<?> clazz = list.get(0).getClass();
         // 得到表名
         String tableName = ColumnUtils.getTableName(clazz);
         if (StringUtils.isEmpty(tableName)) {
