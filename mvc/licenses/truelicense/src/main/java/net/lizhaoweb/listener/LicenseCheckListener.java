@@ -56,13 +56,13 @@ public class LicenseCheckListener implements ApplicationListener<ContextRefreshe
     /**
      * 证书生成路径
      */
-    @Value("${license.licensePath:/license/publicCerts.keystore}")
+    @Value("${license.licensePath:/license/license.lic}")
     private String licensePath;
 
     /**
      * 密钥库存储路径
      */
-    @Value("${license.publicKeysStorePath:/license/}")
+    @Value("${license.publicKeysStorePath:/license/publicCerts.keystore}")
     private String publicKeysStorePath;
 
     @Override
