@@ -38,31 +38,31 @@ public class LicenseCheckListener implements ApplicationListener<ContextRefreshe
     /**
      * 证书subject
      */
-    @Value("${license.subject}")
+    @Value("${license.subject:license}")
     private String subject;
 
     /**
      * 公钥别称
      */
-    @Value("${license.publicAlias}")
+    @Value("${license.publicAlias:publicCert}")
     private String publicAlias;
 
     /**
      * 访问公钥库的密码
      */
-    @Value("${license.storePass}")
+    @Value("${license.storePass:}")
     private String storePass;
 
     /**
      * 证书生成路径
      */
-    @Value("${license.licensePath}")
+    @Value("${license.licensePath:/license/publicCerts.keystore}")
     private String licensePath;
 
     /**
      * 密钥库存储路径
      */
-    @Value("${license.publicKeysStorePath}")
+    @Value("${license.publicKeysStorePath:/license/}")
     private String publicKeysStorePath;
 
     @Override

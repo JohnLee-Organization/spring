@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>net.lizhaoweb.lic</groupId>
-    <artifactId>truelicense</artifactId>
+    <artifactId>truelicense-spring</artifactId>
     <version>JL.SPRING.1.1.1.0.0.0.1-SNAPSHOT</version>
 
     <name>Spring MVC License [truelicense]</name>
@@ -18,10 +18,6 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <fastjson2.version>2.0.20</fastjson2.version>
     </properties>
 
@@ -62,9 +58,30 @@
 
         <dependency>
             <groupId>net.lizhaoweb.lic</groupId>
-            <artifactId>truelicense</artifactId>
+            <artifactId>truelicense-common</artifactId>
             <version>JL.COMMON.7.1.0.0.0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <skipSource>true</skipSource>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

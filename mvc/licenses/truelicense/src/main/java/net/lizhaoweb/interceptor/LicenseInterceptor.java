@@ -11,6 +11,7 @@
 package net.lizhaoweb.interceptor;
 
 import com.alibaba.fastjson2.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.lic.truelicense.c.LicenseVerify;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  * @version 0.0.1
  * @email 404644381@qq.com
  */
+@Slf4j
 @Component
 public class LicenseInterceptor implements HandlerInterceptor {
 
