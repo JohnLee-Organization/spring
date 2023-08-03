@@ -45,8 +45,8 @@ public class LicenseInterceptor implements HandlerInterceptor {
         } else {
             response.setCharacterEncoding("utf-8");
             JSONObject obj = new JSONObject();
-            obj.put("errcode", "0319");
-            obj.put("errmsg", "您的证书无效，请核查服务器是否取得授权或重新申请证书！");
+            obj.put("code", "0319");
+            obj.put("msg", "您的证书无效，请核查服务器是否取得授权或重新申请证书！");
             response.getWriter().print(obj);
             response.getWriter().flush();
             return false;

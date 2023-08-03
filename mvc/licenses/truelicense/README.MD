@@ -14,3 +14,31 @@ keytool -import -alias "publicCert" -file "certfile.cer" -keystore "publicCerts.
 其中certfile.cer是暂存文件，删除即可；<br/>
 privateKeys.keystore：用于服务端生成license文件<br/>
 publicCerts.key
+
+生成许可接口 /license/generateLicense
+要上传的参数例子
+<pre>
+{
+    "subject": "license_demo",
+    "privateAlias": "privateKey",
+    "keyPass": "private_password",
+    "storePass": "public_password",
+    "licensePath": "E:/LicenseDemo/license.lic",
+    "privateKeysStorePath": "E:/LicenseDemo/privateKeys.keystore",
+    "issuedTime": "2022-04-26 14:48:12",
+    "expiryTime": "2022-08-22 00:00:00",
+    "consumerType": "User",
+    "consumerAmount": 1,
+    "description": "这是证书描述信息",
+    "licenseCheckModel": {
+        "ipAddress": [
+            "192.168.3.57"
+        ],
+        "macAddress": [
+            "D8-F2-CA-06-1A-F3"
+        ],
+        "cpuSerial": "BFEBFBFF000806EA",
+        "mainBoardSerial": "PM01I01911000743"
+    }
+}
+</pre>
