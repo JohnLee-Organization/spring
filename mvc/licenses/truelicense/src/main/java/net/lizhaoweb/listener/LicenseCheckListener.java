@@ -50,7 +50,7 @@ public class LicenseCheckListener implements ApplicationListener<ContextRefreshe
     /**
      * 访问公钥库的密码
      */
-    @Value("${license.storePass:}")
+    @Value("${license.storePass:public_password}")
     private String storePass;
 
     /**
