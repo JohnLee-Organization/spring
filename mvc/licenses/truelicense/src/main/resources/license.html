@@ -1,0 +1,26 @@
+<script type="text/javascript" charset="UTF-8">
+jQuery(document).ready(function (docEvent) {
+jQuery('#look_server_info').click(function (e) {
+let thisObject = jQuery(this);
+jQuery.ajax({
+url: 'getServerInfos',
+data: {},
+async: false,
+type: 'POST',
+dataType: 'JSON',
+success: function (data, textStatus) {
+jQuery('#server_info').text(data);
+},
+error: function (XMLHttpRequest, textStatus, errorThrown) {
+alert("获取服务器信息异常");
+}
+});
+});
+});
+</script>
+
+
+
+
+
+
