@@ -10,8 +10,9 @@
     </parent>
 
     <groupId>net.lizhaoweb.lic</groupId>
-    <artifactId>truelicense-spring</artifactId>
-    <version>JL.SPRING.1.1.1.0.0.0.1-SNAPSHOT</version>
+    <artifactId>trueli-spring</artifactId>
+    <!--    <version>JL.SPRING.1.1.1.0.0.0.1-SNAPSHOT</version>-->
+    <version>0.0.1-SNAPSHOT</version>
 
     <name>Spring MVC License [truelicense]</name>
     <description>李召(John.Lee) 个人许可授权项目组</description>
@@ -58,8 +59,8 @@
 
         <dependency>
             <groupId>net.lizhaoweb.lic</groupId>
-            <artifactId>truelicense-common</artifactId>
-            <version>JL.COMMON.7.1.0.0.0.0.1-SNAPSHOT</version>
+            <artifactId>trueli-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
