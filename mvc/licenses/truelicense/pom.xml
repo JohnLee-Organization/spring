@@ -39,10 +39,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- 阿里JSON解析器 -->
@@ -50,11 +52,13 @@
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
             <version>${fastjson2.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
