@@ -9,13 +9,13 @@
         <version>JL.SPRING.2.0.0.0.1.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>net.lizhaoweb.net</groupId>
+    <groupId>net.lizhaoweb.spring</groupId>
     <artifactId>ssdp</artifactId>
-    <version>JL.SPRING.2.3.0.0.1.0.1-SNAPSHOT</version>
+    <version>JL.SPRING.2.3.0.0.1.1.0-SNAPSHOT</version>
 
-    <name>Spring Plugin [SSDP]</name>
+    <name>Spring Plugin SSDP</name>
     <description>李召(John.Lee) 个人 SSDP 项目</description>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <dependencies>
 
@@ -92,5 +92,20 @@
         </dependency>
 
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.12.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>basic</module>
+        <module>socket</module>
+    </modules>
 
 </project>
