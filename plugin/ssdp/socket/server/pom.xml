@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>net.lizhaoweb.ssdp</groupId>
+        <artifactId>socket</artifactId>
+        <version>JL.SPRING.2.3.2.0.1.1.0-SNAPSHOT</version>
+    </parent>
+
+
+    <artifactId>socket-server</artifactId>
+    <version>JL.SPRING.2.3.2.2.1.1.0-SNAPSHOT</version>
+
+    <name>Spring Plugin SSDP Socket [Server]</name>
+    <description>李召(John.Lee) 个人 SSDP-Socket 服务器项目</description>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.lizhaoweb.ssdp</groupId>
+            <artifactId>ssdp-basic</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.lizhaoweb.ssdp</groupId>
+            <artifactId>socket-common</artifactId>
+            <version>JL.SPRING.2.3.2.1.1.1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--
+        <dependency>
+            <groupId>javax.jmdns</groupId>
+            <artifactId>jmdns</artifactId>
+            <version>3.5.6</version>
+            <scope>test</scope>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>javax.jmdns</groupId>
+            <artifactId>jmdns</artifactId>
+            <version>3.4.1</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+</project>

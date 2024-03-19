@@ -1,0 +1,114 @@
+/*
+ * Copyright (c) 2024, Stupid Bird and/or its affiliates. All rights reserved.
+ * STUPID BIRD PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ *
+ *
+ * @project : spring
+ * @package : net.lizhaoweb.ssdp.socket.service
+ * @date : 2024-03-06
+ * @time : 17:29
+ */
+package net.lizhaoweb.ssdp.socket.service;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import net.lizhaoweb.ssdp.config.SsdpConfiguration;
+import net.lizhaoweb.ssdp.exception.SsdpIOException;
+import net.lizhaoweb.ssdp.exception.SsdpUnknownHostException;
+import net.lizhaoweb.ssdp.socket.exception.SsdpSocketException;
+
+import java.io.IOException;
+import java.net.*;
+
+/**
+ * a
+ * <p>
+ * Created by Jhon.Lee on 3/6/2024 17:29
+ *
+ * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
+ * @version 1.0.0.0.1
+ * @email 404644381@qq.com
+ */
+@Slf4j
+@RequiredArgsConstructor
+public class DatagramPacketListener {
+
+    /**
+     * SSDP 配置对象
+     */
+    @NonNull
+    private SsdpConfiguration config;
+
+    private final int cacheSize = 1024;
+
+    /**
+     * 停止
+     */
+    private boolean stop;
+
+    private void listen() {
+//        MulticastSocketReceiver receiver = null;
+//        try {
+//            receiver = new MulticastSocketReceiver(config);
+//            RequestMessageConverter requestConverter = new RequestMessageConverter(config);// 请求转换器
+//            while (!stop) {
+//                try {
+//                    DatagramPacket receiverPacket = receiver.receive();
+//                    SocketAddress clientSocketAddress = receiverPacket.getSocketAddress();
+//
+//                    String message = new String(receiverPacket.getData());
+//                    SsdpRequest request = requestConverter.convert(message);
+//                    request.setRemoteSocketAddress(clientSocketAddress);
+//
+//                    if (SsdpMethod.M_SEARCH == request.getMethod()) {
+//                        ThreadMSearchResponse threadMSearchResponse = new ThreadMSearchResponse(config, request);
+//                        threadMSearchResponse.setDaemon(true);
+//                        threadMSearchResponse.start();
+//                    }
+//                } catch (Exception e) {
+//                    log.error(e.getMessage(), e);
+//                }
+//            }
+//        } catch (Exception e) {
+//            log.error(e.getMessage(), e);
+//        } finally {
+//            IOUtils.closeQuietly(receiver);
+//        }
+
+        MulticastSocket receive = null;
+        try {
+            InetAddress groupInetAddress = InetAddress.getByName(config.getBroadcastAddress());
+            receive = new MulticastSocket(config.getBroadcastPort());
+            receive.setReuseAddress(true);
+            receive.joinGroup(groupInetAddress);
+
+            while (!stop) {
+//                try {
+                DatagramPacket receiverPacket = new DatagramPacket(new byte[cacheSize], cacheSize);
+                receive.receive(receiverPacket);
+//                    SocketAddress clientSocketAddress = receiverPacket.getSocketAddress();
+
+                String message = new String(receiverPacket.getData());
+                System.out.println(message);
+//                    SsdpRequest request = requestConverter.convert(message);
+//                    request.setRemoteSocketAddress(clientSocketAddress);
+//
+//                    if (SsdpMethod.M_SEARCH == request.getMethod()) {
+//                        ThreadMSearchResponse threadMSearchResponse = new ThreadMSearchResponse(config, request);
+//                        threadMSearchResponse.setDaemon(true);
+//                        threadMSearchResponse.start();
+//                    }
+//                } catch (Exception e) {
+//                    log.error(e.getMessage(), e);
+//                }
+            }
+        } catch (SocketException e) {
+            throw new SsdpSocketException(e);
+        } catch (UnknownHostException e) {
+            throw new SsdpUnknownHostException(e);
+        } catch (IOException e) {
+            throw new SsdpIOException(e);
+        }
+    }
+}

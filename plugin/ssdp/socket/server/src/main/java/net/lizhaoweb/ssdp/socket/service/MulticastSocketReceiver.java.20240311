@@ -1,0 +1,93 @@
+/*
+ * Copyright (c) 2024, Stupid Bird and/or its affiliates. All rights reserved.
+ * STUPID BIRD PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ *
+ *
+ * @project : spring
+ * @package : net.lizhaoweb.ssdp.socket.service
+ * @date : 2024-03-06
+ * @time : 17:35
+ */
+package net.lizhaoweb.ssdp.socket.service;
+
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import net.lizhaoweb.ssdp.config.SsdpConfiguration;
+import net.lizhaoweb.ssdp.exception.SsdpIOException;
+import net.lizhaoweb.ssdp.exception.SsdpUnknownHostException;
+import net.lizhaoweb.ssdp.model.dto.AbstractMessage;
+import net.lizhaoweb.ssdp.service.ISsdpReceiver;
+import net.lizhaoweb.ssdp.socket.exception.SsdpSocketException;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.net.*;
+
+/**
+ * [业务层] [实现] 接收器
+ * <p>
+ * Created by Jhon.Lee on 3/6/2024 17:35
+ *
+ * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
+ * @version 1.0.0.0.1
+ * @email 404644381@qq.com
+ */
+@Slf4j
+@NoArgsConstructor
+public class MulticastSocketReceiver<T extends AbstractMessage> implements ISsdpReceiver<T> {
+
+    private final int cacheSize = 1024;
+
+    /**
+     * SSDP 配置对象
+     */
+    private SsdpConfiguration config;
+
+    /**
+     * 接收套接子。
+     */
+    private MulticastSocket receive;
+
+    public MulticastSocketReceiver(SsdpConfiguration configuration) {
+        this();
+        this.config = configuration;
+    }
+
+    public void init() {
+        try {
+            InetAddress groupInetAddress = InetAddress.getByName(config.getBroadcastAddress());
+            receive = new MulticastSocket(config.getBroadcastPort());
+            receive.setReuseAddress(true);
+            receive.joinGroup(groupInetAddress);
+        } catch (SocketException e) {
+            throw new SsdpSocketException(e);
+        } catch (UnknownHostException e) {
+            throw new SsdpUnknownHostException(e);
+        } catch (IOException e) {
+            throw new SsdpIOException(e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public T receive() {
+        try {
+            DatagramPacket response = new DatagramPacket(new byte[cacheSize], cacheSize);
+            receive.receive(response);
+            return (T) null;
+        } catch (IOException e) {
+            throw new SsdpIOException(e);
+        }
+    }
+
+    /**
+     * 关闭套接子
+     */
+    @Override
+    public void close() {
+        receive.close();
+        receive = null;
+    }
+}
