@@ -14,10 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.model._enum.SsdpHeaderType;
 import net.lizhaoweb.ssdp.model._enum.SsdpTransportProtocol;
 import net.lizhaoweb.ssdp.util.Constant;
-import net.lizhaoweb.ssdp.util.SystemUtil;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.Date;
+
+import static org.apache.commons.lang3.SystemUtils.*;
 
 /**
  * [传输模型] SSDP查询响应
@@ -81,7 +82,7 @@ public class MSearchResponse extends SsdpResponse {
      * @return MSearchResponse
      */
     public MSearchResponse setProductVersion(String productName, String productVersion) {
-        return this.setHeader(SsdpHeaderType.SERVER, String.format("%s %s/%s UPnP/1.0 %s/%s", SystemUtil.OS_ARCH, SystemUtil.OS_NAME, SystemUtil.OS_VERSION, productName, productVersion));
+        return this.setHeader(SsdpHeaderType.SERVER, String.format("%s %s/%s UPnP/1.0 %s/%s", OS_ARCH, OS_NAME, OS_VERSION, productName, productVersion));
     }
 
     /**

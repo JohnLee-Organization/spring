@@ -15,7 +15,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.lizhaoweb.ssdp.util.Constant;
-import net.lizhaoweb.ssdp.util.SystemUtil;
+
+import static org.apache.commons.lang3.SystemUtils.*;
 
 /**
  * [枚举] SSDP传输头
@@ -36,7 +37,7 @@ public enum SsdpHeaderType {
     S("S", String.format("uuid:%s", Constant.Message.OS.SYSTEM_UUID)), // uuid
     ST("ST", SsdpServiceType.ROOT_DEVICE.getValue()), // 设置服务查询的目标
     USN("USN", null), // 表示不同服务的统一服务名，它提供了一种标识出相同类型服务的能力
-    SERVER("Server", String.format("%s %s/%s UPnP/1.0 JohnLeeDLNA/1.1.0", SystemUtil.OS_ARCH, SystemUtil.OS_NAME, SystemUtil.OS_VERSION)), // 服务器信息
+    SERVER("Server", String.format("%s %s/%s UPnP/1.0 JohnLeeDLNA/1.1.0", OS_ARCH, OS_NAME, OS_VERSION)), // 服务器信息
     LOCATION("Location", null), // 包含根设备描述得URL地址
 
     NT("NT", null), // 在此消息中，NT头必须为服务的服务类型

@@ -31,21 +31,6 @@ import java.util.Scanner;
 public class SystemUtil {
 
     /**
-     * 操作系统名称
-     */
-    public static final String OS_NAME = System.getProperty("os.name");
-
-    /**
-     * 操作系统架构
-     */
-    public static final String OS_ARCH = System.getProperty("os.arch");
-
-    /**
-     * 操作系统版本
-     */
-    public static final String OS_VERSION = System.getProperty("os.version");
-
-    /**
      * 获取CPU序列号(Windows)
      *
      * @return
