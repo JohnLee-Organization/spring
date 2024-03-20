@@ -10,13 +10,17 @@
  */
 package net.lizhaoweb.ssdp.util;
 
+import com.alibaba.fastjson.JSON;
+
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import static org.apache.commons.lang3.SystemUtils.IS_OS_LINUX;
+import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
 
 /**
  * [工具] 系统
@@ -30,91 +34,171 @@ import java.util.Scanner;
 @SuppressWarnings({"unused"})
 public class SystemUtil {
 
+    private static String SALT = "John.Lee";
+
     /**
      * 获取CPU序列号(Windows)
      *
-     * @return
-     * @throws IOException
+     * @return String
      */
     public static String getCPUSerialNumber() {
-        String next;
         try {
             Process process = Runtime.getRuntime().exec(new String[]{"wmic", "cpu", "get", "ProcessorId"});
             process.getOutputStream().close();
-            Scanner sc = new Scanner(process.getInputStream());
-            String serial = sc.next();
-            next = sc.next();
-        } catch (IOException e) {
-            throw new RuntimeException("获取CPU序列号失败");
+            Scanner scanner = new Scanner(process.getInputStream());
+            String serial = scanner.next();
+            if (scanner.hasNext()) {
+                serial = scanner.next();
+            }
+            return serial;
+        } catch (Throwable e) {
+            throw new RuntimeException("获取CPU序列号失败", e);
         }
-        return next;
     }
 
     /**
      * 获取硬盘序列号(Windows)
      *
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
+     * @return String
      */
     public static String getHardDiskSerialNumber() {
         try {
             Process process = Runtime.getRuntime().exec(new String[]{"wmic", "path", "win32_physicalmedia", "get", "serialnumber"});
             process.getOutputStream().close();
-            Scanner sc = new Scanner(process.getInputStream());
-            String serial = sc.next();
-            return sc.next();
-        } catch (IOException e) {
-            throw new RuntimeException("获取硬盘序列号失败");
+            Scanner scanner = new Scanner(process.getInputStream());
+            String serial = scanner.next();
+            if (scanner.hasNext()) {
+                serial = scanner.next();
+            }
+            return serial;
+        } catch (Throwable e) {
+            throw new RuntimeException("获取硬盘序列号失败", e);
         }
     }
 
     /**
      * bois版本号(linux)
      *
-     * @return
+     * @return String
      */
     public static String getBoisVersion() {
-        String result = "";
-        Process p;
         try {
             // 管道
-            p = Runtime.getRuntime().exec("sudo dmidecode -s bios-version");
-            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line;
-            while ((line = br.readLine()) != null) {
-                result += line;
-                break;
+            Process process = Runtime.getRuntime().exec("sudo dmidecode -s bios-version");
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String version = "";
+//            String line;
+//            while ((line = br.readLine()) != null) {
+//                version += line;
+//                break;
+//            }
+//            bufferedReader.close();
+            String line = bufferedReader.readLine();
+            bufferedReader.close();
+            if (line != null) {
+                version += line;
             }
-            br.close();
-        } catch (IOException e) {
-            System.out.println("获取主板信息错误");
+            return version;
+        } catch (Throwable e) {
+            throw new RuntimeException("获取主板信息错误", e);
         }
-        return result;
     }
 
     /**
      * 获取系统序列号(linux)
      *
-     * @return
+     * @return String
      */
     public static String getUUID() {
-        String result = "";
         try {
             Process process = Runtime.getRuntime().exec("sudo dmidecode -s system-uuid");
-            InputStream in;
-            BufferedReader br;
-            in = process.getInputStream();
-            br = new BufferedReader(new InputStreamReader(in));
-            while (in.read() != -1) {
-                result = br.readLine();
+            InputStream inputStream;
+            BufferedReader bufferedReader;
+            inputStream = process.getInputStream();
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String systemUUID = "";
+            while (inputStream.read() != -1) {
+                systemUUID = bufferedReader.readLine();
             }
-            br.close();
-            in.close();
+            bufferedReader.close();
+            inputStream.close();
             process.destroy();
-            System.out.println("获取序列号：" + result);
+            return systemUUID;
         } catch (Throwable e) {
-            e.printStackTrace();
+            throw new RuntimeException("获取系统序列号", e);
+        }
+    }
+
+    /**
+     * 获取window or linux机器码
+     *
+     * @param type 操作系统类型
+     * @return String
+     */
+    public static String getMachineNumber(String type) {
+        if (type == null) {
+            return "";
+        }
+        Map<String, Object> codeMap = new HashMap<>(2);
+        String result = "";
+        if ("linux".equals(type)) {
+            String boisVersion = getBoisVersion();
+            codeMap.put("boisVersion", boisVersion);
+            System.out.println("boisVersion：" + boisVersion);
+            String uuid = getUUID();
+            codeMap.put("uuid", uuid);
+            System.out.println("uuid：" + uuid);
+            String codeMapStr = JSON.toJSONString(codeMap);
+            String serials = MD5Utils.saltingMD5(codeMapStr, SALT);
+            result = getSplitString(serials, "-", 4);
+        } else if ("window".equals(type)) {
+            String processorId = getCPUSerialNumber();
+            codeMap.put("ProcessorId", processorId);
+            System.out.println("ProcessorId：" + processorId);
+            String serialNumber = getHardDiskSerialNumber();
+            codeMap.put("SerialNumber", serialNumber);
+            System.out.println("SerialNumber：" + serialNumber);
+            String codeMapStr = JSON.toJSONString(codeMap);
+            String serials = MD5Utils.saltingMD5(codeMapStr, SALT);
+            result = getSplitString(serials, "-", 4);
+//        } else {
+            // Nothing
+        }
+        return result;
+    }
+
+    /**
+     * 获取window or linux机器码
+     *
+     * @return String
+     */
+    public static String getMachineNumber() {
+        Map<String, Object> codeMap = new HashMap<>(2);
+        String result = "";
+        if (IS_OS_WINDOWS) {
+            String processorId = getCPUSerialNumber();
+            codeMap.put("ProcessorId", processorId);
+            System.out.println("ProcessorId：" + processorId);
+            String serialNumber = getHardDiskSerialNumber();
+            codeMap.put("SerialNumber", serialNumber);
+            System.out.println("SerialNumber：" + serialNumber);
+            String codeMapStr = JSON.toJSONString(codeMap);
+            String serials = MD5Utils.saltingMD5(codeMapStr, SALT);
+            result = getSplitString(serials, "-", 4);
+        } else if (IS_OS_LINUX) {
+            String boisVersion = getBoisVersion();
+            codeMap.put("boisVersion", boisVersion);
+            System.out.println("boisVersion：" + boisVersion);
+            String uuid = getUUID();
+            codeMap.put("uuid", uuid);
+            System.out.println("uuid：" + uuid);
+            String codeMapStr = JSON.toJSONString(codeMap);
+            String serials = MD5Utils.saltingMD5(codeMapStr, SALT);
+            result = getSplitString(serials, "-", 4);
+//        } else if (IS_OS_UNIX) {
+            // Nothing
+//        } else {
+            // Nothing
         }
         return result;
     }
@@ -129,43 +213,6 @@ public class SystemUtil {
             temp.append(str.charAt(i));
         }
         return temp.toString();
-    }
-
-    /**
-     * 获取window or linux机器码
-     *
-     * @return
-     */
-    public static String getWindowNumber(String type) {
-        if (type == null) {
-            return "";
-        }
-        Map<String, Object> codeMap = new HashMap<>(2);
-        String result = "";
-        if ("linux".equals(type)) {
-            String boisVersion = getBoisVersion();
-            codeMap.put("boisVersion", boisVersion);
-            System.out.println("boisVersion：" + boisVersion);
-            String uuid = getUUID();
-            codeMap.put("uuid", uuid);
-            System.out.println("uuid：" + uuid);
-//            String codeMapStr = JSON.toJSONString(codeMap);
-//            String serials = MD5Util.saltingMD5(codeMapStr, SALT);
-//            result = getSplitString(serials, "-", 4);
-        } else if ("window".equals(type)) {
-            String processorId = getCPUSerialNumber();
-            codeMap.put("ProcessorId", processorId);
-            System.out.println("ProcessorId：" + processorId);
-            String serialNumber = getHardDiskSerialNumber();
-            codeMap.put("SerialNumber", serialNumber);
-            System.out.println("SerialNumber：" + serialNumber);
-//            String codeMapStr = JSON.toJSONString(codeMap);
-//            String serials = MD5Util.saltingMD5(codeMapStr, SALT);
-//            result = getSplitString(serials, "-", 4);
-        } else {
-            // Nothing
-        }
-        return result;
     }
 
 }
