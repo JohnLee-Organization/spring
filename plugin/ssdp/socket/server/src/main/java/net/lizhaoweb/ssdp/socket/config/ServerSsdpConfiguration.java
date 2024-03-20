@@ -12,7 +12,6 @@ package net.lizhaoweb.ssdp.socket.config;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.lizhaoweb.ssdp.config.SsdpConfiguration;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ import java.util.List;
 @SuppressWarnings({"unused"})
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ServerSsdpConfiguration extends SsdpConfiguration implements Cloneable {
+public class ServerSsdpConfiguration extends SocketConfig implements Cloneable {
 
     private List<IServiceHandler> handlerList = new ArrayList<>();
 

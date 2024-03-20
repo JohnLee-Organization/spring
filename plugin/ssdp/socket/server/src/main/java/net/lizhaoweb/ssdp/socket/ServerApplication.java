@@ -21,7 +21,7 @@ import net.lizhaoweb.ssdp.service.impl.RequestMessageConverter;
 import net.lizhaoweb.ssdp.service.impl.ResponseMessageConverter;
 import net.lizhaoweb.ssdp.socket.config.ServerSsdpConfiguration;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

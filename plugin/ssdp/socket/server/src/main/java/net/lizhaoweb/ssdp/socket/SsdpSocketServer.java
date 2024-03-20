@@ -16,20 +16,21 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.ISsdpServer;
+import net.lizhaoweb.ssdp.exception.SsdpIOException;
+import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.service.ISsdpReceiver;
 import net.lizhaoweb.ssdp.socket.config.ServerSsdpConfiguration;
-import net.lizhaoweb.ssdp.socket.exception.MulticastSocketCreateException;
-import net.lizhaoweb.ssdp.socket.exception.MulticastSocketDataReceiveException;
-import net.lizhaoweb.ssdp.socket.exception.MulticastSocketJoinGroupException;
-import net.lizhaoweb.ssdp.socket.exception.MulticastSocketLeaveGroupException;
+import net.lizhaoweb.ssdp.socket.exception.*;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
 import net.lizhaoweb.ssdp.socket.listener.IServerEvent;
 import net.lizhaoweb.ssdp.socket.listener.IServerLifeListener;
 import net.lizhaoweb.ssdp.socket.listener.SsdpServerListenerManager;
 import net.lizhaoweb.ssdp.socket.service.HandlerThread;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.SocketException;
 import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -48,7 +49,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @SuppressWarnings({"unused"})
-public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<IServerContext>, Runnable {
+public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest, IServerContext>, Runnable {
 
 //    /**
 //     * SSDP服务器配置
@@ -498,6 +499,14 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<IServerConte
             }
         }
         socket = this.buildMulticastSocket(this.application.getGroupInetAddress(), this.application.getGroupPort());
+        try {
+            socket.setTimeToLive(application.getConfig().getTimeToLive());
+            socket.setSoTimeout(application.getConfig().getSoTimeout());
+        } catch (SocketException e) {
+            throw new MulticastSocketException(e);
+        } catch (IOException e) {
+            throw new SsdpIOException(e);
+        }
 
         do {
             if (0x31 == serverStatus) {
@@ -526,7 +535,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<IServerConte
             }
 
             try {
-                IServerContext context = this.receive();
+                IServerContext context = this.receive(null);
                 System.out.println("Receive a packet connection request: " + context.getDatagramPacket().getAddress().toString());
 
                 HandlerThread thread = new HandlerThread(context);
@@ -538,7 +547,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<IServerConte
     }
 
     @Override
-    public IServerContext receive() {
+    public IServerContext receive(SsdpRequest request) {
         IServerContext context = new ServerContext(this.application);
         try {
             socket.receive(context.getDatagramPacket());
