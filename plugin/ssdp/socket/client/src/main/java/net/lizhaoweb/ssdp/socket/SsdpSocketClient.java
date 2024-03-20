@@ -11,20 +11,19 @@
 package net.lizhaoweb.ssdp.socket;
 
 import net.lizhaoweb.ssdp.ISsdpClient;
-import net.lizhaoweb.ssdp.config.SsdpConfiguration;
+import net.lizhaoweb.ssdp.exception.SsdpIOException;
 import net.lizhaoweb.ssdp.exception.SsdpUnknownHostException;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
 import net.lizhaoweb.ssdp.service.ISsdpReceiver;
 import net.lizhaoweb.ssdp.service.ISsdpSender;
 import net.lizhaoweb.ssdp.service.impl.RequestMessageConverter;
-import net.lizhaoweb.ssdp.socket.exception.MulticastSocketCreateException;
-import net.lizhaoweb.ssdp.socket.exception.MulticastSocketDataSendException;
+import net.lizhaoweb.ssdp.socket.config.ClientConfig;
+import net.lizhaoweb.ssdp.socket.exception.*;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.IOException;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
 
 import static net.lizhaoweb.ssdp.model._enum.SsdpMethod.M_SEARCH;
 
@@ -37,29 +36,21 @@ import static net.lizhaoweb.ssdp.model._enum.SsdpMethod.M_SEARCH;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
-public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, ISsdpReceiver<SsdpResponse> {
+public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, ISsdpReceiver<SsdpRequest, SsdpResponse> {
 
-    private SsdpConfiguration config;
-    private InetAddress groupInetAddress;
-    private int groupPort;
+    private ClientConfig config;
 
-    public SsdpSocketClient(SsdpConfiguration config) {
+    private MulticastSocket multicastSocket;
+
+    public SsdpSocketClient(ClientConfig config) {
         this.config = config;
-        try {
-            groupInetAddress = InetAddress.getByName(config.getBroadcastAddress());
-        } catch (UnknownHostException e) {
-            throw new SsdpUnknownHostException(e);
-        }
-        groupPort = config.getBroadcastPort();
+        multicastSocket = this.buildMulticastSocket(config);
     }
 
     @Override
     public SsdpResponse send(SsdpRequest request) {
-        this.send(groupInetAddress, groupPort, request);
-        if (M_SEARCH == request.getMethod()) {
-            return this.receive();
-        }
-        return null;
+        this.send(config.getGroupInetAddress(), config.getGroupPort(), request);
+        return this.receive(request);
     }
 
     // 发送消息
@@ -104,7 +95,49 @@ public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, 
 
     // 接收消息
     @Override
-    public SsdpResponse receive() {
-        return null;
+    public SsdpResponse receive(SsdpRequest request) {
+        DatagramPacket datagramPacket = new DatagramPacket(config.getPacketBuffer(), config.getPacketSize());
+        try {
+            multicastSocket.receive(datagramPacket);
+        } catch (Exception e) {
+            throw new MulticastSocketDataReceiveException(e);
+        }
+        String responseMessage = new String(datagramPacket.getData(), StandardCharsets.UTF_8);
+        SsdpResponse response = config.getResponseMessageConverter().toBean(responseMessage);
+        if (M_SEARCH == request.getMethod()) {
+            return response;
+        }
+        return response;
     }
+
+    public void close() {
+        if (multicastSocket != null && multicastSocket.isClosed()) {
+            multicastSocket.close();
+        }
+    }
+
+    // 构建组播套节子
+    private MulticastSocket buildMulticastSocket(ClientConfig config) {
+        MulticastSocket socket = null;
+        try {
+            socket = new MulticastSocket(config.getGroupPort());
+        } catch (Exception e) {
+            throw new MulticastSocketCreateException(e);
+        }
+        try {
+            socket.joinGroup(config.getGroupInetAddress());
+        } catch (Exception e) {
+            throw new MulticastSocketJoinGroupException(e);
+        }
+        try {
+            socket.setTimeToLive(config.getTimeToLive());
+            socket.setSoTimeout(config.getSoTimeout());
+        } catch (SocketException e) {
+            throw new MulticastSocketException(e);
+        } catch (IOException e) {
+            throw new SsdpIOException(e);
+        }
+        return socket;
+    }
+
 }
