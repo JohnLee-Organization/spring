@@ -13,11 +13,16 @@ package net.lizhaoweb.ssdp.socket;
 import net.lizhaoweb.ssdp.model.dto.MSearchRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
 import net.lizhaoweb.ssdp.socket.config.ClientConfiguration;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * a
@@ -29,6 +34,12 @@ import java.net.MulticastSocket;
  * @email 404644381@qq.com
  */
 public class TestSsdpSocketClient {
+
+    @BeforeClass
+    public static void setUpBeforeClass() {
+        // 设置系统属性，指定logback配置文件位置
+        System.setProperty("logback.configurationFile", "F:\\WorkSpace\\JhonLee\\Java\\spring\\plugin\\ssdp\\socket\\client\\src\\test\\resources\\logback.xml");
+    }
 
     @Test
     public void aaa() throws IOException {
@@ -43,7 +54,7 @@ public class TestSsdpSocketClient {
     }
 
     @Test
-    public void send() {
+    public void testClient() {
         ClientConfiguration config = new ClientConfiguration();
         config.setBroadcastAddress("239.255.255.250");
         config.setBroadcastPort(1900);
@@ -55,5 +66,18 @@ public class TestSsdpSocketClient {
         System.out.println(response);
 
         client.close();
+    }
+
+    @Test
+    public void ccc() {
+        Date now = new Date();
+        Locale locale = new Locale("ch.en");
+        String dateUtcString = DateFormatUtils.formatUTC(now, "EEE, dd MMM yyyy HH:mm:ss zzz", locale);
+        System.out.println(dateUtcString);
+        String dateString = DateFormatUtils.format(now, "EEE, dd MMM yyyy HH:mm:ss z", TimeZone.getTimeZone("0"), locale);
+        System.out.println(dateString);
+        String dateString2 = DateFormatUtils.format(now, "EEE, dd MMM yyyy HH:mm:ss zzz", TimeZone.getTimeZone("0"));
+        System.out.println(dateString2);
+        System.out.println(now);
     }
 }

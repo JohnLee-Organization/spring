@@ -10,6 +10,7 @@
  */
 package net.lizhaoweb.ssdp.socket;
 
+import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.ISsdpClient;
 import net.lizhaoweb.ssdp.exception.SsdpIOException;
 import net.lizhaoweb.ssdp.exception.SsdpUnknownHostException;
@@ -37,6 +38,7 @@ import static net.lizhaoweb.ssdp.model._enum.SsdpMethod.M_SEARCH;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
+@Slf4j
 public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, ISsdpReceiver<SsdpRequest, SsdpResponse> {
 
     private ClientConfiguration config;
@@ -127,7 +129,7 @@ public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, 
                 this.socketSetSoTimeout(multicastSocket, config.getSoTimeout());
             }
         }
-        System.out.println("responseMessage=" + responseMessage);
+        log.info("responseMessage=" + responseMessage);
         return config.getResponseMessageConverter().toBean(responseMessage);
     }
 
