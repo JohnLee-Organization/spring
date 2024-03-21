@@ -10,6 +10,9 @@
  */
 package net.lizhaoweb.ssdp.socket;
 
+import net.lizhaoweb.ssdp.model.dto.MSearchRequest;
+import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
+import net.lizhaoweb.ssdp.socket.config.ClientConfig;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -37,5 +40,20 @@ public class TestSsdpSocketClient {
         System.out.println(socket.getSoTimeout());
         socket.leaveGroup(groupInetAddress);
         socket.close();
+    }
+
+    @Test
+    public void send() {
+        ClientConfig config = new ClientConfig();
+        config.setBroadcastAddress("239.255.255.250");
+        config.setBroadcastPort(1900);
+        config.setTimeToLive(255);
+        SsdpSocketClient client = new SsdpSocketClient(config);
+
+        MSearchRequest mSearchRequest = new MSearchRequest();
+        SsdpResponse response = client.send(mSearchRequest);
+        System.out.println(response);
+
+        client.close();
     }
 }

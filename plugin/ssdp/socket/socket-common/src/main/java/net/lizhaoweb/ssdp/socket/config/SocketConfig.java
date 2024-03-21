@@ -37,7 +37,7 @@ public class SocketConfig extends SsdpConfiguration {
      */
     @Setter
     @Getter
-    private int timeToLive;
+    private int timeToLive = 1;
 
     /**
      * Enable/disable SO_TIMEOUT with the specified timeout, in
@@ -52,5 +52,5 @@ public class SocketConfig extends SsdpConfiguration {
      */
     @Setter
     @Getter
-    private int soTimeout;
+    private int soTimeout = 0;
 }

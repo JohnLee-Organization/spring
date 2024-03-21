@@ -498,15 +498,8 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 });
             }
         }
-        socket = this.buildMulticastSocket(this.application.getGroupInetAddress(), this.application.getGroupPort());
-        try {
-            socket.setTimeToLive(application.getConfig().getTimeToLive());
-            socket.setSoTimeout(application.getConfig().getSoTimeout());
-        } catch (SocketException e) {
-            throw new MulticastSocketException(e);
-        } catch (IOException e) {
-            throw new SsdpIOException(e);
-        }
+        socket = this.buildMulticastSocket(this.application.getGroupInetAddress(), this.application.getGroupPort(), this.application.getConfig().getTimeToLive(), this.application.getConfig().getSoTimeout());
+
 
         do {
             if (0x31 == serverStatus) {
@@ -582,18 +575,41 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 //        return this.buildMulticastSocket(serverSocket.getInetAddress(), serverSocket.getPort());
 //    }
 
-    // 构建组播套节子
-    private MulticastSocket buildMulticastSocket(InetAddress group, int port) {
+    /**
+     * 构建组播套节子
+     *
+     * @param groupInetAddress 组播地址
+     * @param groupPort        组播端口
+     * @param timeToLive       设置此套节子发送的组播数据包的默认生存时间，以控制组播的范围。
+     *                         ttl必须在0<=ttl<=255的范围内，否则将引发IllegalArgumentException。
+     *                         以TTL为0发送的组播数据包不在网络上传输，而是可以在本地传递。
+     * @param soTimeout        指定的超时时间（以毫秒为单位），来启用/禁用SO_TIMEOUT选项。
+     *                         如果此选项设置为非零时，则套节子的receive()方法将被阻塞到此时间量，
+     *                         超过此时间量，虽然套节子仍然有效，但会抛出java.net.SocketTimeoutException。
+     *                         必须在进入阻止操作之前启用该选项才能生效。超时值必须大于0。超时为零被解释为无限超时。
+     * @return 组播套节子
+     */
+    private MulticastSocket buildMulticastSocket(InetAddress groupInetAddress, int groupPort, int timeToLive, int soTimeout) {
         MulticastSocket socket = null;
         try {
-            socket = new MulticastSocket(port);
+            socket = new MulticastSocket(groupPort);
         } catch (Exception e) {
             throw new MulticastSocketCreateException(e);
         }
         try {
-            socket.joinGroup(group);
+            socket.joinGroup(groupInetAddress);
         } catch (Exception e) {
             throw new MulticastSocketJoinGroupException(e);
+        }
+        try {
+            if (timeToLive >= 0 && timeToLive <= 255) {
+                socket.setTimeToLive(timeToLive);
+            }
+            socket.setSoTimeout(soTimeout);
+        } catch (SocketException e) {
+            throw new MulticastSocketException(e);
+        } catch (IOException e) {
+            throw new SsdpIOException(e);
         }
         return socket;
     }
