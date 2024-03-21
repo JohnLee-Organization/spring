@@ -119,7 +119,7 @@ public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, 
             do {
                 multicastSocket.receive(datagramPacket);
                 responseMessage = new String(datagramPacket.getData(), StandardCharsets.UTF_8);
-            } while (responseMessage.startsWith("M-SEARCH"));
+            } while (responseMessage.startsWith(M_SEARCH.getName()));
         } catch (Exception e) {
             throw new MulticastSocketDataReceiveException(e);
         } finally {
@@ -132,9 +132,7 @@ public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, 
     }
 
     public void close() {
-        if (multicastSocket != null && multicastSocket.isClosed()) {
-            multicastSocket.close();
-        }
+        this.closeMulticastSocket(multicastSocket);
     }
 
     /**
@@ -203,5 +201,12 @@ public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, 
         } catch (SocketException e) {
             throw new MulticastSocketException(e);
         }
+    }
+
+    private void closeMulticastSocket(MulticastSocket socket) {
+        while (socket != null && !socket.isClosed()) {
+            socket.close();
+        }
+        socket = null;
     }
 }

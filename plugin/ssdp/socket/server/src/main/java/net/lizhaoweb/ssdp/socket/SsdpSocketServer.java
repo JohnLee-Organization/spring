@@ -31,10 +31,7 @@ import net.lizhaoweb.ssdp.socket.service.HandlerThread;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -625,17 +622,46 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
         } catch (Exception e) {
             throw new MulticastSocketJoinGroupException(e);
         }
+        this.socketSetTimeToLive(socket, timeToLive);
+        this.socketSetSoTimeout(socket, soTimeout);
+        return socket;
+    }
+
+    /**
+     * 组播套节子设置数据包的生存时间
+     *
+     * @param socket     组播套节子
+     * @param timeToLive 设置此套节子发送的组播数据包的默认生存时间，以控制组播的范围。
+     *                   ttl必须在0<=ttl<=255的范围内，否则将引发IllegalArgumentException。
+     *                   以TTL为0发送的组播数据包不在网络上传输，而是可以在本地传递。
+     */
+    private void socketSetTimeToLive(MulticastSocket socket, int timeToLive) {
         try {
             if (timeToLive >= 0 && timeToLive <= 255) {
                 socket.setTimeToLive(timeToLive);
             }
-            socket.setSoTimeout(soTimeout);
         } catch (SocketException e) {
             throw new MulticastSocketException(e);
         } catch (IOException e) {
             throw new SsdpIOException(e);
         }
-        return socket;
+    }
+
+    /**
+     * 数据套节子设置超时时间
+     *
+     * @param socket    数据套节子
+     * @param soTimeout 指定的超时时间（以毫秒为单位），来启用/禁用SO_TIMEOUT选项。
+     *                  如果此选项设置为非零时，则套节子的receive()方法将被阻塞到此时间量，
+     *                  超过此时间量，虽然套节子仍然有效，但会抛出java.net.SocketTimeoutException。
+     *                  必须在进入阻止操作之前启用该选项才能生效。超时值必须大于0。超时为零被解释为无限超时。
+     */
+    private void socketSetSoTimeout(DatagramSocket socket, int soTimeout) {
+        try {
+            socket.setSoTimeout(soTimeout);
+        } catch (SocketException e) {
+            throw new MulticastSocketException(e);
+        }
     }
 
     private void closeMulticastSocket(MulticastSocket socket) {
