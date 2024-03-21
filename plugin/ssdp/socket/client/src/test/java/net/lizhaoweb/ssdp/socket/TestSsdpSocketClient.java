@@ -12,7 +12,7 @@ package net.lizhaoweb.ssdp.socket;
 
 import net.lizhaoweb.ssdp.model.dto.MSearchRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
-import net.lizhaoweb.ssdp.socket.config.ClientConfig;
+import net.lizhaoweb.ssdp.socket.config.ClientConfiguration;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class TestSsdpSocketClient {
 
     @Test
     public void send() {
-        ClientConfig config = new ClientConfig();
+        ClientConfiguration config = new ClientConfiguration();
         config.setBroadcastAddress("239.255.255.250");
         config.setBroadcastPort(1900);
         config.setTimeToLive(255);

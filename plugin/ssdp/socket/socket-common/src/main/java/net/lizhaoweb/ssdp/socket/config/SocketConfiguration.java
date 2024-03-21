@@ -23,7 +23,7 @@ import net.lizhaoweb.ssdp.config.SsdpConfiguration;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
-public class SocketConfig extends SsdpConfiguration {
+public class SocketConfiguration extends SsdpConfiguration {
 
     /**
      * Set the default time-to-live for multicast packets sent out

@@ -30,7 +30,7 @@ import java.net.UnknownHostException;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
-public class ClientConfig extends SocketConfig {
+public class ClientConfiguration extends SocketConfiguration {
 
     /**
      * 数据包大小
@@ -74,7 +74,7 @@ public class ClientConfig extends SocketConfig {
     @Getter
     private ResponseMessageConverter responseMessageConverter;
 
-    public ClientConfig() {
+    public ClientConfiguration() {
         String hostname = "239.255.255.250";//TODO hostname
         if (StringUtils.isNotBlank(this.getBroadcastAddress())) {
             hostname = this.getBroadcastAddress();

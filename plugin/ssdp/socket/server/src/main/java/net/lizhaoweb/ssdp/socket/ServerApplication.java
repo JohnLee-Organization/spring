@@ -13,18 +13,15 @@ package net.lizhaoweb.ssdp.socket;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import net.lizhaoweb.ssdp.exception.SsdpUnknownHostException;
 import net.lizhaoweb.ssdp.model._enum.SsdpMethod;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
 import net.lizhaoweb.ssdp.service.impl.RequestMessageConverter;
 import net.lizhaoweb.ssdp.service.impl.ResponseMessageConverter;
-import net.lizhaoweb.ssdp.socket.config.ServerSsdpConfiguration;
+import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
-import org.apache.commons.lang3.StringUtils;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.*;
 
 /**
@@ -50,28 +47,28 @@ public class ServerApplication implements IServerApplication {
      * 0x90：准备关闭；0x91：关闭；0x92：已经关闭；
      * 0xA0：准备销毁；0xA1：销毁；0xA2：已经销毁；
      */
-    @Setter(AccessLevel.PACKAGE)
+    @Setter
     @Getter
     private short serverStatus;
 
-    /**
-     * SSDP配置对象
-     */
-    @Setter(AccessLevel.NONE)
-    private ServerSsdpConfiguration config;
+//    /**
+//     * SSDP配置对象
+//     */
+//    @Setter(AccessLevel.NONE)
+//    private ServerConfiguration config;
 
 
     /**
      * 组播的端口
      */
-    @Setter(AccessLevel.NONE)
+    @Setter
     @Getter
     private int groupPort;
 
     /**
      * 组播的地址
      */
-    @Setter(AccessLevel.NONE)
+    @Setter
     @Getter
     private InetAddress groupInetAddress;
 
@@ -110,25 +107,7 @@ public class ServerApplication implements IServerApplication {
      *
      * @param config SSDP配置对象
      */
-    public ServerApplication(ServerSsdpConfiguration config) {
-        this.config = config;
-        String hostname = "239.255.255.250";//TODO hostname
-        if (StringUtils.isNotBlank(this.config.getBroadcastAddress())) {
-            hostname = this.config.getBroadcastAddress();
-        }
-        try {
-//            InetSocketAddress inetSocketAddress = new InetSocketAddress(String hostname, int port);
-//            InetSocketAddress inetSocketAddress = new InetSocketAddress(InetAddress addr, int port);
-//            InetSocketAddress inetSocketAddress = new InetSocketAddress(int port);
-//        InetSocketAddress inetSocketAddress = new InetSocketAddress(hostname, port);
-            this.groupInetAddress = InetAddress.getByName(hostname);
-        } catch (UnknownHostException e) {
-            throw new SsdpUnknownHostException(e);
-        }
-        this.groupPort = 1900;//TODO port
-        if (this.config.getBroadcastPort() > 1024) {
-            this.groupPort = this.config.getBroadcastPort();
-        }
+    public ServerApplication(ServerConfiguration config) {
         this.packetSize = Math.max(packetSize, 1024 * 64);
         this.packetBuffer = new byte[this.packetSize];
         this.requestMessageConverter = new RequestMessageConverter(config);
@@ -140,9 +119,9 @@ public class ServerApplication implements IServerApplication {
         return Collections.unmodifiableMap(this.handlerMap);
     }
 
-    public ServerSsdpConfiguration getConfig() {
-        return this.config.clone();
-    }
+//    public ServerConfiguration getConfig() {
+//        return this.config.clone();
+//    }
 
     public ServerApplication registerHandler(IServiceHandler<IServerContext, SsdpRequest, SsdpResponse> handler) {
         if (this.handlerMap.get(handler.getMethod()) == null) {

@@ -10,7 +10,7 @@
  */
 package net.lizhaoweb.ssdp.socket;
 
-import net.lizhaoweb.ssdp.socket.config.ServerSsdpConfiguration;
+import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
 import net.lizhaoweb.ssdp.socket.handler.MSearchHandler;
 import net.lizhaoweb.ssdp.util.SystemUtil;
 import org.junit.BeforeClass;
@@ -29,7 +29,7 @@ import java.util.Scanner;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
-public class SsdpSocketServerTest {
+public class TestSsdpSocketServer {
 
     @BeforeClass
     public static void setUpBeforeClass() {
@@ -40,7 +40,7 @@ public class SsdpSocketServerTest {
     @Test
     public void testServer() {
         try {
-            ServerSsdpConfiguration config = new ServerSsdpConfiguration();
+            ServerConfiguration config = new ServerConfiguration();
             config.getHandlerList().add(new MSearchHandler());
             config.setBroadcastAddress("239.255.255.250");
             config.setBroadcastPort(1900);

@@ -19,7 +19,7 @@ import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
 import net.lizhaoweb.ssdp.service.ISsdpReceiver;
 import net.lizhaoweb.ssdp.service.ISsdpSender;
 import net.lizhaoweb.ssdp.service.impl.RequestMessageConverter;
-import net.lizhaoweb.ssdp.socket.config.ClientConfig;
+import net.lizhaoweb.ssdp.socket.config.ClientConfiguration;
 import net.lizhaoweb.ssdp.socket.exception.*;
 
 import java.io.IOException;
@@ -39,11 +39,11 @@ import static net.lizhaoweb.ssdp.model._enum.SsdpMethod.M_SEARCH;
  */
 public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, ISsdpReceiver<SsdpRequest, SsdpResponse> {
 
-    private ClientConfig config;
+    private ClientConfiguration config;
 
     private MulticastSocket multicastSocket;
 
-    public SsdpSocketClient(ClientConfig config) {
+    public SsdpSocketClient(ClientConfiguration config) {
         this.config = config;
         multicastSocket = this.buildMulticastSocket(config.getGroupInetAddress(), config.getGroupPort(), config.getTimeToLive(), config.getSoTimeout());
     }

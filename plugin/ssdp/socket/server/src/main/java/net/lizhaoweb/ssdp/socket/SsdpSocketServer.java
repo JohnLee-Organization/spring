@@ -17,20 +17,24 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.ISsdpServer;
 import net.lizhaoweb.ssdp.exception.SsdpIOException;
+import net.lizhaoweb.ssdp.exception.SsdpUnknownHostException;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
+import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
 import net.lizhaoweb.ssdp.service.ISsdpReceiver;
-import net.lizhaoweb.ssdp.socket.config.ServerSsdpConfiguration;
+import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
 import net.lizhaoweb.ssdp.socket.exception.*;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
 import net.lizhaoweb.ssdp.socket.listener.IServerEvent;
 import net.lizhaoweb.ssdp.socket.listener.IServerLifeListener;
 import net.lizhaoweb.ssdp.socket.listener.SsdpServerListenerManager;
 import net.lizhaoweb.ssdp.socket.service.HandlerThread;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -51,15 +55,15 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings({"unused"})
 public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest, IServerContext>, Runnable {
 
-//    /**
-//     * SSDP服务器配置
-//     */
-//    private ServerSsdpConfiguration config;
+    /**
+     * SSDP服务器配置
+     */
+    private ServerConfiguration config;
 
     /**
      * SSDP服务器应用对象
      */
-    private ServerApplication application;
+    private IServerApplication application;
 
     // 用来存放socket连接
     private ThreadPoolExecutor threadPool;
@@ -82,7 +86,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
     @Getter
     private short serverStatus;
 
-    public SsdpSocketServer(@NotNull final ServerSsdpConfiguration config) {
+    public SsdpSocketServer(@NotNull final ServerConfiguration config) {
         System.out.println("Instantiate server ...");
         serverStatus = 0x00;
         Collection<IServerLifeListener> instantiateListeners = SsdpServerListenerManager.getServerInstantiate();
@@ -93,7 +97,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 }
                 listener.onPre(new IServerEvent() {
                     @Getter
-                    private ServerSsdpConfiguration _config = config.clone();
+                    private ServerConfiguration _config = config.clone();
                     @Getter
                     private short _serverStatus = serverStatus;
                 });
@@ -108,12 +112,13 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 }
                 listener.onExe(new IServerEvent() {
                     @Getter
-                    private ServerSsdpConfiguration _config = config.clone();
+                    private ServerConfiguration _config = config.clone();
                     @Getter
                     private short _serverStatus = serverStatus;
                 });
             }
         }
+        this.config = config;
         this.application = new ServerApplication(config);
 
         serverStatus = 0x02;
@@ -125,7 +130,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 }
                 listener.onPos(new IServerEvent() {
                     @Getter
-                    private ServerSsdpConfiguration _config = config.clone();
+                    private ServerConfiguration _config = config.clone();
                     @Getter
                     private short _serverStatus = serverStatus;
                     @Getter
@@ -170,8 +175,8 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 });
             }
         }
-        if (this.application.getConfig().getHandlerList() != null && this.application.getConfig().getHandlerList().size() > 0) {
-            for (IServiceHandler handler : this.application.getConfig().getHandlerList()) {
+        if (this.config.getHandlerList() != null && this.config.getHandlerList().size() > 0) {
+            for (IServiceHandler<IServerContext, SsdpRequest, SsdpResponse> handler : this.config.getHandlerList()) {
                 if (handler == null || handler.getMethod() == null) {
                     continue;
                 }
@@ -179,6 +184,25 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
             }
         }
         this.threadPool = new ThreadPoolExecutor(16, 128, 1000, TimeUnit.MICROSECONDS, new ArrayBlockingQueue<Runnable>(16));
+        String hostname = "239.255.255.250";//TODO hostname
+        if (StringUtils.isNotBlank(this.config.getBroadcastAddress())) {
+            hostname = this.config.getBroadcastAddress();
+        }
+        try {
+//            InetSocketAddress inetSocketAddress = new InetSocketAddress(String hostname, int port);
+//            InetSocketAddress inetSocketAddress = new InetSocketAddress(InetAddress addr, int port);
+//            InetSocketAddress inetSocketAddress = new InetSocketAddress(int port);
+//        InetSocketAddress inetSocketAddress = new InetSocketAddress(hostname, port);
+            InetAddress groupInetAddress = InetAddress.getByName(hostname);
+            this.application.setGroupInetAddress(groupInetAddress);
+        } catch (UnknownHostException e) {
+            throw new SsdpUnknownHostException(e);
+        }
+        int groupPort = 1900;//TODO port
+        if (this.config.getBroadcastPort() > 1024) {
+            groupPort = this.config.getBroadcastPort();
+        }
+        this.application.setGroupPort(groupPort);
 
         serverStatus = 0x12;
         this.application.setServerStatus(serverStatus);
@@ -498,7 +522,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 });
             }
         }
-        socket = this.buildMulticastSocket(this.application.getGroupInetAddress(), this.application.getGroupPort(), this.application.getConfig().getTimeToLive(), this.application.getConfig().getSoTimeout());
+        socket = this.buildMulticastSocket(this.application.getGroupInetAddress(), this.application.getGroupPort(), this.config.getTimeToLive(), this.config.getSoTimeout());
 
 
         do {

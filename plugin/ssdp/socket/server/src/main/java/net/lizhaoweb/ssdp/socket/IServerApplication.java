@@ -10,7 +10,6 @@
  */
 package net.lizhaoweb.ssdp.socket;
 
-import net.lizhaoweb.ssdp.config.SsdpConfiguration;
 import net.lizhaoweb.ssdp.model._enum.SsdpMethod;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
@@ -32,15 +31,29 @@ import java.util.List;
  */
 public interface IServerApplication extends IApplication {
 
-    SsdpConfiguration getConfig();
-
     RequestMessageConverter getRequestMessageConverter();
 
     ResponseMessageConverter getResponseMessageConverter();
 
     List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> getHandlerList(SsdpMethod method);
 
+    void setGroupInetAddress(InetAddress groupInetAddress);
+
     InetAddress getGroupInetAddress();
 
+    void setGroupPort(int groupPort);
+
     int getGroupPort();
+
+    void setServerStatus(short serverStatus);
+
+    IServerApplication registerHandler(IServiceHandler<IServerContext, SsdpRequest, SsdpResponse> handler);
+
+    byte[] getPacketBuffer();
+
+    int getPacketSize();
+
+    void destroy();
+
+    void close();
 }

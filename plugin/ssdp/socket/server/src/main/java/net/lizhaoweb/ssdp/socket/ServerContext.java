@@ -35,7 +35,7 @@ public class ServerContext implements IServerContext {
      */
     @Setter(AccessLevel.NONE)
     @Getter
-    private ServerApplication application;
+    private IServerApplication application;
 
 
     /**
@@ -57,7 +57,7 @@ public class ServerContext implements IServerContext {
      *
      * @param application 服务器应用
      */
-    public ServerContext(ServerApplication application) {
+    public ServerContext(IServerApplication application) {
         this.application = application;
         this.datagramPacket = new DatagramPacket(this.application.getPacketBuffer(), this.application.getPacketSize());
         try {
