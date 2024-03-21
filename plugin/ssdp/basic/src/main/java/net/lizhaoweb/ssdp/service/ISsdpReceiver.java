@@ -19,12 +19,12 @@ package net.lizhaoweb.ssdp.service;
  * @version 1.0.0.0.1
  * @email 404644381@qq.com
  */
-public interface ISsdpReceiver<RES> {
+public interface ISsdpReceiver<REQ, RES> {
 
     /**
      * 接收。
      *
      * @return 消息包
      */
-    RES receive();
+    RES receive(REQ req);
 }

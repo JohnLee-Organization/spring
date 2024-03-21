@@ -10,6 +10,9 @@
  */
 package net.lizhaoweb.ssdp.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +29,8 @@ import java.util.Scanner;
  * @email 404644381@qq.com
  */
 public class GeneratingMachineCode {
+
+    private static Logger log = LoggerFactory.getLogger(GeneratingMachineCode.class);
 
     /**
      * 获取CPU序列号(Windows)
@@ -98,7 +103,7 @@ public class GeneratingMachineCode {
             }
             br.close();
         } catch (IOException e) {
-            System.out.println("获取主板信息错误");
+            log.error("获取主板信息错误", e);
         }
         return result;
     }
@@ -123,7 +128,7 @@ public class GeneratingMachineCode {
             br.close();
             in.close();
             process.destroy();
-            // System.out.println("获取序列号："+result);
+            // log.info("获取序列号：{}",result);
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -153,6 +158,6 @@ public class GeneratingMachineCode {
             hardDiskSerialNumber = GeneratingMachineCode.getBoisVersion();
         }
         // 获取到cpu序列号和硬盘号
-        System.out.println("key:" + cpuSerialNumber + hardDiskSerialNumber);
+        log.info("key:{}{}", cpuSerialNumber, hardDiskSerialNumber);
     }
 }

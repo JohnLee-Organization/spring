@@ -13,11 +13,11 @@ package net.lizhaoweb.ssdp.model.dto;
 import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.model._enum.SsdpHeaderType;
 import net.lizhaoweb.ssdp.model._enum.SsdpTransportProtocol;
-import net.lizhaoweb.ssdp.util.Constant;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.util.Date;
 
+import static net.lizhaoweb.ssdp.util.Constant.Message.*;
 import static org.apache.commons.lang3.SystemUtils.*;
 
 /**
@@ -37,12 +37,12 @@ public class MSearchResponse extends SsdpResponse {
         try {
             this.setCode(200);
             this.setCodeMessage("OK");
-            this.setHeader(SsdpHeaderType.DATE, DateFormatUtils.formatUTC(new Date(), Constant.Message.DateFormat.RESPONSE)) // 指定响应生成的时间
+            this.setHeader(SsdpHeaderType.DATE, DateFormatUtils.format(new Date(), DateFormat.RESPONSE, _TimeZone.RESPONSE, _Locale.RESPONSE)) // 指定响应生成的时间
 //                    .setHeader(SsdpHeaderType.S, String.format("uuid:%s", Constant.Message.OS.SYSTEM_UUID)) //
                     .setHeader(SsdpHeaderType.EXT) // 向控制点确认MAN头域已经被设备理解
                     .setHeader(SsdpHeaderType.CACHE_CONTROL) // max-age指定通知消息存活时间，如果超过此时间间隔，控制点可以认为设备不存在。默认：1810
                     .setHeader(SsdpHeaderType.ST) // 内容和意义与查询请求的相应字段相同
-                    .setHeader(SsdpHeaderType.USN, String.format("uuid:%s::%s", Constant.Message.OS.SYSTEM_UUID, this.getHeader(SsdpHeaderType.ST))) // 表示不同服务的统一服务名，它提供了一种标识出相同类型服务的能力。
+                    .setHeader(SsdpHeaderType.USN, String.format("uuid:%s::%s", OS.SYSTEM_UUID, this.getHeader(SsdpHeaderType.ST))) // 表示不同服务的统一服务名，它提供了一种标识出相同类型服务的能力。
                     .setHeader(SsdpHeaderType.SERVER) // 包含操作系统名，版本，产品名和产品版本信息
                     .setHeader(SsdpHeaderType.LOCATION) // 包含根设备描述得URL地址
 //                    .setHeader(SsdpHeaderType.CONTENT_LENGTH, 0)
@@ -71,7 +71,7 @@ public class MSearchResponse extends SsdpResponse {
      * @return MSearchResponse
      */
     public MSearchResponse setDate(Date date) {
-        return this.setHeader(SsdpHeaderType.DATE, DateFormatUtils.formatUTC(date, Constant.Message.DateFormat.RESPONSE));
+        return this.setHeader(SsdpHeaderType.DATE, DateFormatUtils.formatUTC(date, DateFormat.RESPONSE));
     }
 
     /**

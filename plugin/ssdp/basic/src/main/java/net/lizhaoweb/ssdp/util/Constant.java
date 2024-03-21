@@ -10,6 +10,8 @@
  */
 package net.lizhaoweb.ssdp.util;
 
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.UUID;
 
 /**
@@ -47,6 +49,20 @@ public class Constant {
          */
         public static class DateFormat {
             public static final String RESPONSE = "EEE, dd MMM yyyy HH:mm:ss z";
+        }
+
+        /**
+         * 时区
+         */
+        public static class _TimeZone {
+            public static final TimeZone RESPONSE = TimeZone.getTimeZone("0");
+        }
+
+        /**
+         * 方言
+         */
+        public static class _Locale {
+            public static final Locale RESPONSE = new Locale("ch.en");
         }
 
         /**

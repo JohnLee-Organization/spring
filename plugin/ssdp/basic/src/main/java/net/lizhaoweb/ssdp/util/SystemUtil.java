@@ -11,6 +11,8 @@
 package net.lizhaoweb.ssdp.util;
 
 import com.alibaba.fastjson.JSON;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -33,6 +35,8 @@ import static org.apache.commons.lang3.SystemUtils.IS_OS_WINDOWS;
  */
 @SuppressWarnings({"unused"})
 public class SystemUtil {
+
+    private static Logger log = LoggerFactory.getLogger(SystemUtil.class);
 
     private static String SALT = "John.Lee";
 
@@ -144,20 +148,20 @@ public class SystemUtil {
         if ("linux".equals(type)) {
             String boisVersion = getBoisVersion();
             codeMap.put("boisVersion", boisVersion);
-            System.out.println("boisVersion：" + boisVersion);
+            log.info("boisVersion：" + boisVersion);
             String uuid = getUUID();
             codeMap.put("uuid", uuid);
-            System.out.println("uuid：" + uuid);
+            log.info("uuid：" + uuid);
             String codeMapStr = JSON.toJSONString(codeMap);
             String serials = MD5Utils.saltingMD5(codeMapStr, SALT);
             result = getSplitString(serials, "-", 4);
         } else if ("window".equals(type)) {
             String processorId = getCPUSerialNumber();
             codeMap.put("ProcessorId", processorId);
-            System.out.println("ProcessorId：" + processorId);
+            log.info("ProcessorId：" + processorId);
             String serialNumber = getHardDiskSerialNumber();
             codeMap.put("SerialNumber", serialNumber);
-            System.out.println("SerialNumber：" + serialNumber);
+            log.info("SerialNumber：" + serialNumber);
             String codeMapStr = JSON.toJSONString(codeMap);
             String serials = MD5Utils.saltingMD5(codeMapStr, SALT);
             result = getSplitString(serials, "-", 4);
@@ -178,20 +182,20 @@ public class SystemUtil {
         if (IS_OS_WINDOWS) {
             String processorId = getCPUSerialNumber();
             codeMap.put("ProcessorId", processorId);
-            System.out.println("ProcessorId：" + processorId);
+            log.info("ProcessorId：" + processorId);
             String serialNumber = getHardDiskSerialNumber();
             codeMap.put("SerialNumber", serialNumber);
-            System.out.println("SerialNumber：" + serialNumber);
+            log.info("SerialNumber：" + serialNumber);
             String codeMapStr = JSON.toJSONString(codeMap);
             String serials = MD5Utils.saltingMD5(codeMapStr, SALT);
             result = getSplitString(serials, "-", 4);
         } else if (IS_OS_LINUX) {
             String boisVersion = getBoisVersion();
             codeMap.put("boisVersion", boisVersion);
-            System.out.println("boisVersion：" + boisVersion);
+            log.info("boisVersion：" + boisVersion);
             String uuid = getUUID();
             codeMap.put("uuid", uuid);
-            System.out.println("uuid：" + uuid);
+            log.info("uuid：" + uuid);
             String codeMapStr = JSON.toJSONString(codeMap);
             String serials = MD5Utils.saltingMD5(codeMapStr, SALT);
             result = getSplitString(serials, "-", 4);
