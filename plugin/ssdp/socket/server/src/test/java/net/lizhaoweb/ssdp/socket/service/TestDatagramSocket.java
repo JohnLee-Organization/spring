@@ -26,7 +26,7 @@ import java.net.SocketAddress;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
-public class DatagramSocketTest {
+public class TestDatagramSocket {
 
     @Test
     public void receive() {

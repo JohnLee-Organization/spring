@@ -84,7 +84,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
     private short serverStatus;
 
     public SsdpSocketServer(@NotNull final ServerConfiguration config) {
-        System.out.println("Instantiate server ...");
+        log.error("Instantiate server ...");
         serverStatus = 0x00;
         Collection<IServerLifeListener> instantiateListeners = SsdpServerListenerManager.getServerInstantiate();
         if (instantiateListeners != null && instantiateListeners.size() > 0) {
@@ -139,7 +139,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public void init() {
-        System.out.println("Init server ...");
+        log.error("Init server ...");
         serverStatus = 0x10;
         this.application.setServerStatus(serverStatus);
         Collection<IServerLifeListener> initializationListeners = SsdpServerListenerManager.getServerInitialization();
@@ -222,7 +222,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public synchronized void start() {
-        System.out.println("Start server ...");
+        log.error("Start server ...");
         serverStatus = 0x20;
         this.application.setServerStatus(serverStatus);
         if (threadStatus != 0) {
@@ -285,7 +285,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public synchronized void stop() {
-        System.out.println("Stop server ...");
+        log.error("Stop server ...");
         if (serverStatus != 0x32) {
             throw new IllegalThreadStateException();
         }
@@ -354,7 +354,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public synchronized void close() {
-        System.out.println("Close server ...");
+        log.error("Close server ...");
         serverStatus = 0x90;
         this.application.setServerStatus(serverStatus);
         Collection<IServerLifeListener> closeListeners = SsdpServerListenerManager.getServerClose();
@@ -418,7 +418,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public synchronized void destroy() {
-        System.out.println("Destroy server ...");
+        log.error("Destroy server ...");
         serverStatus = 0xA0;
         this.application.setServerStatus(serverStatus);
         Collection<IServerLifeListener> destroyListeners = SsdpServerListenerManager.getServerDestroy();
@@ -478,7 +478,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public void run() {
-        System.out.println("Run server ...");
+        log.error("Run server ...");
         if (serverStatus != 0x22) {
             throw new IllegalThreadStateException();
         }
@@ -550,7 +550,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
             try {
                 IServerContext context = this.receive(null);
-                System.out.println("Receive a packet connection request: " + context.getDatagramPacket().getAddress().toString());
+                log.trace("Receive a packet connection request: " + context.getDatagramPacket().getSocketAddress());
 
                 HandlerThread thread = new HandlerThread(context);
                 threadPool.execute(thread);

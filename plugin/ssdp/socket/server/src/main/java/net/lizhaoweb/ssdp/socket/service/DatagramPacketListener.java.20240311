@@ -90,7 +90,7 @@ public class DatagramPacketListener {
 //                    SocketAddress clientSocketAddress = receiverPacket.getSocketAddress();
 
                 String message = new String(receiverPacket.getData());
-                System.out.println(message);
+                log.info(message);
 //                    SsdpRequest request = requestConverter.convert(message);
 //                    request.setRemoteSocketAddress(clientSocketAddress);
 //

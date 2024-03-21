@@ -27,7 +27,7 @@ import java.util.Scanner;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
-public class MulticastSocketSendTest {
+public class TestMulticastSocketSend {
 
     @Test
     public void send() {

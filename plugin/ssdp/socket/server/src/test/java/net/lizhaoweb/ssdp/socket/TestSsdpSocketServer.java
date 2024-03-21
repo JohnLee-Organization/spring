@@ -10,6 +10,7 @@
  */
 package net.lizhaoweb.ssdp.socket;
 
+import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
 import net.lizhaoweb.ssdp.socket.handler.MSearchHandler;
 import net.lizhaoweb.ssdp.util.SystemUtil;
@@ -29,6 +30,7 @@ import java.util.Scanner;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
+@Slf4j
 public class TestSsdpSocketServer {
 
     @BeforeClass
@@ -72,15 +74,15 @@ public class TestSsdpSocketServer {
 
     @Test
     public void systemInfo() {
-        System.out.println("=========================== ENV ===========================");
+        log.info("=========================== ENV ===========================");
         Map<String, String> envMap = System.getenv();
         for (Map.Entry<String, String> envEntry : envMap.entrySet()) {
             System.out.printf("%s\0\0\0=\0\0\0%s\n", envEntry.getKey(), envEntry.getValue());
         }
-        System.out.println();
-        System.out.println();
+        log.info("");
+        log.info("");
 
-        System.out.println("=========================== Property ===========================");
+        log.info("=========================== Property ===========================");
         Properties properties = System.getProperties();
         for (String propertyName : properties.stringPropertyNames()) {
             String propertyValue = properties.getProperty(propertyName);
@@ -91,6 +93,6 @@ public class TestSsdpSocketServer {
 
     @Test
     public void cpu() {
-        System.out.println(SystemUtil.getCPUSerialNumber());
+        log.info(SystemUtil.getCPUSerialNumber());
     }
 }

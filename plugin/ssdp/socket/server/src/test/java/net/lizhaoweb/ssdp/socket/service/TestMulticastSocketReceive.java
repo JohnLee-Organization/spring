@@ -26,7 +26,7 @@ import java.net.MulticastSocket;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
-public class MulticastSocketReceiveTest {
+public class TestMulticastSocketReceive {
 
     @Test
     public void receive() {
