@@ -36,7 +36,7 @@ public class TestSsdpSocketServer {
     @BeforeClass
     public static void setUpBeforeClass() {
         // 设置系统属性，指定logback配置文件位置
-        System.setProperty("logback.configurationFile", "F:\\WorkSpace\\JhonLee\\Java\\spring\\plugin\\ssdp\\socket\\server\\src\\test\\resources\\logback.xml");
+        System.setProperty("logback.configurationFile", "classpath:logback.xml");
     }
 
     @Test
