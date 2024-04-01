@@ -12,7 +12,7 @@ package net.lizhaoweb.interceptor;
 
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import net.lizhaoweb.lic.truelicense.c.LicenseVerify;
+import net.lizhaoweb.lic.truelicense.c.LicenseClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,15 +34,15 @@ public class LicenseInterceptor extends AbstractInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        LicenseVerify licenseVerify = new LicenseVerify();
+        LicenseClient licenseClient = new LicenseClient();
 
         //校验证书是否有效
-        boolean verifyResult = licenseVerify.verify();
+        boolean verifyResult = licenseClient.verify();
 
         if (verifyResult) {
             return true;
         } else {
-            response.setCharacterEncoding("utf-8");
+            response.setCharacterEncoding("UTF-8");
             JSONObject obj = new JSONObject();
             obj.put("code", "0319");
             obj.put("msg", "您的证书无效，请核查服务器是否取得授权或重新申请证书！");
@@ -54,12 +54,10 @@ public class LicenseInterceptor extends AbstractInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-
     }
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
-
     }
 
 }

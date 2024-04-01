@@ -11,7 +11,7 @@
 package net.lizhaoweb.listener;
 
 import lombok.extern.slf4j.Slf4j;
-import net.lizhaoweb.lic.truelicense.c.LicenseVerify;
+import net.lizhaoweb.lic.truelicense.c.LicenseClient;
 import net.lizhaoweb.lic.truelicense.vo.LicenseVerifyParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,8 +32,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class LicenseCheckListener implements ApplicationListener<ContextRefreshedEvent> {
-
-//    private static Logger logger = LoggerFactory.getLogger(LicenseCheckListener.class);
 
     /**
      * 证书subject
@@ -80,9 +78,9 @@ public class LicenseCheckListener implements ApplicationListener<ContextRefreshe
                 param.setLicensePath(licensePath);
                 param.setPublicKeysStorePath(publicKeysStorePath);
 
-                LicenseVerify licenseVerify = new LicenseVerify();
+                LicenseClient licenseClient = new LicenseClient();
                 //安装证书
-                licenseVerify.install(param);
+                licenseClient.install(param);
 
                 log.info("++++++++ 证书安装结束 ++++++++");
             }
