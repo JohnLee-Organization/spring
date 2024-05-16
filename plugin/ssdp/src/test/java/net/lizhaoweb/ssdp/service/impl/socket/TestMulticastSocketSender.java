@@ -10,9 +10,9 @@
  */
 package net.lizhaoweb.ssdp.service.impl.socket;
 
-import net.lizhaoweb.ssdp.dto.MSearchRequest;
-import net.lizhaoweb.ssdp.model.Configuration;
-import net.lizhaoweb.ssdp.model.EnumSearchTarget;
+import net.lizhaoweb.ssdp.model.dto.MSearchRequest;
+import net.lizhaoweb.ssdp.config.SSDPConfiguration;
+import net.lizhaoweb.ssdp.model.SearchTarget;
 import net.lizhaoweb.ssdp.service.IMessageConverter;
 import net.lizhaoweb.ssdp.service.ISender;
 import org.junit.Test;
@@ -39,7 +39,7 @@ import java.net.InetSocketAddress;
 public class TestMulticastSocketSender {
 
     @Autowired
-    private Configuration configuration;
+    private SSDPConfiguration configuration;
 
     @Resource(name = "requestMessageConverter")
     private IMessageConverter messageConverter;
@@ -52,7 +52,7 @@ public class TestMulticastSocketSender {
 
     @Test
     public void sendMSearch() {
-        mSearchRequest.setSearchTarget(EnumSearchTarget.ROOT_DEVICE);
+        mSearchRequest.setSearchTarget(SearchTarget.ROOT_DEVICE);
         mSearchRequest.install();
 //        mSearchRequest.setHeader(EnumHeaderName.SAVOR_SMALL_PLATFORM_IP, configuration.getHostAddress());
 //        mSearchRequest.setHeader(EnumHeaderName.SAVOR_SMALL_PLATFORM_PORT_HTTP, "8001");

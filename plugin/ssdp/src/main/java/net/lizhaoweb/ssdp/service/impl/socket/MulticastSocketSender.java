@@ -11,8 +11,9 @@
 package net.lizhaoweb.ssdp.service.impl.socket;
 
 import lombok.NoArgsConstructor;
-import net.lizhaoweb.ssdp.dto.AbstractMessage;
-import net.lizhaoweb.ssdp.model.Configuration;
+import lombok.extern.slf4j.Slf4j;
+import net.lizhaoweb.ssdp.model.dto.AbstractMessage;
+import net.lizhaoweb.ssdp.config.SSDPConfiguration;
 import net.lizhaoweb.ssdp.service.ISender;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,6 +32,7 @@ import java.net.SocketAddress;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
+@Slf4j
 @NoArgsConstructor
 public class MulticastSocketSender<T extends AbstractMessage> implements ISender<T> {
 
@@ -38,7 +40,7 @@ public class MulticastSocketSender<T extends AbstractMessage> implements ISender
      * SSDP 配置对象
      */
     @Autowired
-    private Configuration configuration;
+    private SSDPConfiguration configuration;
 
     /**
      * 发送套接子。
@@ -56,7 +58,7 @@ public class MulticastSocketSender<T extends AbstractMessage> implements ISender
         }
     }
 
-    public MulticastSocketSender(Configuration configuration) throws IOException {
+    public MulticastSocketSender(SSDPConfiguration configuration) throws IOException {
         this();
         this.configuration = configuration;
     }

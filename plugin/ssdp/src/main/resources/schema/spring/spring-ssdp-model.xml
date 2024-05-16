@@ -24,16 +24,16 @@
 
     <!-- /========================== 请求列表 Start =============================\ -->
     <!-- 通知请求 -->
-    <bean id="notifyRequest" class="net.lizhaoweb.ssdp.dto.NotifyRequest"/>
+    <bean id="notifyRequest" class="net.lizhaoweb.ssdp.model.dto.NotifyRequest"/>
 
     <!-- 查询请求 -->
-    <bean id="mSearchRequest" class="net.lizhaoweb.ssdp.dto.MSearchRequest"/>
+    <bean id="mSearchRequest" class="net.lizhaoweb.ssdp.model.dto.MSearchRequest"/>
     <!-- \=========================== 请求列表 End ==============================/ -->
 
 
     <!-- /========================== 响应列表 Start =============================\ -->
     <!-- 查询响应 -->
-    <bean id="mSearchResponse" class="net.lizhaoweb.ssdp.dto.MSearchResponse"/>
+    <bean id="mSearchResponse" class="net.lizhaoweb.ssdp.model.dto.MSearchResponse"/>
     <!-- \=========================== 响应列表 End ==============================/ -->
 
 

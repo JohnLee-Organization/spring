@@ -10,12 +10,12 @@
  */
 package net.lizhaoweb.ssdp.service.impl;
 
-import net.lizhaoweb.ssdp.dto.MSearchRequest;
-import net.lizhaoweb.ssdp.dto.NotifyRequest;
-import net.lizhaoweb.ssdp.dto.Request;
-import net.lizhaoweb.ssdp.model.EnumNotificationType;
-import net.lizhaoweb.ssdp.model.EnumSearchTarget;
-import net.lizhaoweb.ssdp.model.EnumServiceType;
+import net.lizhaoweb.ssdp.model.dto.MSearchRequest;
+import net.lizhaoweb.ssdp.model.dto.NotifyRequest;
+import net.lizhaoweb.ssdp.model.dto.Request;
+import net.lizhaoweb.ssdp.model.NotificationType;
+import net.lizhaoweb.ssdp.model.SearchTarget;
+import net.lizhaoweb.ssdp.model.ServiceType;
 import net.lizhaoweb.ssdp.service.IMessageConverter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,8 +50,8 @@ public class TestRequestMessageConverter {
 
     @Test
     public void ssdpNotify() {
-        notifyRequest.setServiceType(EnumServiceType.ROOT_DEVICE);
-        notifyRequest.setNotificationType(EnumNotificationType.ALIVE);
+        notifyRequest.setServiceType(ServiceType.ROOT_DEVICE);
+        notifyRequest.setNotificationType(NotificationType.ALIVE);
         notifyRequest.install();
         String message = this.messageConverter.convert(notifyRequest);
         System.out.println(message);
@@ -59,7 +59,7 @@ public class TestRequestMessageConverter {
 
     @Test
     public void ssdpMSearch() {
-        mSearchRequest.setSearchTarget(EnumSearchTarget.ROOT_DEVICE);
+        mSearchRequest.setSearchTarget(SearchTarget.ROOT_DEVICE);
         mSearchRequest.install();
         String message = this.messageConverter.convert(mSearchRequest);
         System.out.println(message);

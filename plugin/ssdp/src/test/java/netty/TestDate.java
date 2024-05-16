@@ -27,7 +27,7 @@ import java.util.TimeZone;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
-public class DateTest {
+public class TestDate {
 
     @Test
     public void date() {

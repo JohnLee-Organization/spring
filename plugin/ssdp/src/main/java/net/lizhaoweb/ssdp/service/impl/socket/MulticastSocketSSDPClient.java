@@ -10,6 +10,7 @@
  */
 package net.lizhaoweb.ssdp.service.impl.socket;
 
+import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.service.ISSDPClient;
 
 /**
@@ -22,6 +23,7 @@ import net.lizhaoweb.ssdp.service.ISSDPClient;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
+@Slf4j
 public class MulticastSocketSSDPClient implements ISSDPClient {
 
     private MulticastSocketSender sender;

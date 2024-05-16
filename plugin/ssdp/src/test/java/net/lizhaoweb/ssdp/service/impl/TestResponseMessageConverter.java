@@ -10,8 +10,8 @@
  */
 package net.lizhaoweb.ssdp.service.impl;
 
-import net.lizhaoweb.ssdp.dto.MSearchResponse;
-import net.lizhaoweb.ssdp.dto.Response;
+import net.lizhaoweb.ssdp.model.dto.MSearchResponse;
+import net.lizhaoweb.ssdp.model.dto.Response;
 import net.lizhaoweb.ssdp.service.IMessageConverter;
 import org.junit.Test;
 import org.junit.runner.RunWith;

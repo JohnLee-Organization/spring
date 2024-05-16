@@ -8,11 +8,13 @@
  * @email 404644381@qq.com
  * @Time : 20:03
  */
-package net.lizhaoweb.ssdp.dto;
+package net.lizhaoweb.ssdp.model.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import net.lizhaoweb.ssdp.config.SSDPConfiguration;
 import net.lizhaoweb.ssdp.model.*;
 import net.lizhaoweb.ssdp.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,33 +29,34 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
+@Slf4j
 @NoArgsConstructor
 public class NotifyRequest extends Request {
 
     // SSDP 配置对象
     @Autowired
-    private Configuration configuration;
+    private SSDPConfiguration configuration;
 
     /**
      * 服务类型。
      */
     @Setter
     @Getter
-    private EnumServiceType serviceType;
+    private ServiceType serviceType;
 
     /**
      * SSDP 通知类型。
      */
     @Setter
     @Getter
-    private EnumNotificationType notificationType;
+    private NotificationType notificationType;
 
     /**
      * 有参构造。
      *
      * @param configuration SSDP 配置对象
      */
-    public NotifyRequest(Configuration configuration) {
+    public NotifyRequest(SSDPConfiguration configuration) {
         super();
         this.configuration = configuration;
     }
@@ -62,16 +65,16 @@ public class NotifyRequest extends Request {
      * 安装
      */
     public void install() {
-        this.setTransportProtocol(EnumTransportProtocol.HTTP_1_1);
-        this.setMethod(EnumMethod.NOTIFY);
+        this.setTransportProtocol(TransportProtocol.HTTP_1_1);
+        this.setMethod(Method.NOTIFY);
         this.setQueryString("*");
-        this.setHeader(EnumHeaderName.HOST, String.format("%s:%d", configuration.getBroadcastAddress(), configuration.getBroadcastPort()))// 设置为协议保留多播地址和端口，必须是239.255.255.250:1900。
-                .setHeader(EnumHeaderName.CACHE_CONTROL, String.format("max-age=%d", configuration.getMaxAge()))// max-age指定通知消息存活时间，如果超过此时间间隔，控制点可以认为设备不存在
-                .setHeader(EnumHeaderName.LOCATION, this.getLocationValue(configuration.getUnicastPort()))// 包含根设备描述得URL地址
-                .setHeader(EnumHeaderName.SERVER, this.getServerValue(configuration.getProductName(), configuration.getProductVersion()))
-                .setHeader(EnumHeaderName.NT, serviceType.getValue())// 在此消息中，NT头必须为服务的服务类型
-                .setHeader(EnumHeaderName.USN, this.getUSNValue())// 表示不同服务的统一服务名，它提供了一种标识出相同类型服务的能力
-                .setHeader(EnumHeaderName.NTS, notificationType.getValue());// 表示通知消息的子类型，必须为ssdp:alive
+        this.setHeader(HeaderName.HOST, String.format("%s:%d", configuration.getBroadcastAddress(), configuration.getBroadcastPort()))// 设置为协议保留多播地址和端口，必须是239.255.255.250:1900。
+                .setHeader(HeaderName.CACHE_CONTROL, String.format("max-age=%d", configuration.getMaxAge()))// max-age指定通知消息存活时间，如果超过此时间间隔，控制点可以认为设备不存在
+                .setHeader(HeaderName.LOCATION, this.getLocationValue(configuration.getUnicastPort()))// 包含根设备描述得URL地址
+                .setHeader(HeaderName.SERVER, this.getServerValue(configuration.getProductName(), configuration.getProductVersion()))
+                .setHeader(HeaderName.NT, serviceType.getValue())// 在此消息中，NT头必须为服务的服务类型
+                .setHeader(HeaderName.USN, this.getUSNValue())// 表示不同服务的统一服务名，它提供了一种标识出相同类型服务的能力
+                .setHeader(HeaderName.NTS, notificationType.getValue());// 表示通知消息的子类型，必须为ssdp:alive
     }
 
     private String getLocationValue(int port) {

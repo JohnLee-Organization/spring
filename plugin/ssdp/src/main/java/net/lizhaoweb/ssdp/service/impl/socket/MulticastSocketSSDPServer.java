@@ -10,7 +10,8 @@
  */
 package net.lizhaoweb.ssdp.service.impl.socket;
 
-import net.lizhaoweb.ssdp.model.Configuration;
+import lombok.extern.slf4j.Slf4j;
+import net.lizhaoweb.ssdp.config.SSDPConfiguration;
 import net.lizhaoweb.ssdp.service.ISSDPServer;
 
 import java.io.IOException;
@@ -26,12 +27,13 @@ import java.net.DatagramPacket;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
+@Slf4j
 public class MulticastSocketSSDPServer implements ISSDPServer {
 
     /**
      * SSDP 配置对象
      */
-    private Configuration configuration;
+    private SSDPConfiguration configuration;
 
     /**
      * 发送器

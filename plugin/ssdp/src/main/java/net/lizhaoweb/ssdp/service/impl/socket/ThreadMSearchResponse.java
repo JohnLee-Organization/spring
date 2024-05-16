@@ -12,10 +12,11 @@ package net.lizhaoweb.ssdp.service.impl.socket;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.common.util.base.IOUtil;
-import net.lizhaoweb.ssdp.dto.MSearchResponse;
-import net.lizhaoweb.ssdp.dto.Request;
-import net.lizhaoweb.ssdp.model.Configuration;
+import net.lizhaoweb.ssdp.model.dto.MSearchResponse;
+import net.lizhaoweb.ssdp.model.dto.Request;
+import net.lizhaoweb.ssdp.config.SSDPConfiguration;
 import net.lizhaoweb.ssdp.service.impl.ResponseMessageConverter;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.io.IOException;
  * Author of last commit:$Author$<br>
  * Date of last commit:$Date$<br>
  */
+@Slf4j
 @RequiredArgsConstructor
 public class ThreadMSearchResponse extends Thread {
 
@@ -35,7 +37,7 @@ public class ThreadMSearchResponse extends Thread {
      * SSDP 配置对象
      */
     @NonNull
-    private Configuration configuration;
+    private SSDPConfiguration configuration;
 
     /**
      * 客户端地址
