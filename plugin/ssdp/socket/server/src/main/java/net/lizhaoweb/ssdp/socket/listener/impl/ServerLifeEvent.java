@@ -13,7 +13,7 @@ package net.lizhaoweb.ssdp.socket.listener.impl;
 import lombok.Getter;
 import net.lizhaoweb.ssdp.socket.IServerApplication;
 import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
-import net.lizhaoweb.ssdp.socket.listener.IServerEvent;
+import net.lizhaoweb.ssdp.socket.listener.IServerLifeEvent;
 import net.lizhaoweb.ssdp.socket.model.ServerStatus;
 
 import java.util.concurrent.ThreadPoolExecutor;
@@ -27,7 +27,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @version 1.0
  * @email 404644381@qq.com
  */
-public class ServerLifeEvent implements IServerEvent {
+public class ServerLifeEvent implements IServerLifeEvent {
 
     @Getter
     private ServerConfiguration config;
@@ -38,7 +38,7 @@ public class ServerLifeEvent implements IServerEvent {
     private IServerApplication application;
 
     @Getter
-    private ThreadPoolExecutor threadPool;
+    private ThreadPoolExecutor threadPoolExecutor;
 
     public ServerLifeEvent(ServerConfiguration serverConfig, ServerStatus serverStatus) {
         this.config = serverConfig;
@@ -60,8 +60,23 @@ public class ServerLifeEvent implements IServerEvent {
         this.application = application;
     }
 
-    public ServerLifeEvent(ServerStatus serverStatus, IServerApplication application, ThreadPoolExecutor threadPool) {
+    public ServerLifeEvent(ServerStatus serverStatus, IServerApplication application, ThreadPoolExecutor threadPoolExecutor) {
         this(serverStatus, application);
-        this.threadPool = threadPool;
+        this.threadPoolExecutor = threadPoolExecutor;
+    }
+
+    @Override
+    public ServerConfiguration getServerConfig() {
+        return this.config;
+    }
+
+    @Override
+    public ServerStatus getServerStatus() {
+        return this.status;
+    }
+
+    @Override
+    public IServerApplication getServerApplication() {
+        return this.application;
     }
 }
