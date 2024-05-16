@@ -24,9 +24,9 @@ import net.lizhaoweb.ssdp.service.ISsdpReceiver;
 import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
 import net.lizhaoweb.ssdp.socket.exception.*;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
-import net.lizhaoweb.ssdp.socket.listener.IServerEvent;
 import net.lizhaoweb.ssdp.socket.listener.IServerLifeListener;
 import net.lizhaoweb.ssdp.socket.listener.SsdpServerListenerManager;
+import net.lizhaoweb.ssdp.socket.listener.impl.ServerLifeEvent;
 import net.lizhaoweb.ssdp.socket.model.ServerStatus;
 import net.lizhaoweb.ssdp.socket.service.HandlerThread;
 import org.apache.commons.lang3.StringUtils;
@@ -95,12 +95,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPre(new IServerEvent() {
-                    @Getter
-                    private ServerConfiguration _config = config.clone();
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                });
+                listener.onPre(new ServerLifeEvent(config.clone(), serverStatus));
             }
         }
 
@@ -110,12 +105,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onExe(new IServerEvent() {
-                    @Getter
-                    private ServerConfiguration _config = config.clone();
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                });
+                listener.onExe(new ServerLifeEvent(config.clone(), serverStatus));
             }
         }
         this.config = config;
@@ -128,14 +118,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPos(new IServerEvent() {
-                    @Getter
-                    private ServerConfiguration _config = config.clone();
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPos(new ServerLifeEvent(serverStatus, application));
             }
         }
     }
@@ -151,12 +134,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPre(new IServerEvent() {
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPre(new ServerLifeEvent(serverStatus, application));
             }
         }
 
@@ -167,12 +145,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onExe(new IServerEvent() {
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onExe(new ServerLifeEvent(serverStatus, application));
             }
         }
         if (this.config.getHandlerList() != null && this.config.getHandlerList().size() > 0) {
@@ -211,14 +184,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPos(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPos(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
     }
@@ -237,14 +203,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPre(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPre(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
 
@@ -255,14 +214,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onExe(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onExe(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
 
@@ -273,14 +225,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPos(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPos(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
 
@@ -301,14 +246,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPre(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPre(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
 
@@ -319,14 +257,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onExe(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onExe(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
         while (!Thread.currentThread().isInterrupted()) {
@@ -341,14 +272,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPos(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPos(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
     }
@@ -364,14 +288,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPre(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPre(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
 
@@ -382,14 +299,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onExe(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onExe(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
         this.closeMulticastSocket(socket);
@@ -403,14 +313,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPos(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPos(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
     }
@@ -426,14 +329,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPre(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPre(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
 
@@ -444,14 +340,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onExe(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onExe(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
         this.application.destroy();
@@ -463,14 +352,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPos(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPos(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
     }
@@ -494,14 +376,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onPre(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onPre(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
 
@@ -512,14 +387,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 if (listener == null) {
                     continue;
                 }
-                listener.onExe(new IServerEvent() {
-                    @Getter
-                    private ThreadPoolExecutor _threadPool = threadPool;
-                    @Getter
-                    private ServerStatus _serverStatus = serverStatus;
-                    @Getter
-                    private IServerApplication _application = application;
-                });
+                listener.onExe(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
         socket = this.buildMulticastSocket(this.application.getGroupInetAddress(), this.application.getGroupPort(), this.config.getTimeToLive(), this.config.getSoTimeout());
@@ -535,14 +403,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                             continue;
                         }
                         try {
-                            listener.onPos(new IServerEvent() {
-                                @Getter
-                                private ThreadPoolExecutor _threadPool = threadPool;
-                                @Getter
-                                private ServerStatus _serverStatus = serverStatus;
-                                @Getter
-                                private IServerApplication _application = application;
-                            });
+                            listener.onPos(new ServerLifeEvent(serverStatus, application, threadPool));
                         } catch (Exception e) {
                             log.error(e.getMessage(), e);
                         }
