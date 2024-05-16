@@ -21,9 +21,9 @@ package net.lizhaoweb.ssdp.socket.listener;
  */
 public interface IServerLifeListener extends IEventListener {
 
-    void onPre(IServerEvent event);
+    void onPre(IServerLifeEvent event);
 
-    void onExe(IServerEvent event);
+    void onExe(IServerLifeEvent event);
 
-    void onPos(IServerEvent event);
+    void onPos(IServerLifeEvent event);
 }
