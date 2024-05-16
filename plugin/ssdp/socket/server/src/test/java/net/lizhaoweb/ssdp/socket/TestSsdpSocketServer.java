@@ -56,17 +56,20 @@ public class TestSsdpSocketServer {
                 }
             };
             thread.start();
-            boolean isStop = false;
+            boolean stopServer = false;
             Scanner scanner = new Scanner(System.in);
-            while (!isStop) {
+            while (!stopServer) {
                 System.out.println("请输入命令：");
                 String input = scanner.nextLine();
                 if ("stop".equalsIgnoreCase(input)) {
-                    isStop = true;
+                    stopServer = true;
                 }
             }
             scanner.close();
             server.stop();
+            server.close();
+            server.destroy();
+            while (!server.isDestroyed()) ;
         } catch (Exception e) {
             e.printStackTrace();
         }

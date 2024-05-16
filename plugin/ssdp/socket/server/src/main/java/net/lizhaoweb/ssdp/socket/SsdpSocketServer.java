@@ -27,6 +27,7 @@ import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
 import net.lizhaoweb.ssdp.socket.listener.IServerEvent;
 import net.lizhaoweb.ssdp.socket.listener.IServerLifeListener;
 import net.lizhaoweb.ssdp.socket.listener.SsdpServerListenerManager;
+import net.lizhaoweb.ssdp.socket.model.ServerStatus;
 import net.lizhaoweb.ssdp.socket.service.HandlerThread;
 import org.apache.commons.lang3.StringUtils;
 
@@ -36,6 +37,8 @@ import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import static net.lizhaoweb.ssdp.socket.model.ServerStatus.*;
 
 /**
  * SSDP服务器
@@ -71,21 +74,21 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
     /**
      * 服务器状态。
      * <p>
-     * 0x00：开始实例化；0x01：实例化；0x02：已经实例化；
-     * 0x10：准备初始化；0x11：初始化；0x12：已经初始化；
-     * 0x20：准备启动；0x21：启动；0x22：已启动；
-     * 0x32：运行中；
-     * 0x80：准备停止；0x81：停止；0x82：已经停止；
-     * 0x90：准备关闭；0x91：关闭；0x92：已经关闭；
-     * 0xA0：准备销毁；0xA1：销毁；0xA2：已经销毁；
+     * PRE_INSTANCE：开始实例化；INSTANCING：实例化；INSTANCED：已经实例化；
+     * PRE_INITIALIZE：准备初始化；INITIALIZING：初始化；INITIALIZED：已经初始化；
+     * PRE_START：准备启动；STARTING：启动；STARTED：已启动；
+     * PRE_RUN：准备运行, RUNNING：运行中；
+     * PRE_STOP：准备停止；STOPPING：停止；STOPPED：已经停止；
+     * PRE_CLOSE：准备关闭；CLOSING：关闭；CLOSED：已经关闭；
+     * PRE_DESTROY：准备销毁；DESTROYING：销毁；DESTROYED：已经销毁；
      */
     @Setter(AccessLevel.PACKAGE)
     @Getter
-    private short serverStatus;
+    private ServerStatus serverStatus;
 
     public SsdpSocketServer(@NotNull final ServerConfiguration config) {
         log.error("Instantiate server ...");
-        serverStatus = 0x00;
+        serverStatus = PRE_INSTANCE;
         Collection<IServerLifeListener> instantiateListeners = SsdpServerListenerManager.getServerInstantiate();
         if (instantiateListeners != null && instantiateListeners.size() > 0) {
             for (IServerLifeListener listener : instantiateListeners) {
@@ -96,12 +99,12 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ServerConfiguration _config = config.clone();
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                 });
             }
         }
 
-        serverStatus = 0x01;
+        serverStatus = INSTANCING;
         if (instantiateListeners != null && instantiateListeners.size() > 0) {
             for (IServerLifeListener listener : instantiateListeners) {
                 if (listener == null) {
@@ -111,14 +114,14 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ServerConfiguration _config = config.clone();
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                 });
             }
         }
         this.config = config;
         this.application = new ServerApplication(config);
 
-        serverStatus = 0x02;
+        serverStatus = INSTANCED;
         this.application.setServerStatus(serverStatus);
         if (instantiateListeners != null && instantiateListeners.size() > 0) {
             for (IServerLifeListener listener : instantiateListeners) {
@@ -129,7 +132,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ServerConfiguration _config = config.clone();
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
@@ -140,7 +143,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
     @Override
     public void init() {
         log.error("Init server ...");
-        serverStatus = 0x10;
+        serverStatus = PRE_INITIALIZE;
         this.application.setServerStatus(serverStatus);
         Collection<IServerLifeListener> initializationListeners = SsdpServerListenerManager.getServerInitialization();
         if (initializationListeners != null && initializationListeners.size() > 0) {
@@ -150,14 +153,14 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 }
                 listener.onPre(new IServerEvent() {
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
             }
         }
 
-        serverStatus = 0x11;
+        serverStatus = INITIALIZING;
         this.application.setServerStatus(serverStatus);
         if (initializationListeners != null && initializationListeners.size() > 0) {
             for (IServerLifeListener listener : initializationListeners) {
@@ -166,7 +169,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 }
                 listener.onExe(new IServerEvent() {
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
@@ -201,7 +204,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
         }
         this.application.setGroupPort(groupPort);
 
-        serverStatus = 0x12;
+        serverStatus = INITIALIZED;
         this.application.setServerStatus(serverStatus);
         if (initializationListeners != null && initializationListeners.size() > 0) {
             for (IServerLifeListener listener : initializationListeners) {
@@ -212,7 +215,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
@@ -223,7 +226,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
     @Override
     public synchronized void start() {
         log.error("Start server ...");
-        serverStatus = 0x20;
+        serverStatus = PRE_START;
         this.application.setServerStatus(serverStatus);
         if (threadStatus != 0) {
             throw new IllegalThreadStateException();
@@ -238,14 +241,14 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
             }
         }
 
-        serverStatus = 0x21;
+        serverStatus = STARTING;
         this.application.setServerStatus(serverStatus);
         if (startListeners != null && startListeners.size() > 0) {
             for (IServerLifeListener listener : startListeners) {
@@ -256,14 +259,14 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
             }
         }
 
-        serverStatus = 0x22;
+        serverStatus = STARTED;
         this.application.setServerStatus(serverStatus);
         if (startListeners != null && startListeners.size() > 0) {
             for (IServerLifeListener listener : startListeners) {
@@ -274,7 +277,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
@@ -286,11 +289,11 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
     @Override
     public synchronized void stop() {
         log.error("Stop server ...");
-        if (serverStatus != 0x32) {
+        if (serverStatus != RUNNING) {
             throw new IllegalThreadStateException();
         }
 
-        serverStatus = 0x80;
+        serverStatus = PRE_STOP;
         this.application.setServerStatus(serverStatus);
         Collection<IServerLifeListener> stopListeners = SsdpServerListenerManager.getServerStop();
         if (stopListeners != null && stopListeners.size() > 0) {
@@ -302,14 +305,14 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
             }
         }
 
-        serverStatus = 0x81;
+        serverStatus = STOPPING;
         this.application.setServerStatus(serverStatus);
         if (stopListeners != null && stopListeners.size() > 0) {
             for (IServerLifeListener listener : stopListeners) {
@@ -320,7 +323,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
@@ -331,7 +334,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
         }
         this.leaveGroup(socket);
 
-        serverStatus = 0x82;
+        serverStatus = STOPPED;
         this.application.setServerStatus(serverStatus);
         if (stopListeners != null && stopListeners.size() > 0) {
             for (IServerLifeListener listener : stopListeners) {
@@ -342,20 +345,18 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
             }
         }
-
-        this.close();
     }
 
     @Override
     public synchronized void close() {
         log.error("Close server ...");
-        serverStatus = 0x90;
+        serverStatus = PRE_CLOSE;
         this.application.setServerStatus(serverStatus);
         Collection<IServerLifeListener> closeListeners = SsdpServerListenerManager.getServerClose();
         if (closeListeners != null && closeListeners.size() > 0) {
@@ -367,14 +368,14 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
             }
         }
 
-        serverStatus = 0x91;
+        serverStatus = CLOSING;
         this.application.setServerStatus(serverStatus);
         if (closeListeners != null && closeListeners.size() > 0) {
             for (IServerLifeListener listener : closeListeners) {
@@ -385,7 +386,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
@@ -395,7 +396,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
         this.closeThreadPoolExecutor(threadPool);
         application.close();
 
-        serverStatus = 0x92;
+        serverStatus = CLOSED;
         this.application.setServerStatus(serverStatus);
         if (closeListeners != null && closeListeners.size() > 0) {
             for (IServerLifeListener listener : closeListeners) {
@@ -406,20 +407,18 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
             }
         }
-
-        this.destroy();
     }
 
     @Override
     public synchronized void destroy() {
         log.error("Destroy server ...");
-        serverStatus = 0xA0;
+        serverStatus = PRE_DESTROY;
         this.application.setServerStatus(serverStatus);
         Collection<IServerLifeListener> destroyListeners = SsdpServerListenerManager.getServerDestroy();
         if (destroyListeners != null && destroyListeners.size() > 0) {
@@ -431,14 +430,14 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
             }
         }
 
-        serverStatus = 0xA1;
+        serverStatus = DESTROYING;
         this.application.setServerStatus(serverStatus);
         if (destroyListeners != null && destroyListeners.size() > 0) {
             for (IServerLifeListener listener : destroyListeners) {
@@ -449,7 +448,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
@@ -457,7 +456,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
         }
         this.application.destroy();
 
-        serverStatus = 0xA2;
+        serverStatus = DESTROYED;
         this.application.setServerStatus(serverStatus);
         if (destroyListeners != null && destroyListeners.size() > 0) {
             for (IServerLifeListener listener : destroyListeners) {
@@ -468,7 +467,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
@@ -476,14 +475,18 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
         }
     }
 
+    public boolean isDestroyed() {
+        return serverStatus == DESTROYED;
+    }
+
     @Override
     public void run() {
         log.error("Run server ...");
-        if (serverStatus != 0x22) {
+        if (serverStatus != STARTED) {
             throw new IllegalThreadStateException();
         }
 
-        serverStatus = 0x30;
+        serverStatus = PRE_RUN;
         this.application.setServerStatus(serverStatus);
         Collection<IServerLifeListener> runListeners = SsdpServerListenerManager.getServerRun();
         if (runListeners != null && runListeners.size() > 0) {
@@ -495,14 +498,14 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
             }
         }
 
-        serverStatus = 0x31;
+        serverStatus = PRE_RUN;
         this.application.setServerStatus(serverStatus);
         if (runListeners != null && runListeners.size() > 0) {
             for (IServerLifeListener listener : runListeners) {
@@ -513,7 +516,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                     @Getter
                     private ThreadPoolExecutor _threadPool = threadPool;
                     @Getter
-                    private short _serverStatus = serverStatus;
+                    private ServerStatus _serverStatus = serverStatus;
                     @Getter
                     private IServerApplication _application = application;
                 });
@@ -523,8 +526,8 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
 
         do {
-            if (0x31 == serverStatus) {
-                serverStatus = 0x32;
+            if (PRE_RUN == serverStatus) {
+                serverStatus = RUNNING;
                 this.application.setServerStatus(serverStatus);
                 if (runListeners != null && runListeners.size() > 0) {
                     for (IServerLifeListener listener : runListeners) {
@@ -536,7 +539,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                                 @Getter
                                 private ThreadPoolExecutor _threadPool = threadPool;
                                 @Getter
-                                private short _serverStatus = serverStatus;
+                                private ServerStatus _serverStatus = serverStatus;
                                 @Getter
                                 private IServerApplication _application = application;
                             });
@@ -557,7 +560,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }
-        } while (0x32 == serverStatus);
+        } while (RUNNING == serverStatus);
     }
 
     @Override

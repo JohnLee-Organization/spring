@@ -12,6 +12,8 @@ package net.lizhaoweb.ssdp.config;
 
 import lombok.Data;
 
+import java.util.Properties;
+
 /**
  * [模型] [SSDP] 配置
  * <p>
@@ -38,10 +40,15 @@ public class SsdpConfiguration {
      */
     private int broadcastPort = 1900;
 
-    /**
-     * 本地服务监听端口号。
-     */
-    private int unicastPort;
+//    /**
+//     * 单播的 IP 地址
+//     */
+//    private String unicastAddress;
+//
+//    /**
+//     * 单播的端口号。
+//     */
+//    private int unicastPort;
 
     /**
      * SSDP 通知有效时长(单位：秒)。
@@ -116,4 +123,16 @@ public class SsdpConfiguration {
 //            }
 //        }
 //    }
+    public void convert(Properties properties) {
+        this.broadcastAddress = properties.getProperty("ssdp.broadcast.address", "239.255.255.250"); // 广播的 IP 地址
+        this.broadcastPort = Integer.parseInt(properties.getProperty("ssdp.broadcast.port", "1900")); // 广播的端口号
+//        this.unicastAddress = properties.getProperty("ssdp.unicast.address", "239.255.255.250"); // 单播的 IP 地址
+//        this.unicastPort = Integer.parseInt(properties.getProperty("ssdp.unicast.port", "1800")); // 单播的端口号
+        this.maxAge = Integer.parseInt(properties.getProperty("ssdp.time.age.max", "5")); // SSDP 通知有效时长(单位：秒)。
+        this.productName = properties.getProperty("ssdp.product.name", ""); // 产品名称
+        this.productVersion = properties.getProperty("ssdp.product.version", ""); // 产品版本号
+        this.maxDelayTime = Integer.parseInt(properties.getProperty("ssdp.time.delay.max", "5")); // 设置设备响应最长等待时间(单位：秒)，设备响应在0和这个值之间随机选择响应延迟的值。这样可以为控制点响应平衡网络负载。
+        this.networkInterfaceName = properties.getProperty("ssdp.network.interface.name", "eth0"); // 设置要获取 IP 地址的网卡名}
+    }
+
 }

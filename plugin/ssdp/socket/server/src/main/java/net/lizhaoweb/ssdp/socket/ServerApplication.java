@@ -20,6 +20,7 @@ import net.lizhaoweb.ssdp.service.impl.RequestMessageConverter;
 import net.lizhaoweb.ssdp.service.impl.ResponseMessageConverter;
 import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
+import net.lizhaoweb.ssdp.socket.model.ServerStatus;
 
 import java.net.InetAddress;
 import java.util.*;
@@ -39,17 +40,17 @@ public class ServerApplication implements IServerApplication {
     /**
      * 服务器状态。
      * <p>
-     * 0x00：开始实例化；0x01：实例化；0x02：已经实例化；
-     * 0x10：准备初始化；0x11：初始化；0x12：已经初始化；
-     * 0x20：准备启动；0x21：启动；0x22：已启动；
-     * 0x32：运行中；
-     * 0x80：准备停止；0x81：停止；0x82：已经停止；
-     * 0x90：准备关闭；0x91：关闭；0x92：已经关闭；
-     * 0xA0：准备销毁；0xA1：销毁；0xA2：已经销毁；
+     * PRE_INSTANCE：开始实例化；INSTANCING：实例化；INSTANCED：已经实例化；
+     * PRE_INITIALIZE：准备初始化；INITIALIZING：初始化；INITIALIZED：已经初始化；
+     * PRE_START：准备启动；STARTING：启动；STARTED：已启动；
+     * PRE_RUN：准备运行, RUNNING：运行中；
+     * PRE_STOP：准备停止；STOPPING：停止；STOPPED：已经停止；
+     * PRE_CLOSE：准备关闭；CLOSING：关闭；CLOSED：已经关闭；
+     * PRE_DESTROY：准备销毁；DESTROYING：销毁；DESTROYED：已经销毁；
      */
     @Setter
     @Getter
-    private short serverStatus;
+    private ServerStatus serverStatus;
 
 //    /**
 //     * SSDP配置对象

@@ -16,6 +16,7 @@ import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
 import net.lizhaoweb.ssdp.service.impl.RequestMessageConverter;
 import net.lizhaoweb.ssdp.service.impl.ResponseMessageConverter;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
+import net.lizhaoweb.ssdp.socket.model.ServerStatus;
 
 import java.net.InetAddress;
 import java.util.List;
@@ -45,7 +46,18 @@ public interface IServerApplication extends IApplication {
 
     int getGroupPort();
 
-    void setServerStatus(short serverStatus);
+    /**
+     * 服务器状态。
+     * <p>
+     * PRE_INSTANCE：开始实例化；INSTANCING：实例化；INSTANCED：已经实例化；
+     * PRE_INITIALIZE：准备初始化；INITIALIZING：初始化；INITIALIZED：已经初始化；
+     * PRE_START：准备启动；STARTING：启动；STARTED：已启动；
+     * PRE_RUN：准备运行, RUNNING：运行中；
+     * PRE_STOP：准备停止；STOPPING：停止；STOPPED：已经停止；
+     * PRE_CLOSE：准备关闭；CLOSING：关闭；CLOSED：已经关闭；
+     * PRE_DESTROY：准备销毁；DESTROYING：销毁；DESTROYED：已经销毁；
+     */
+    void setServerStatus(ServerStatus serverStatus);
 
     IServerApplication registerHandler(IServiceHandler<IServerContext, SsdpRequest, SsdpResponse> handler);
 
