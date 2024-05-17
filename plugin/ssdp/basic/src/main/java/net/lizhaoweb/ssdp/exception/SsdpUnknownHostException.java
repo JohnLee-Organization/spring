@@ -19,7 +19,7 @@ package net.lizhaoweb.ssdp.exception;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
-public class SsdpUnknownHostException extends RuntimeException {
+public class SsdpUnknownHostException extends SsdpException {
 
     public SsdpUnknownHostException() {
         super();

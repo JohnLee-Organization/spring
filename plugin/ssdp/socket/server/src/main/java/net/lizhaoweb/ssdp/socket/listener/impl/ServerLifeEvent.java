@@ -12,7 +12,7 @@ package net.lizhaoweb.ssdp.socket.listener.impl;
 
 import lombok.Getter;
 import net.lizhaoweb.ssdp.socket.IServerApplication;
-import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
+import net.lizhaoweb.ssdp.socket.config.ServerConfig;
 import net.lizhaoweb.ssdp.socket.listener.IServerLifeEvent;
 import net.lizhaoweb.ssdp.socket.model.ServerStatus;
 
@@ -30,7 +30,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class ServerLifeEvent implements IServerLifeEvent {
 
     @Getter
-    private ServerConfiguration config;
+    private ServerConfig config;
     @Getter
     private ServerStatus status;
 
@@ -40,7 +40,7 @@ public class ServerLifeEvent implements IServerLifeEvent {
     @Getter
     private ThreadPoolExecutor threadPoolExecutor;
 
-    public ServerLifeEvent(ServerConfiguration serverConfig, ServerStatus serverStatus) {
+    public ServerLifeEvent(ServerConfig serverConfig, ServerStatus serverStatus) {
         this.config = serverConfig;
         this.status = serverStatus;
     }
@@ -66,7 +66,7 @@ public class ServerLifeEvent implements IServerLifeEvent {
     }
 
     @Override
-    public ServerConfiguration getServerConfig() {
+    public ServerConfig getServerConfig() {
         return this.config;
     }
 

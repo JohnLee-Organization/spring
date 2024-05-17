@@ -11,7 +11,12 @@
 package net.lizhaoweb.ssdp.socket;
 
 import lombok.extern.slf4j.Slf4j;
-import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
+import net.lizhaoweb.ssdp.model.dto.MSearchRequest;
+import net.lizhaoweb.ssdp.model.dto.MSearchResponse;
+import net.lizhaoweb.ssdp.model.dto.NotifyRequest;
+import net.lizhaoweb.ssdp.service.IMessageFactory;
+import net.lizhaoweb.ssdp.service.impl.DefaultMessageFactory;
+import net.lizhaoweb.ssdp.socket.config.ServerConfig;
 import net.lizhaoweb.ssdp.socket.handler.MSearchHandler;
 import net.lizhaoweb.ssdp.util.SystemUtil;
 import org.junit.BeforeClass;
@@ -42,11 +47,15 @@ public class TestSsdpSocketServer {
     @Test
     public void testServer() {
         try {
-            ServerConfiguration config = new ServerConfiguration();
+            ServerConfig config = new ServerConfig();
             config.getHandlerList().add(new MSearchHandler());
             config.setBroadcastAddress("239.255.255.250");
             config.setBroadcastPort(1900);
-            final SsdpSocketServer server = new SsdpSocketServer(config);
+            IMessageFactory messageFactory = new DefaultMessageFactory();
+            messageFactory.register(new MSearchRequest());
+            messageFactory.register(new MSearchResponse());
+            messageFactory.register(new NotifyRequest());
+            final SsdpSocketServer server = new SsdpSocketServer(config, messageFactory);
             server.init();
             Thread thread = new Thread(server) {
                 @Override

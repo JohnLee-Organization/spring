@@ -13,8 +13,7 @@ package net.lizhaoweb.ssdp.socket;
 import net.lizhaoweb.ssdp.model._enum.SsdpMethod;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
-import net.lizhaoweb.ssdp.service.impl.RequestMessageConverter;
-import net.lizhaoweb.ssdp.service.impl.ResponseMessageConverter;
+import net.lizhaoweb.ssdp.service.IMessageFactory;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
 import net.lizhaoweb.ssdp.socket.model.ServerStatus;
 
@@ -32,9 +31,11 @@ import java.util.List;
  */
 public interface IServerApplication extends IApplication {
 
-    RequestMessageConverter getRequestMessageConverter();
+//    RequestMessageConverter getRequestMessageConverter();
+//
+//    ResponseMessageConverter getResponseMessageConverter();
 
-    ResponseMessageConverter getResponseMessageConverter();
+    IMessageFactory getMessageFactory();
 
     List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> getHandlerList(SsdpMethod method);
 

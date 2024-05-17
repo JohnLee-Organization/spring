@@ -11,7 +11,7 @@
 package net.lizhaoweb.ssdp.exception;
 
 /**
- * [异常] [SSDP] 输入输出异常
+ * [异常] [SSDP] 未知消息类型异常
  * <p>
  * Created by Jhon.Lee on 3/6/2024 17:44
  *
@@ -19,25 +19,25 @@ package net.lizhaoweb.ssdp.exception;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
-public class SsdpIOException extends SsdpException {
+public class SsdpUnknownMessageTypeException extends SsdpException {
 
-    public SsdpIOException() {
+    public SsdpUnknownMessageTypeException() {
         super();
     }
 
-    public SsdpIOException(String message) {
+    public SsdpUnknownMessageTypeException(String message) {
         super(message);
     }
 
-    public SsdpIOException(String message, Throwable cause) {
+    public SsdpUnknownMessageTypeException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public SsdpIOException(Throwable cause) {
+    public SsdpUnknownMessageTypeException(Throwable cause) {
         super(cause);
     }
 
-    protected SsdpIOException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected SsdpUnknownMessageTypeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

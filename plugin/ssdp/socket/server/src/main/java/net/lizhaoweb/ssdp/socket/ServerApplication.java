@@ -16,9 +16,8 @@ import lombok.Setter;
 import net.lizhaoweb.ssdp.model._enum.SsdpMethod;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
-import net.lizhaoweb.ssdp.service.impl.RequestMessageConverter;
-import net.lizhaoweb.ssdp.service.impl.ResponseMessageConverter;
-import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
+import net.lizhaoweb.ssdp.service.IMessageFactory;
+import net.lizhaoweb.ssdp.socket.config.ServerConfig;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
 import net.lizhaoweb.ssdp.socket.model.ServerStatus;
 
@@ -87,19 +86,26 @@ public class ServerApplication implements IServerApplication {
     @Getter
     private byte[] packetBuffer;
 
-    /**
-     * 请求消息转换器
-     */
-    @Setter(AccessLevel.NONE)
-    @Getter
-    private RequestMessageConverter requestMessageConverter;
+//    /**
+//     * 请求消息转换器
+//     */
+//    @Setter(AccessLevel.NONE)
+//    @Getter
+//    private RequestMessageConverter requestMessageConverter;
+//
+//    /**
+//     * 响应消息转换器
+//     */
+//    @Setter(AccessLevel.NONE)
+//    @Getter
+//    private ResponseMessageConverter responseMessageConverter;
 
     /**
-     * 响应消息转换器
+     * 消息工厂
      */
     @Setter(AccessLevel.NONE)
     @Getter
-    private ResponseMessageConverter responseMessageConverter;
+    private IMessageFactory messageFactory;
 
     private Map<SsdpMethod, List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>>> handlerMap;
 
@@ -108,11 +114,12 @@ public class ServerApplication implements IServerApplication {
      *
      * @param config SSDP配置对象
      */
-    public ServerApplication(ServerConfiguration config) {
+    public ServerApplication(ServerConfig config, IMessageFactory messageFactory) {
         this.packetSize = Math.max(packetSize, 1024 * 64);
         this.packetBuffer = new byte[this.packetSize];
-        this.requestMessageConverter = new RequestMessageConverter(config);
-        this.responseMessageConverter = new ResponseMessageConverter(config);
+//        this.requestMessageConverter = new RequestMessageConverter(config);
+//        this.responseMessageConverter = new ResponseMessageConverter(config);
+        this.messageFactory = messageFactory;
         this.handlerMap = new HashMap<>();
     }
 

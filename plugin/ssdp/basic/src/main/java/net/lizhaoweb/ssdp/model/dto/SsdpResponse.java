@@ -12,6 +12,11 @@ package net.lizhaoweb.ssdp.model.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.lizhaoweb.ssdp.model._enum.SsdpTransportProtocol;
+import net.lizhaoweb.ssdp.util.Constant;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * [传输模型] SSDP响应
@@ -27,6 +32,8 @@ import lombok.EqualsAndHashCode;
 @SuppressWarnings({"unused"})
 public class SsdpResponse extends AbstractMessage {
 
+    private static Pattern MESSAGE_FIRST_LINE_PATTERN = Pattern.compile("^([^ /]+)/([^ /]+) +(\\d+) +([^ ]+)$");
+
     /**
      * 状态码
      */
@@ -36,4 +43,28 @@ public class SsdpResponse extends AbstractMessage {
      * 状态码对应的消息
      */
     private String codeMessage;
+
+    @Override
+    protected void convertFirstLine(StringBuilder builder) {
+        builder.append(this.getTransportProtocol().getProtocol()).append("/").append(this.getTransportProtocol().getVersion()).append(" ");
+        builder.append(this.getCode()).append(" ");
+        builder.append(this.getCodeMessage());
+        builder.append(Constant.Message.EOF.LINE);
+    }
+
+    @Override
+    protected void convertFirstLine(String headerLine) {
+        Matcher matcher = MESSAGE_FIRST_LINE_PATTERN.matcher(headerLine);
+        if (matcher.find()) {
+            String transportProtocolName = matcher.group(1);
+            String transportProtocolVersion = matcher.group(2);
+            String statusCodeString = matcher.group(3);
+            String message = matcher.group(4);
+
+            SsdpTransportProtocol transportProtocol = SsdpTransportProtocol.fromProtocol(transportProtocolName, transportProtocolVersion);
+            this.setCode(Integer.parseInt(statusCodeString));
+            this.setCodeMessage(message);
+            this.setTransportProtocol(transportProtocol);
+        }
+    }
 }

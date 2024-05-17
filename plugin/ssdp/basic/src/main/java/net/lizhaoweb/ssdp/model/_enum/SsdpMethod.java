@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import net.lizhaoweb.ssdp.exception.SsdpUnknownMethodException;
 
 /**
  * [枚举] SSDP方法名称
@@ -47,6 +48,6 @@ public enum SsdpMethod {
                 return method;
             }
         }
-        throw new IllegalArgumentException(String.format("The method name is '%s'", name));
+        throw new SsdpUnknownMethodException(String.format("The method name is '%s'", name));
     }
 }

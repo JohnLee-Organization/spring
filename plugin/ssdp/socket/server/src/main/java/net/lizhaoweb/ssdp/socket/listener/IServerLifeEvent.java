@@ -11,7 +11,7 @@
 package net.lizhaoweb.ssdp.socket.listener;
 
 import net.lizhaoweb.ssdp.socket.IServerApplication;
-import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
+import net.lizhaoweb.ssdp.socket.config.ServerConfig;
 import net.lizhaoweb.ssdp.socket.model.ServerStatus;
 
 import java.util.concurrent.ThreadPoolExecutor;
@@ -32,7 +32,7 @@ public interface IServerLifeEvent extends IServerEvent {
      *
      * @return ServerConfiguration
      */
-    ServerConfiguration getServerConfig();
+    ServerConfig getServerConfig();
 
     /**
      * 获取服务器状态

@@ -20,8 +20,9 @@ import net.lizhaoweb.ssdp.exception.SsdpIOException;
 import net.lizhaoweb.ssdp.exception.SsdpUnknownHostException;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
+import net.lizhaoweb.ssdp.service.IMessageFactory;
 import net.lizhaoweb.ssdp.service.ISsdpReceiver;
-import net.lizhaoweb.ssdp.socket.config.ServerConfiguration;
+import net.lizhaoweb.ssdp.socket.config.ServerConfig;
 import net.lizhaoweb.ssdp.socket.exception.*;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
 import net.lizhaoweb.ssdp.socket.listener.IServerLifeListener;
@@ -58,7 +59,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
     /**
      * SSDP服务器配置
      */
-    private ServerConfiguration config;
+    private ServerConfig config;
 
     /**
      * SSDP服务器应用对象
@@ -86,8 +87,8 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
     @Getter
     private ServerStatus serverStatus;
 
-    public SsdpSocketServer(@NotNull final ServerConfiguration config) {
-        log.error("Instantiate server ...");
+    public SsdpSocketServer(@NotNull final ServerConfig config, IMessageFactory messageFactory) {
+        System.out.println("Instantiate server ...");
         serverStatus = PRE_INSTANCE;
         Collection<IServerLifeListener> instantiateListeners = SsdpServerListenerManager.getServerInstantiate();
         if (instantiateListeners != null && instantiateListeners.size() > 0) {
@@ -109,7 +110,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
             }
         }
         this.config = config;
-        this.application = new ServerApplication(config);
+        this.application = new ServerApplication(config, messageFactory);
 
         serverStatus = INSTANCED;
         this.application.setServerStatus(serverStatus);
@@ -125,7 +126,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public void init() {
-        log.error("Init server ...");
+        System.out.println("Init server ...");
         serverStatus = PRE_INITIALIZE;
         this.application.setServerStatus(serverStatus);
         Collection<IServerLifeListener> initializationListeners = SsdpServerListenerManager.getServerInitialization();
@@ -191,7 +192,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public synchronized void start() {
-        log.error("Start server ...");
+        System.out.println("Start server ...");
         serverStatus = PRE_START;
         this.application.setServerStatus(serverStatus);
         if (threadStatus != 0) {
@@ -233,7 +234,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public synchronized void stop() {
-        log.error("Stop server ...");
+        System.out.println("Stop server ...");
         if (serverStatus != RUNNING) {
             throw new IllegalThreadStateException();
         }
@@ -279,7 +280,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public synchronized void close() {
-        log.error("Close server ...");
+        System.out.println("Close server ...");
         serverStatus = PRE_CLOSE;
         this.application.setServerStatus(serverStatus);
         Collection<IServerLifeListener> closeListeners = SsdpServerListenerManager.getServerClose();
@@ -320,7 +321,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public synchronized void destroy() {
-        log.error("Destroy server ...");
+        System.out.println("Destroy server ...");
         serverStatus = PRE_DESTROY;
         this.application.setServerStatus(serverStatus);
         Collection<IServerLifeListener> destroyListeners = SsdpServerListenerManager.getServerDestroy();
@@ -363,7 +364,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     @Override
     public void run() {
-        log.error("Run server ...");
+        System.out.println("Run server ...");
         if (serverStatus != STARTED) {
             throw new IllegalThreadStateException();
         }

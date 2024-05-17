@@ -10,8 +10,6 @@
  */
 package net.lizhaoweb.ssdp.socket;
 
-import net.lizhaoweb.ssdp.config.SsdpConfiguration;
-
 /**
  * 应用
  * <p>

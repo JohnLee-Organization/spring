@@ -25,7 +25,7 @@ import java.util.Properties;
  */
 @SuppressWarnings({"unused"})
 @Data
-public class SsdpConfiguration {
+public class SsdpConfig {
 
 //    // SSDP socket 地址
 //    private static InetSocketAddress ssdpInetSocketAddress;
@@ -78,7 +78,7 @@ public class SsdpConfiguration {
     private String networkInterfaceName;
 
 
-//    /**
+    //    /**
 //     * 本地地址对象
 //     */
 //    private InetAddress inetAddress;

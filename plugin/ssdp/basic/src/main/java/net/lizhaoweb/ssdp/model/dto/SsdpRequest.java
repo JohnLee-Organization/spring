@@ -13,8 +13,12 @@ package net.lizhaoweb.ssdp.model.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.lizhaoweb.ssdp.model._enum.SsdpMethod;
+import net.lizhaoweb.ssdp.model._enum.SsdpTransportProtocol;
+import net.lizhaoweb.ssdp.util.Constant;
 
 import java.net.SocketAddress;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * [传输模型] SSDP请求
@@ -30,6 +34,8 @@ import java.net.SocketAddress;
 @SuppressWarnings({"unused"})
 public abstract class SsdpRequest extends AbstractMessage {
 
+    protected static Pattern MESSAGE_FIRST_LINE_PATTERN = Pattern.compile("^([^ ]+) +([^ ]+) +([^ /]+)/([^ /]+)$");
+
     /**
      * 目标地址.
      */
@@ -44,4 +50,29 @@ public abstract class SsdpRequest extends AbstractMessage {
      * 请求路径
      */
     private String queryString;
+
+    @Override
+    protected void convertFirstLine(StringBuilder builder) {
+        builder.append(this.getMethod().getName()).append(" ");
+        builder.append(this.getQueryString()).append(" ");
+        builder.append(this.getTransportProtocol().getProtocol()).append("/").append(this.getTransportProtocol().getVersion());
+        builder.append(Constant.Message.EOF.LINE);
+    }
+
+    @Override
+    protected void convertFirstLine(String headerLine) {
+        Matcher matcher = MESSAGE_FIRST_LINE_PATTERN.matcher(headerLine);
+        if (matcher.find()) {
+            String methodString = matcher.group(1);
+            String queryString = matcher.group(2);
+            String transportProtocolName = matcher.group(3);
+            String transportProtocolVersion = matcher.group(4);
+
+            SsdpMethod method = SsdpMethod.fromName(methodString);
+            SsdpTransportProtocol transportProtocol = SsdpTransportProtocol.fromProtocol(transportProtocolName, transportProtocolVersion);
+            this.setMethod(method);
+            this.setQueryString(queryString);
+            this.setTransportProtocol(transportProtocol);
+        }
+    }
 }

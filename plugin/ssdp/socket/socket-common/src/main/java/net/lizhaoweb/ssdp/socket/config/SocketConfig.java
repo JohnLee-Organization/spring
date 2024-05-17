@@ -12,7 +12,7 @@ package net.lizhaoweb.ssdp.socket.config;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.lizhaoweb.ssdp.config.SsdpConfiguration;
+import net.lizhaoweb.ssdp.config.SsdpConfig;
 
 /**
  * a
@@ -23,7 +23,7 @@ import net.lizhaoweb.ssdp.config.SsdpConfiguration;
  * @version 1.1.0.0.1
  * @email 404644381@qq.com
  */
-public class SocketConfiguration extends SsdpConfiguration {
+public class SocketConfig extends SsdpConfig {
 
     /**
      * Set the default time-to-live for multicast packets sent out

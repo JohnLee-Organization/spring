@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import net.lizhaoweb.ssdp.exception.SsdpUnknownProtocolException;
 
 /**
  * [枚举] SSDP传输协议
@@ -47,14 +48,14 @@ public enum SsdpTransportProtocol {
     @NonNull
     private final String version;
 
-    public static SsdpTransportProtocol fromProtocol(String protocol) {
-        for (SsdpTransportProtocol type : values()) {
-            if (type.protocol.equalsIgnoreCase(protocol)) {
-                return type;
-            }
-        }
-        throw new IllegalArgumentException(String.format("protocol/version [%s]", protocol));
-    }
+//    public static SsdpTransportProtocol fromProtocol(String protocol) {
+//        for (SsdpTransportProtocol type : values()) {
+//            if (type.protocol.equalsIgnoreCase(protocol)) {
+//                return type;
+//            }
+//        }
+//        throw new SsdpUnknownProtocolException(protocol, null);
+//    }
 
     public static SsdpTransportProtocol fromProtocol(String protocol, String version) {
         for (SsdpTransportProtocol type : values()) {
@@ -62,6 +63,11 @@ public enum SsdpTransportProtocol {
                 return type;
             }
         }
-        throw new IllegalArgumentException(String.format("protocol/version [%s/%s]", protocol, version));
+        throw new SsdpUnknownProtocolException(protocol, version);
+    }
+
+    public static SsdpTransportProtocol fromProtocolVersion(String protocolVersion) {
+        String[] protocolAndVersion = protocolVersion.split("/");
+        return fromProtocol(protocolAndVersion[0], protocolAndVersion[1]);
     }
 }

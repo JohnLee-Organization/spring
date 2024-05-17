@@ -11,7 +11,7 @@
 package net.lizhaoweb.ssdp.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import net.lizhaoweb.ssdp.config.SsdpConfiguration;
+import net.lizhaoweb.ssdp.config.SsdpConfig;
 import net.lizhaoweb.ssdp.exception.SsdpIOException;
 import net.lizhaoweb.ssdp.service.ISsdpConfigurationService;
 import org.apache.commons.lang3.ArrayUtils;
@@ -35,7 +35,7 @@ public class SsdpConfigurationService implements ISsdpConfigurationService {
 
 
     @Override
-    public SsdpConfiguration loadConfig(String... configFiles) {
+    public SsdpConfig loadConfig(String... configFiles) {
         Properties configProperties = new Properties();
         try (InputStream inputStream = ClassLoader.getSystemResourceAsStream("ssdp.properties")) {
             configProperties.load(inputStream);
@@ -43,7 +43,7 @@ public class SsdpConfigurationService implements ISsdpConfigurationService {
             throw new SsdpIOException(e);
         }
         if (ArrayUtils.isEmpty(configFiles)) {
-            SsdpConfiguration ssdpConfiguration = new SsdpConfiguration();
+            SsdpConfig ssdpConfiguration = new SsdpConfig();
             ssdpConfiguration.convert(configProperties);
             return ssdpConfiguration;
         }

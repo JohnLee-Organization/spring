@@ -10,7 +10,7 @@
  */
 package net.lizhaoweb.ssdp.service;
 
-import net.lizhaoweb.ssdp.config.SsdpConfiguration;
+import net.lizhaoweb.ssdp.config.SsdpConfig;
 
 /**
  * [接口] SSDP配置服务
@@ -23,5 +23,5 @@ import net.lizhaoweb.ssdp.config.SsdpConfiguration;
  */
 public interface ISsdpConfigurationService {
 
-    SsdpConfiguration loadConfig(String... configFiles);
+    SsdpConfig loadConfig(String... configFiles);
 }

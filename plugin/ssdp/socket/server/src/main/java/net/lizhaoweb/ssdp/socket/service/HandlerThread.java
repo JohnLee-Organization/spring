@@ -22,6 +22,7 @@ import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -56,7 +57,8 @@ public class HandlerThread extends Thread implements ISsdpSender<SsdpResponse> {
             }
             String message = new String(this.context.getDatagramPacket().getData());
             log.trace("Thread[{}/{}] [Message] {}", this.getId(), this.getName(), message);
-            SsdpRequest request = this.context.getApplication().getRequestMessageConverter().toBean(message);
+//            SsdpRequest request = this.context.getApplication().getRequestMessageConverter().toBean(message);
+            SsdpRequest request = this.context.getApplication().getMessageFactory().toRequest(message);
             List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> handlerList = this.context.getApplication().getHandlerList(request.getMethod());
             if (handlerList == null) {
                 return;
@@ -90,7 +92,8 @@ public class HandlerThread extends Thread implements ISsdpSender<SsdpResponse> {
     @Override
     public boolean send(InetAddress inetAddress, int port, SsdpResponse message) {
         boolean result = false;
-        byte[] responseMessage = this.context.getApplication().getResponseMessageConverter().toBytes(message);
+//        byte[] responseMessage = this.context.getApplication().getResponseMessageConverter().toBytes(message);
+        byte[] responseMessage = message.turnToString().getBytes(StandardCharsets.UTF_8);
         DatagramPacket datagramPacket = new DatagramPacket(responseMessage, responseMessage.length, inetAddress, port);
         DatagramSocket socket = null;
         try {

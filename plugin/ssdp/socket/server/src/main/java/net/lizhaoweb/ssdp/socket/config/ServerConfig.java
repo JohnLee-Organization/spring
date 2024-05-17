@@ -32,14 +32,14 @@ import java.util.List;
 @SuppressWarnings({"unused"})
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ServerConfiguration extends SocketConfiguration implements Cloneable {
-
+public class ServerConfig extends SocketConfig implements Cloneable {
+    //ServerConfiguration
     private List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> handlerList = new ArrayList<>();
 
     @Override
-    public ServerConfiguration clone() {
+    public ServerConfig clone() {
         try {
-            return (ServerConfiguration) super.clone();
+            return (ServerConfig) super.clone();
         } catch (CloneNotSupportedException e) {
             return null;
         }
