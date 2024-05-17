@@ -4,19 +4,21 @@
  *
  *
  * @project : spring
- * @package : net.lizhaoweb.ssdp.socket.service
+ * @package : net.lizhaoweb.ssdp.socket.handler.impl
  * @date : 2024-03-12
  * @time : 10:03
  */
-package net.lizhaoweb.ssdp.socket.handler;
+package net.lizhaoweb.ssdp.socket.handler.impl;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.model._enum.SsdpMethod;
+import net.lizhaoweb.ssdp.model.dto.MSearchRequest;
 import net.lizhaoweb.ssdp.model.dto.MSearchResponse;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
 import net.lizhaoweb.ssdp.socket.IServerContext;
+import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
 
 import static net.lizhaoweb.ssdp.model._enum.SsdpMethod.M_SEARCH;
 
@@ -40,15 +42,17 @@ public class MSearchHandler implements IServiceHandler<IServerContext, SsdpReque
     }
 
     @Override
-    public SsdpResponse handle(IServerContext context, SsdpRequest request) {
+    public MSearchResponse handle(IServerContext context, SsdpRequest request) {
         if (M_SEARCH != request.getMethod()) {
             return null;
         }
 
-        return this.handleResponse();
+        return this.handleResponse((MSearchRequest) request);
     }
 
-    SsdpResponse handleResponse() {
-        return new MSearchResponse();
+    private MSearchResponse handleResponse(MSearchRequest request) {
+        MSearchResponse response = new MSearchResponse();
+        response.setBody("");
+        return response;
     }
 }

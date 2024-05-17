@@ -35,6 +35,23 @@ import java.util.List;
 public class ServerConfig extends SocketConfig implements Cloneable {
     //ServerConfiguration
     private List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> handlerList = new ArrayList<>();
+//    @Setter(AccessLevel.NONE)
+//    @Getter(AccessLevel.NONE)
+//    private List<IServiceHandler<IServerContext, ?, ?>> handlerList = new ArrayList<>();
+
+//    public <REQ extends SsdpRequest, RES extends SsdpRequest> ServerConfig setServiceHandler(IServiceHandler<IServerContext, REQ, RES> handler) {
+//        handlerList.clear();
+//        return this.addServiceHandler(handler);
+//    }
+//
+//    public <REQ extends SsdpRequest, RES extends SsdpRequest> ServerConfig addServiceHandler(IServiceHandler<IServerContext, REQ, RES> handler) {
+//        handlerList.add(handler);
+//        return this;
+//    }
+//
+//    public <REQ extends SsdpRequest, RES extends SsdpRequest> List<IServiceHandler<IServerContext, REQ, RES>> getServiceHandlerList() {
+//        return handlerList;
+//    }
 
     @Override
     public ServerConfig clone() {
