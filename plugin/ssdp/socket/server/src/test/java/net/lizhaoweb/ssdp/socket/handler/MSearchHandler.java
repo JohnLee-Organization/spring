@@ -28,7 +28,7 @@ public class MSearchHandler extends AbstractMSearchHandler {
     @Override
     protected MSearchResponse handle(MSearchRequest request) {
         MSearchResponse response = new MSearchResponse();
-        response.setBody("");
+        response.setBody("一个测试实例 ----- Jhon.Lee");
         return response;
     }
 }

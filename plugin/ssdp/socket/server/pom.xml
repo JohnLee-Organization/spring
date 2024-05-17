@@ -19,6 +19,12 @@
 
     <dependencies>
 
+        <!-- 常用工具 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -51,14 +57,7 @@
 
         <dependency>
             <groupId>net.lizhaoweb.ssdp</groupId>
-            <artifactId>ssdp-basic</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.lizhaoweb.ssdp</groupId>
             <artifactId>socket-common</artifactId>
-            <version>JL.SPRING.2.3.2.1.1.1.0-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
 
         <!--

@@ -31,6 +31,24 @@
                 <version>JL.SPRING.2.3.1.0.1.1.0-SNAPSHOT</version>
             </dependency>
 
+            <dependency>
+                <groupId>net.lizhaoweb.ssdp</groupId>
+                <artifactId>socket-common</artifactId>
+                <version>JL.SPRING.2.3.2.1.1.1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.lizhaoweb.ssdp</groupId>
+                <artifactId>socket-server</artifactId>
+                <version>JL.SPRING.2.3.2.2.1.1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.lizhaoweb.ssdp</groupId>
+                <artifactId>socket-client</artifactId>
+                <version>JL.SPRING.2.3.2.3.1.1.0-SNAPSHOT</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
