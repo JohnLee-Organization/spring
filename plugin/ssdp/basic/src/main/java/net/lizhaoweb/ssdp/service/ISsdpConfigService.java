@@ -21,7 +21,7 @@ import net.lizhaoweb.ssdp.config.SsdpConfig;
  * @version 1.0
  * @email 404644381@qq.com
  */
-public interface ISsdpConfigurationService {
+public interface ISsdpConfigService {
 
     SsdpConfig loadConfig(String... configFiles);
 }

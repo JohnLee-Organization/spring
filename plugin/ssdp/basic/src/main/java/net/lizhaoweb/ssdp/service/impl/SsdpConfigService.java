@@ -13,7 +13,7 @@ package net.lizhaoweb.ssdp.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.config.SsdpConfig;
 import net.lizhaoweb.ssdp.exception.SsdpIOException;
-import net.lizhaoweb.ssdp.service.ISsdpConfigurationService;
+import net.lizhaoweb.ssdp.service.ISsdpConfigService;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -31,7 +31,7 @@ import java.util.Properties;
  * @email 404644381@qq.com
  */
 @Slf4j
-public class SsdpConfigurationService implements ISsdpConfigurationService {
+public class SsdpConfigService implements ISsdpConfigService {
 
 
     @Override
