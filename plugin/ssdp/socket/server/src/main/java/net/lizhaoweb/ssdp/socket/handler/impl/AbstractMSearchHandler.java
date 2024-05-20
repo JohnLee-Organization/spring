@@ -18,7 +18,6 @@ import net.lizhaoweb.ssdp.model.dto.MSearchResponse;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
 import net.lizhaoweb.ssdp.socket.IServerContext;
-import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
 
 import static net.lizhaoweb.ssdp.model._enum.SsdpMethod.M_SEARCH;
 
@@ -34,7 +33,7 @@ import static net.lizhaoweb.ssdp.model._enum.SsdpMethod.M_SEARCH;
 @SuppressWarnings({"unused"})
 @Slf4j
 @NoArgsConstructor
-public abstract class AbstractMSearchHandler implements IServiceHandler<IServerContext, SsdpRequest, SsdpResponse> {
+public abstract class AbstractMSearchHandler extends AbstractServiceHandler<IServerContext, SsdpRequest, SsdpResponse> {
 
     @Override
     public SsdpMethod getMethod() {
