@@ -37,6 +37,11 @@ public class SsdpSocketServerThread extends Thread {
         super.start();
     }
 
+    @Override
+    public void run() {
+        server.run();
+    }
+
     public void stopServer() {
         server.stop();
         server.close();

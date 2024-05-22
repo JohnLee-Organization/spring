@@ -33,7 +33,7 @@ import static net.lizhaoweb.ssdp.model._enum.SsdpMethod.M_SEARCH;
 @SuppressWarnings({"unused"})
 @Slf4j
 @NoArgsConstructor
-public abstract class AbstractMSearchHandler extends AbstractServiceHandler<IServerContext, SsdpRequest, SsdpResponse> {
+public abstract class MSearchHandler extends AbstractServiceHandler<IServerContext, SsdpRequest, SsdpResponse> {
 
     @Override
     public SsdpMethod getMethod() {
@@ -50,6 +50,8 @@ public abstract class AbstractMSearchHandler extends AbstractServiceHandler<ISer
     }
 
     protected MSearchResponse handle(MSearchRequest request) {
-        return null;
+        MSearchResponse response = new MSearchResponse();
+        response.setBody("This is a M-Search demo. ----- Jhon.Lee");
+        return response;
     }
 }
