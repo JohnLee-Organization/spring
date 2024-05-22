@@ -59,7 +59,7 @@ public class HandlerThread extends Thread implements ISsdpSender<SsdpResponse> {
             log.trace("Thread[{}/{}] [Message] {}", this.getId(), this.getName(), message);
 //            SsdpRequest request = this.context.getApplication().getRequestMessageConverter().toBean(message);
             SsdpRequest request = this.context.getApplication().getMessageFactory().toRequest(message);
-            List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> handlerList = this.context.getApplication().getHandlerList(request.getMethod());
+            List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> handlerList = this.context.getApplication().getHandlerList(request.getMethod(), null);
             if (handlerList == null) {
                 return;
             }

@@ -55,15 +55,7 @@ public class TestSsdpSocketServer {
             messageFactory.register(new MSearchRequest());
             messageFactory.register(new MSearchResponse());
             messageFactory.register(new NotifyRequest());
-            final SsdpSocketServer server = new SsdpSocketServer(config, messageFactory);
-            server.init();
-            Thread thread = new Thread(server) {
-                @Override
-                public synchronized void start() {
-                    server.start();
-                    super.start();
-                }
-            };
+            SsdpSocketServerThread thread = new SsdpSocketServerThread(config, messageFactory);
             thread.start();
             boolean stopServer = false;
             Scanner scanner = new Scanner(System.in);
@@ -75,10 +67,12 @@ public class TestSsdpSocketServer {
                 }
             }
             scanner.close();
-            server.stop();
-            server.close();
-            server.destroy();
-            while (!server.isDestroyed()) ;
+            thread.stopServer();
+            while (true) {
+                if (thread.isDestroyed()) {
+                    break;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

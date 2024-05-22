@@ -131,6 +131,10 @@ public class ServerApplication implements IServerApplication {
 //        return this.config.clone();
 //    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ServerApplication registerHandler(IServiceHandler<IServerContext, SsdpRequest, SsdpResponse> handler) {
         if (this.handlerMap.get(handler.getMethod()) == null) {
             this.handlerMap.put(handler.getMethod(), new ArrayList<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>>());
@@ -139,13 +143,29 @@ public class ServerApplication implements IServerApplication {
         return this;
     }
 
-    public List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> getHandlerList(SsdpMethod method) {
-        return Collections.unmodifiableList(this.handlerMap.get(method));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> getHandlerList(SsdpMethod method, List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> defaultValue) {
+        List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> handlerList = this.handlerMap.get(method);
+        if (handlerList == null) {
+            return defaultValue;
+        }
+        return Collections.unmodifiableList(handlerList);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void close() {
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void destroy() {
     }
 }
