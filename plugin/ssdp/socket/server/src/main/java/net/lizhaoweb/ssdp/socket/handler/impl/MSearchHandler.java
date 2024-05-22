@@ -33,7 +33,7 @@ import static net.lizhaoweb.ssdp.model._enum.SsdpMethod.M_SEARCH;
 @SuppressWarnings({"unused"})
 @Slf4j
 @NoArgsConstructor
-public abstract class MSearchHandler extends AbstractServiceHandler<IServerContext, SsdpRequest, SsdpResponse> {
+public class MSearchHandler extends AbstractServiceHandler<IServerContext, SsdpRequest, SsdpResponse> {
 
     @Override
     public SsdpMethod getMethod() {

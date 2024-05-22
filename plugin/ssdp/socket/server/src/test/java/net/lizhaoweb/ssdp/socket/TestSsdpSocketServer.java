@@ -17,7 +17,7 @@ import net.lizhaoweb.ssdp.model.dto.NotifyRequest;
 import net.lizhaoweb.ssdp.service.IMessageFactory;
 import net.lizhaoweb.ssdp.service.impl.DefaultMessageFactory;
 import net.lizhaoweb.ssdp.socket.config.ServerConfig;
-import net.lizhaoweb.ssdp.socket.handler.MSearchHandler;
+import net.lizhaoweb.ssdp.socket.handler.impl.MSearchHandler;
 import net.lizhaoweb.ssdp.util.SystemUtil;
 import org.junit.BeforeClass;
 import org.junit.Test;
