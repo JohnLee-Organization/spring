@@ -34,7 +34,7 @@ import java.util.*;
  * @email 404644381@qq.com
  */
 @SuppressWarnings({"unused"})
-public class ServerApplication implements IServerApplication {
+public abstract class AbstractServerApplication implements IServerApplication {
 
     /**
      * 服务器状态。
@@ -112,9 +112,10 @@ public class ServerApplication implements IServerApplication {
     /**
      * [服务器] 运行上下文
      *
-     * @param config SSDP配置对象
+     * @param config         SSDP配置对象
+     * @param messageFactory 消息工厂
      */
-    public ServerApplication(ServerConfig config, IMessageFactory messageFactory) {
+    public AbstractServerApplication(ServerConfig config, IMessageFactory messageFactory) {
         this.packetSize = Math.max(packetSize, 1024 * 64);
         this.packetBuffer = new byte[this.packetSize];
 //        this.requestMessageConverter = new RequestMessageConverter(config);
@@ -135,7 +136,7 @@ public class ServerApplication implements IServerApplication {
      * {@inheritDoc}
      */
     @Override
-    public ServerApplication registerHandler(IServiceHandler<IServerContext, SsdpRequest, SsdpResponse> handler) {
+    public AbstractServerApplication registerHandler(IServiceHandler<IServerContext, SsdpRequest, SsdpResponse> handler) {
         if (this.handlerMap.get(handler.getMethod()) == null) {
             this.handlerMap.put(handler.getMethod(), new ArrayList<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>>());
         }

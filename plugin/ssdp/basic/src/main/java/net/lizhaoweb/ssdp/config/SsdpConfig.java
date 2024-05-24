@@ -10,7 +10,9 @@
  */
 package net.lizhaoweb.ssdp.config;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 import java.util.Properties;
 
@@ -31,14 +33,46 @@ public class SsdpConfig {
 //    private static InetSocketAddress ssdpInetSocketAddress;
 
     /**
-     * 广播的 IP 地址
+     * 是否支持IPV4
      */
-    private String broadcastAddress = "239.255.255.250";
+    @Setter(AccessLevel.NONE)
+    private boolean supportIpV4;
+
+    /**
+     * 是否支持IPV6
+     */
+    @Setter(AccessLevel.NONE)
+    private boolean supportIpV6;
+
+    /**
+     * 广播的 IP 地址 - IPV4
+     */
+    private String broadcastAddressIpV4 = "239.255.255.250";
+
+    /**
+     * 广播的 IP 地址 - IPV6
+     */
+    private String broadcastAddressIpV6 = "FF0x::C";
 
     /**
      * 广播的端口号
      */
     private int broadcastPort = 1900;
+
+    /**
+     * 本地的 IP 地址 - IPV4
+     */
+    private String localAddressIpV4 = "0.0.0.0";
+
+    /**
+     * 本地的 IP 地址 - IPV6
+     */
+    private String localAddressIpV6 = "::";
+
+    /**
+     * 本地的端口号
+     */
+    private int localPort = 1900;
 
 //    /**
 //     * 单播的 IP 地址
@@ -76,6 +110,12 @@ public class SsdpConfig {
      * 设置要获取 IP 地址的网卡名
      */
     private String networkInterfaceName;
+
+
+    public SsdpConfig() {
+        this.supportIpV4 = Boolean.parseBoolean(System.getProperty("java.net.preferIPv4Stack", "true"));
+        this.supportIpV6 = Boolean.parseBoolean(System.getProperty("java.net.preferIPv6Addresses", "true"));
+    }
 
 
     //    /**
@@ -123,9 +163,14 @@ public class SsdpConfig {
 //            }
 //        }
 //    }
+
     public void convert(Properties properties) {
-        this.broadcastAddress = properties.getProperty("ssdp.broadcast.address", "239.255.255.250"); // 广播的 IP 地址
+        this.broadcastAddressIpV4 = properties.getProperty("ssdp.broadcast.address.ipv4", "239.255.255.250"); // 广播的 IP 地址 - IPV4
+        this.broadcastAddressIpV6 = properties.getProperty("ssdp.broadcast.address.ipv6", "FF0x::C"); // 广播的 IP 地址 - IPV6
         this.broadcastPort = Integer.parseInt(properties.getProperty("ssdp.broadcast.port", "1900")); // 广播的端口号
+        this.localAddressIpV4 = properties.getProperty("ssdp.local.address.ipv4", "0.0.0.0"); // 本地的 IP 地址 - IPV4
+        this.localAddressIpV6 = properties.getProperty("ssdp.local.address.ipv6", "::"); // 本地的 IP 地址 - IPV6
+        this.localPort = Integer.parseInt(properties.getProperty("ssdp.local.port", "1900")); // 本地的端口号
 //        this.unicastAddress = properties.getProperty("ssdp.unicast.address", "239.255.255.250"); // 单播的 IP 地址
 //        this.unicastPort = Integer.parseInt(properties.getProperty("ssdp.unicast.port", "1800")); // 单播的端口号
         this.maxAge = Integer.parseInt(properties.getProperty("ssdp.time.age.max", "5")); // SSDP 通知有效时长(单位：秒)。

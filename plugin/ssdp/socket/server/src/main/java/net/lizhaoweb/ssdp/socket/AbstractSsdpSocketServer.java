@@ -17,7 +17,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.ISsdpServer;
 import net.lizhaoweb.ssdp.exception.SsdpIOException;
-import net.lizhaoweb.ssdp.exception.SsdpUnknownHostException;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
 import net.lizhaoweb.ssdp.service.IMessageFactory;
@@ -30,10 +29,12 @@ import net.lizhaoweb.ssdp.socket.listener.SsdpServerListenerManager;
 import net.lizhaoweb.ssdp.socket.listener.impl.ServerLifeEvent;
 import net.lizhaoweb.ssdp.socket.model.ServerStatus;
 import net.lizhaoweb.ssdp.socket.service.HandlerThread;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
+import java.net.SocketException;
 import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -54,7 +55,7 @@ import static net.lizhaoweb.ssdp.socket.model.ServerStatus.*;
  */
 @Slf4j
 @SuppressWarnings({"unused"})
-public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest, IServerContext>, Runnable {
+public abstract class AbstractSsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest, IServerContext>, Runnable {
 
     /**
      * SSDP服务器配置
@@ -68,7 +69,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
 
     // 用来存放socket连接
     private ThreadPoolExecutor threadPool;
-    private MulticastSocket socket;
+    private MulticastSocket receiveSocket;
 
     private volatile int threadStatus = 0;
 
@@ -87,7 +88,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
     @Getter
     private ServerStatus serverStatus;
 
-    public SsdpSocketServer(@NotNull final ServerConfig config, IMessageFactory messageFactory) {
+    public AbstractSsdpSocketServer(@NotNull final ServerConfig config, IMessageFactory messageFactory) {
         System.out.println("Instantiate server ...");
         serverStatus = PRE_INSTANCE;
         Collection<IServerLifeListener> instantiateListeners = SsdpServerListenerManager.getServerInstantiate();
@@ -110,7 +111,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
             }
         }
         this.config = config;
-        this.application = new ServerApplication(config, messageFactory);
+        this.application = this.buildApplication(config, messageFactory);
 
         serverStatus = INSTANCED;
         this.application.setServerStatus(serverStatus);
@@ -158,20 +159,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
             }
         }
         this.threadPool = new ThreadPoolExecutor(16, 128, 1000, TimeUnit.MICROSECONDS, new ArrayBlockingQueue<Runnable>(16));
-        String hostname = "239.255.255.250";//TODO hostname
-        if (StringUtils.isNotBlank(this.config.getBroadcastAddress())) {
-            hostname = this.config.getBroadcastAddress();
-        }
-        try {
-//            InetSocketAddress inetSocketAddress = new InetSocketAddress(String hostname, int port);
-//            InetSocketAddress inetSocketAddress = new InetSocketAddress(InetAddress addr, int port);
-//            InetSocketAddress inetSocketAddress = new InetSocketAddress(int port);
-//        InetSocketAddress inetSocketAddress = new InetSocketAddress(hostname, port);
-            InetAddress groupInetAddress = InetAddress.getByName(hostname);
-            this.application.setGroupInetAddress(groupInetAddress);
-        } catch (UnknownHostException e) {
-            throw new SsdpUnknownHostException(e);
-        }
+        this.initGroupInetAddress(this.config, this.application);
         int groupPort = 1900;//TODO port
         if (this.config.getBroadcastPort() > 1024) {
             groupPort = this.config.getBroadcastPort();
@@ -264,7 +252,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
         while (!Thread.currentThread().isInterrupted()) {
             Thread.currentThread().interrupt();
         }
-        this.leaveGroup(socket);
+        this.leaveGroup(receiveSocket);
 
         serverStatus = STOPPED;
         this.application.setServerStatus(serverStatus);
@@ -303,7 +291,7 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 listener.onExe(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
-        this.closeMulticastSocket(socket);
+        this.closeMulticastSocket(receiveSocket);
         this.closeThreadPoolExecutor(threadPool);
         application.close();
 
@@ -391,7 +379,10 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
                 listener.onExe(new ServerLifeEvent(serverStatus, application, threadPool));
             }
         }
-        socket = this.buildMulticastSocket(this.application.getGroupInetAddress(), this.application.getGroupPort(), this.config.getTimeToLive(), this.config.getSoTimeout());
+        receiveSocket = this.buildMulticastSocket(this.application.getGroupPort());
+        this.socketJoinGroup(receiveSocket, this.application.getGroupInetAddress());
+        this.socketSetTimeToLive(receiveSocket, this.config.getTimeToLive());
+        this.socketSetSoTimeout(receiveSocket, this.config.getSoTimeout());
 
 
         do {
@@ -429,12 +420,29 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
     public IServerContext receive(SsdpRequest request) {
         IServerContext context = new ServerContext(this.application);
         try {
-            socket.receive(context.getDatagramPacket());
+            receiveSocket.receive(context.getDatagramPacket());
         } catch (Exception e) {
             throw new MulticastSocketDataReceiveException(e);
         }
         return context;
     }
+
+    /**
+     * 构建服务器应用对象
+     *
+     * @param config         服务器配置对象
+     * @param messageFactory 消息工厂
+     * @return IServerApplication
+     */
+    protected abstract IServerApplication buildApplication(ServerConfig config, IMessageFactory messageFactory);
+
+    /**
+     * 初始化组播地址
+     *
+     * @param config      服务器配置对象
+     * @param application 服务器应用对象
+     */
+    protected abstract void initGroupInetAddress(ServerConfig config, IServerApplication application);
 
     private void leaveGroup(MulticastSocket serverSocket) {
         if (serverSocket == null) {
@@ -452,44 +460,34 @@ public class SsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest,
         }
     }
 
-//    private MulticastSocket accept(MulticastSocket serverSocket, ServerContext context) {
-//        try {
-//            serverSocket.receive(context.getDatagramPacket());
-//        } catch (Exception e) {
-//            throw new MulticastSocketDataReceiveException(e);
-//        }
-//        return this.buildMulticastSocket(serverSocket.getInetAddress(), serverSocket.getPort());
-//    }
-
     /**
      * 构建组播套节子
      *
-     * @param groupInetAddress 组播地址
-     * @param groupPort        组播端口
-     * @param timeToLive       设置此套节子发送的组播数据包的默认生存时间，以控制组播的范围。
-     *                         ttl必须在0<=ttl<=255的范围内，否则将引发IllegalArgumentException。
-     *                         以TTL为0发送的组播数据包不在网络上传输，而是可以在本地传递。
-     * @param soTimeout        指定的超时时间（以毫秒为单位），来启用/禁用SO_TIMEOUT选项。
-     *                         如果此选项设置为非零时，则套节子的receive()方法将被阻塞到此时间量，
-     *                         超过此时间量，虽然套节子仍然有效，但会抛出java.net.SocketTimeoutException。
-     *                         必须在进入阻止操作之前启用该选项才能生效。超时值必须大于0。超时为零被解释为无限超时。
+     * @param socketPort 套节子端口
      * @return 组播套节子
      */
-    private MulticastSocket buildMulticastSocket(InetAddress groupInetAddress, int groupPort, int timeToLive, int soTimeout) {
+    private MulticastSocket buildMulticastSocket(int socketPort) {
         MulticastSocket socket = null;
         try {
-            socket = new MulticastSocket(groupPort);
+            socket = new MulticastSocket(socketPort);
         } catch (Exception e) {
             throw new MulticastSocketCreateException(e);
         }
+        return socket;
+    }
+
+    /**
+     * 组播套节子加入组
+     *
+     * @param socket           组播套节子
+     * @param groupInetAddress 组播地址
+     */
+    private void socketJoinGroup(MulticastSocket socket, InetAddress groupInetAddress) {
         try {
             socket.joinGroup(groupInetAddress);
         } catch (Exception e) {
             throw new MulticastSocketJoinGroupException(e);
         }
-        this.socketSetTimeToLive(socket, timeToLive);
-        this.socketSetSoTimeout(socket, soTimeout);
-        return socket;
     }
 
     /**

@@ -26,6 +26,16 @@ import java.util.UUID;
 @SuppressWarnings({"unused"})
 public class Constant {
 
+//    /**
+//     * 支持IPV4
+//     */
+//    public static byte SUPPORT_IP_V4 = 0b00000001;
+//
+//    /**
+//     * 支持IPV6
+//     */
+//    public static byte SUPPORT_IP_V6 = 0b00000001;
+
     /**
      * SSDP 消息
      */

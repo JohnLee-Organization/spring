@@ -18,6 +18,8 @@ import net.lizhaoweb.ssdp.service.IMessageFactory;
 import net.lizhaoweb.ssdp.service.impl.DefaultMessageFactory;
 import net.lizhaoweb.ssdp.socket.config.ServerConfig;
 import net.lizhaoweb.ssdp.socket.handler.MSearchHandler;
+import net.lizhaoweb.ssdp.socket.ipv4.SsdpSocketServerThreadForIpV4;
+import net.lizhaoweb.ssdp.socket.ipv6.SsdpSocketServerThreadForIpV6;
 import net.lizhaoweb.ssdp.util.SystemUtil;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -42,6 +44,8 @@ public class TestSsdpSocketServer {
     public static void setUpBeforeClass() {
         // 设置系统属性，指定logback配置文件位置
         System.setProperty("logback.configurationFile", "classpath:logback.xml");
+//        System.setProperty("java.net.preferIPv4Stack", "true");
+//        System.setProperty("java.net.preferIPv6Addresses", "true");
     }
 
     @Test
@@ -49,14 +53,20 @@ public class TestSsdpSocketServer {
         try {
             ServerConfig config = new ServerConfig();
             config.getHandlerList().add(new MSearchHandler());
-            config.setBroadcastAddress("239.255.255.250");
+            config.setBroadcastAddressIpV4("239.255.255.250");
+            config.setBroadcastAddressIpV6("FF0x::C");
             config.setBroadcastPort(1900);
+            config.setLocalAddressIpV4("0.0.0.0");
+            config.setLocalAddressIpV6("::");
+            config.setLocalPort(1901);
             IMessageFactory messageFactory = new DefaultMessageFactory();
             messageFactory.register(new MSearchRequest());
             messageFactory.register(new MSearchResponse());
             messageFactory.register(new NotifyRequest());
-            SsdpSocketServerThread thread = new SsdpSocketServerThread(config, messageFactory);
-            thread.start();
+            SsdpSocketServerThreadForIpV4 threadIpV4 = new SsdpSocketServerThreadForIpV4(config, messageFactory);
+            SsdpSocketServerThreadForIpV6 threadIpV6 = new SsdpSocketServerThreadForIpV6(config, messageFactory);
+            threadIpV4.start();
+            threadIpV6.start();
             boolean stopServer = false;
             Scanner scanner = new Scanner(System.in);
             while (!stopServer) {
@@ -67,9 +77,10 @@ public class TestSsdpSocketServer {
                 }
             }
             scanner.close();
-            thread.stopServer();
+            threadIpV4.stopServer();
+            threadIpV6.stopServer();
             while (true) {
-                if (thread.isDestroyed()) {
+                if (threadIpV4.isDestroyed() && threadIpV6.isDestroyed()) {
                     break;
                 }
             }

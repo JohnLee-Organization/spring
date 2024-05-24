@@ -8,10 +8,11 @@
  * @date : 2024-05-22
  * @time : 17:12
  */
-package net.lizhaoweb.ssdp.socket;
+package net.lizhaoweb.ssdp.socket.ipv4;
 
 import net.lizhaoweb.ssdp.service.IMessageFactory;
 import net.lizhaoweb.ssdp.socket.config.ServerConfig;
+import net.lizhaoweb.ssdp.socket.ipv4.SsdpSocketServerForIpV4;
 
 /**
  * [线程] SSDP服务器
@@ -22,12 +23,12 @@ import net.lizhaoweb.ssdp.socket.config.ServerConfig;
  * @version 1.0
  * @email 404644381@qq.com
  */
-public class SsdpSocketServerThread extends Thread {
+public class SsdpSocketServerThreadForIpV4 extends Thread {
 
-    private SsdpSocketServer server;
+    private SsdpSocketServerForIpV4 server;
 
-    public SsdpSocketServerThread(ServerConfig config, IMessageFactory messageFactory) {
-        server = new SsdpSocketServer(config, messageFactory);
+    public SsdpSocketServerThreadForIpV4(ServerConfig config, IMessageFactory messageFactory) {
+        server = new SsdpSocketServerForIpV4(config, messageFactory);
         server.init();
     }
 
