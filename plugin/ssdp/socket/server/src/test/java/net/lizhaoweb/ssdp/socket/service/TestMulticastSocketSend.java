@@ -18,6 +18,8 @@ import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
 import java.util.Scanner;
 
+import static net.lizhaoweb.ssdp.util.Constant.DEFAULT_BROADCAST_ADDRESS_IPV4;
+
 /**
  * 测试MulticastSocket发送
  * <p>
@@ -32,7 +34,7 @@ public class TestMulticastSocketSend {
     @Test
     public void send() {
         DatagramSocket socket = null;
-        InetSocketAddress inetSocketAddress = new InetSocketAddress("239.255.255.250", 1900);
+        InetSocketAddress inetSocketAddress = new InetSocketAddress(DEFAULT_BROADCAST_ADDRESS_IPV4, 1900);
         try {
             System.out.println("------------------客户端（发送端）启动------------------");
             // 1、创建DatagramSocket对象（发送端对象）：不指定端口时，自带默认的端口————>抛韭菜的人
@@ -79,7 +81,7 @@ public class TestMulticastSocketSend {
     @Test
     public void send2() {
         MulticastSocket socket = null;
-        InetSocketAddress inetSocketAddress = new InetSocketAddress("239.255.255.250", 1900);
+        InetSocketAddress inetSocketAddress = new InetSocketAddress(DEFAULT_BROADCAST_ADDRESS_IPV4, 1900);
         try {
             socket = new MulticastSocket(inetSocketAddress.getPort());
             socket.joinGroup(inetSocketAddress.getAddress());//加入到组播组

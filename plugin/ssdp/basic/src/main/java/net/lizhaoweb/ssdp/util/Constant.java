@@ -37,6 +37,16 @@ public class Constant {
 //    public static byte SUPPORT_IP_V6 = 0b00000001;
 
     /**
+     * SSDP默认组播地址 - IPV4
+     */
+    public static final String DEFAULT_BROADCAST_ADDRESS_IPV4 = "239.255.255.250";
+
+    /**
+     * SSDP默认组播地址 - IPV6
+     */
+    public static final String DEFAULT_BROADCAST_ADDRESS_IPV6 = "FF01::C";
+
+    /**
      * SSDP 消息
      */
     public static class Message {

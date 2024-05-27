@@ -10,15 +10,19 @@
  */
 package net.lizhaoweb.ssdp.socket.ipv4;
 
+import net.lizhaoweb.ssdp.exception.SsdpException;
 import net.lizhaoweb.ssdp.exception.SsdpUnknownHostException;
 import net.lizhaoweb.ssdp.service.IMessageFactory;
 import net.lizhaoweb.ssdp.socket.AbstractSsdpSocketServer;
 import net.lizhaoweb.ssdp.socket.IServerApplication;
 import net.lizhaoweb.ssdp.socket.config.ServerConfig;
 import org.apache.commons.lang3.StringUtils;
+import sun.net.util.IPAddressUtil;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
+
+import static net.lizhaoweb.ssdp.util.Constant.DEFAULT_BROADCAST_ADDRESS_IPV4;
 
 /**
  * SSDP服务器 - IPV4
@@ -57,21 +61,26 @@ public class SsdpSocketServerForIpV4 extends AbstractSsdpSocketServer {
      */
     @Override
     protected void initGroupInetAddress(ServerConfig config, IServerApplication application) {
-        if (config.isSupportIpV4()) {
-            String hostnameIpV4 = "239.255.255.250";//TODO IPV4 hostname
-            if (StringUtils.isNotBlank(config.getBroadcastAddressIpV4())) {
-                hostnameIpV4 = config.getBroadcastAddressIpV4();
-            }
-            try {
+        if (!config.isSupportIpV4()) {
+            return;
+        }
+        String hostnameIpV4 = DEFAULT_BROADCAST_ADDRESS_IPV4;//TODO IPV4 hostname
+        if (StringUtils.isNotBlank(config.getBroadcastAddressIpV4())) {
+            hostnameIpV4 = config.getBroadcastAddressIpV4();
+        }
+        try {
 //            InetSocketAddress inetSocketAddress = new InetSocketAddress(String hostname, int port);
 //            InetSocketAddress inetSocketAddress = new InetSocketAddress(InetAddress addr, int port);
-//            InetSocketAddress inetSocketAddress = new InetSocketAddress(int port);
-//        InetSocketAddress inetSocketAddress = new InetSocketAddress(hostname, port);
-                Inet4Address groupInetAddressIpV4 = (Inet4Address) Inet4Address.getByName(hostnameIpV4);
-                application.setGroupInetAddress(groupInetAddressIpV4);
-            } catch (UnknownHostException e) {
-                throw new SsdpUnknownHostException(e);
+//            InetSocketAddress inetSocketAddress = new InetSocketAddress( int port);
+//            InetSocketAddress inetSocketAddress = new InetSocketAddress(hostname, port);
+            boolean isIpV4 = IPAddressUtil.isIPv4LiteralAddress(hostnameIpV4);
+            if (!isIpV4) {
+                throw new SsdpException(String.format("The address '%s' is not ipv4", hostnameIpV4));
             }
+            Inet4Address groupInetAddressIpV4 = (Inet4Address) Inet4Address.getByName(hostnameIpV4);
+            application.setGroupInetAddress(groupInetAddressIpV4);
+        } catch (UnknownHostException e) {
+            throw new SsdpUnknownHostException(e);
         }
     }
 }

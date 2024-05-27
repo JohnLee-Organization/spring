@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import static net.lizhaoweb.ssdp.util.Constant.DEFAULT_BROADCAST_ADDRESS_IPV4;
+
 /**
  * a
  * <p>
@@ -43,7 +45,7 @@ public class TestSsdpSocketClient {
 
     @Test
     public void aaa() throws IOException {
-        InetAddress groupInetAddress = InetAddress.getByName("239.255.255.250");
+        InetAddress groupInetAddress = InetAddress.getByName(DEFAULT_BROADCAST_ADDRESS_IPV4);
         int groupPort = 1900;
         MulticastSocket socket = new MulticastSocket(groupPort);
         socket.joinGroup(groupInetAddress);
@@ -56,7 +58,7 @@ public class TestSsdpSocketClient {
     @Test
     public void testClient() {
         ClientConfiguration config = new ClientConfiguration();
-        config.setBroadcastAddress("239.255.255.250");
+        config.setBroadcastAddress(DEFAULT_BROADCAST_ADDRESS_IPV4);
         config.setBroadcastPort(1900);
         config.setTimeToLive(255);
         SsdpSocketClient client = new SsdpSocketClient(config);

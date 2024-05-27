@@ -21,6 +21,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import static net.lizhaoweb.ssdp.util.Constant.DEFAULT_BROADCAST_ADDRESS_IPV4;
+
 /**
  * a
  * <p>
@@ -75,7 +77,7 @@ public class ClientConfiguration extends SocketConfiguration {
     private ResponseMessageConverter responseMessageConverter;
 
     public ClientConfiguration() {
-        String hostname = "239.255.255.250";//TODO hostname
+        String hostname = DEFAULT_BROADCAST_ADDRESS_IPV4;//TODO hostname
         if (StringUtils.isNotBlank(this.getBroadcastAddress())) {
             hostname = this.getBroadcastAddress();
         }

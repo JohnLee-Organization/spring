@@ -17,6 +17,8 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
 
+import static net.lizhaoweb.ssdp.util.Constant.DEFAULT_BROADCAST_ADDRESS_IPV4;
+
 /**
  * 测试MulticastSocket接收
  * <p>
@@ -31,7 +33,7 @@ public class TestMulticastSocketReceive {
     @Test
     public void receive() {
         MulticastSocket socket = null;
-        InetSocketAddress inetSocketAddress = new InetSocketAddress("239.255.255.250", 1900);
+        InetSocketAddress inetSocketAddress = new InetSocketAddress(DEFAULT_BROADCAST_ADDRESS_IPV4, 1900);
         try {
             System.out.println("------------------服务端（接收端）启动------------------");
 
@@ -41,9 +43,9 @@ public class TestMulticastSocketReceive {
 
             // 把当前接收端加入到一个组播组中：绑定对应的组播消息的组播IP
             // jdk14开始淘汰了此API，但是在企业中还是可以使用的，因为企业中还用不到这么新的jdk版本
-            System.out.println("InetSocketAddress=" + inetSocketAddress + "  InetAddress=" + inetSocketAddress.getAddress() + ",,,," + InetAddress.getByName("239.255.255.250"));
+            System.out.println("InetSocketAddress=" + inetSocketAddress + "  InetAddress=" + inetSocketAddress.getAddress() + ",,,," + InetAddress.getByName(DEFAULT_BROADCAST_ADDRESS_IPV4));
             socket.joinGroup(inetSocketAddress.getAddress());
-//            socket.joinGroup(InetAddress.getByName("239.255.255.250"));
+//            socket.joinGroup(InetAddress.getByName(DEFAULT_BROADCAST_ADDRESS_IPV4));
 //        socket.joinGroup(new InetSocketAddress(InetAddress.getByName("224.0.1.1"), 9999),
 //                NetworkInterface.getByInetAddress(InetAddress.getLocalHost())); // 新API，了解一下
 

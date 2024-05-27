@@ -54,7 +54,7 @@ public class TestSsdpSocketServer {
             ServerConfig config = new ServerConfig();
             config.getHandlerList().add(new MSearchHandler());
             config.setBroadcastAddressIpV4("239.255.255.250");
-            config.setBroadcastAddressIpV6("FF0x::C");
+            config.setBroadcastAddressIpV6("FF02::C");
             config.setBroadcastPort(1900);
             config.setLocalAddressIpV4("0.0.0.0");
             config.setLocalAddressIpV6("::");
@@ -63,10 +63,16 @@ public class TestSsdpSocketServer {
             messageFactory.register(new MSearchRequest());
             messageFactory.register(new MSearchResponse());
             messageFactory.register(new NotifyRequest());
-            SsdpSocketServerThreadForIpV4 threadIpV4 = new SsdpSocketServerThreadForIpV4(config, messageFactory);
-            SsdpSocketServerThreadForIpV6 threadIpV6 = new SsdpSocketServerThreadForIpV6(config, messageFactory);
-            threadIpV4.start();
-            threadIpV6.start();
+            SsdpSocketServerThreadForIpV4 threadIpV4 = null;
+            if (config.isSupportIpV4()) {
+                threadIpV4 = new SsdpSocketServerThreadForIpV4(config, messageFactory);
+                threadIpV4.start();
+            }
+            SsdpSocketServerThreadForIpV6 threadIpV6 = null;
+            if (config.isSupportIpV6()) {
+                threadIpV6 = new SsdpSocketServerThreadForIpV6(config, messageFactory);
+                threadIpV6.start();
+            }
             boolean stopServer = false;
             Scanner scanner = new Scanner(System.in);
             while (!stopServer) {
@@ -77,10 +83,18 @@ public class TestSsdpSocketServer {
                 }
             }
             scanner.close();
-            threadIpV4.stopServer();
-            threadIpV6.stopServer();
+            if (threadIpV4 != null) {
+                threadIpV4.stopServer();
+            }
+            if (threadIpV6 != null) {
+                threadIpV6.stopServer();
+            }
             while (true) {
-                if (threadIpV4.isDestroyed() && threadIpV6.isDestroyed()) {
+                if (threadIpV4 != null && threadIpV6 != null && threadIpV4.isDestroyed() && threadIpV6.isDestroyed()) {
+                    break;
+                } else if (threadIpV4 != null && threadIpV6 == null && threadIpV4.isDestroyed()) {
+                    break;
+                } else if (threadIpV4 == null && threadIpV6 != null && threadIpV6.isDestroyed()) {
                     break;
                 }
             }

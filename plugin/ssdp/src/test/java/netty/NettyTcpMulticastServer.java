@@ -58,7 +58,7 @@ public class NettyTcpMulticastServer {
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)
-//                    .localAddress("239.255.255.250", 1900)
+//                    .localAddress(DEFAULT_BROADCAST_ADDRESS_IPV4, 1900)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 
             //Bind and start to accept incoming connections

@@ -17,6 +17,8 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
+import static net.lizhaoweb.ssdp.util.Constant.DEFAULT_BROADCAST_ADDRESS_IPV4;
+
 /**
  * 测试 DatagramSocket
  * <p>
@@ -33,7 +35,7 @@ public class TestDatagramSocket {
         try {
             System.out.println("------------------服务端（接收端）启动------------------");
 
-            SocketAddress socketAddress = new InetSocketAddress("239.255.255.250", 1900);
+            SocketAddress socketAddress = new InetSocketAddress(DEFAULT_BROADCAST_ADDRESS_IPV4, 1900);
 
             // 1、创建DatagramSocket对象（接收端对象）：必须指定端口————>接韭菜的人
             DatagramSocket socket = new DatagramSocket(socketAddress);

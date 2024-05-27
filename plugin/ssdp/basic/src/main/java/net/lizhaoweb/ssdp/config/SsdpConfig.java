@@ -16,6 +16,9 @@ import lombok.Setter;
 
 import java.util.Properties;
 
+import static net.lizhaoweb.ssdp.util.Constant.DEFAULT_BROADCAST_ADDRESS_IPV4;
+import static net.lizhaoweb.ssdp.util.Constant.DEFAULT_BROADCAST_ADDRESS_IPV6;
+
 /**
  * [模型] [SSDP] 配置
  * <p>
@@ -47,12 +50,12 @@ public class SsdpConfig {
     /**
      * 广播的 IP 地址 - IPV4
      */
-    private String broadcastAddressIpV4 = "239.255.255.250";
+    private String broadcastAddressIpV4 = DEFAULT_BROADCAST_ADDRESS_IPV4;
 
     /**
      * 广播的 IP 地址 - IPV6
      */
-    private String broadcastAddressIpV6 = "FF0x::C";
+    private String broadcastAddressIpV6 = DEFAULT_BROADCAST_ADDRESS_IPV6;
 
     /**
      * 广播的端口号
@@ -165,13 +168,13 @@ public class SsdpConfig {
 //    }
 
     public void convert(Properties properties) {
-        this.broadcastAddressIpV4 = properties.getProperty("ssdp.broadcast.address.ipv4", "239.255.255.250"); // 广播的 IP 地址 - IPV4
-        this.broadcastAddressIpV6 = properties.getProperty("ssdp.broadcast.address.ipv6", "FF0x::C"); // 广播的 IP 地址 - IPV6
+        this.broadcastAddressIpV4 = properties.getProperty("ssdp.broadcast.address.ipv4", DEFAULT_BROADCAST_ADDRESS_IPV4); // 广播的 IP 地址 - IPV4
+        this.broadcastAddressIpV6 = properties.getProperty("ssdp.broadcast.address.ipv6", DEFAULT_BROADCAST_ADDRESS_IPV6); // 广播的 IP 地址 - IPV6
         this.broadcastPort = Integer.parseInt(properties.getProperty("ssdp.broadcast.port", "1900")); // 广播的端口号
         this.localAddressIpV4 = properties.getProperty("ssdp.local.address.ipv4", "0.0.0.0"); // 本地的 IP 地址 - IPV4
         this.localAddressIpV6 = properties.getProperty("ssdp.local.address.ipv6", "::"); // 本地的 IP 地址 - IPV6
         this.localPort = Integer.parseInt(properties.getProperty("ssdp.local.port", "1900")); // 本地的端口号
-//        this.unicastAddress = properties.getProperty("ssdp.unicast.address", "239.255.255.250"); // 单播的 IP 地址
+//        this.unicastAddress = properties.getProperty("ssdp.unicast.address", DEFAULT_BROADCAST_ADDRESS_IPV4); // 单播的 IP 地址
 //        this.unicastPort = Integer.parseInt(properties.getProperty("ssdp.unicast.port", "1800")); // 单播的端口号
         this.maxAge = Integer.parseInt(properties.getProperty("ssdp.time.age.max", "5")); // SSDP 通知有效时长(单位：秒)。
         this.productName = properties.getProperty("ssdp.product.name", ""); // 产品名称
