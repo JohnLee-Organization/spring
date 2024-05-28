@@ -49,7 +49,7 @@ public class TestSsdpSocketServer {
     }
 
     @Test
-    public void testServer() {
+    public void startUp() {
         try {
             ServerConfig config = new ServerConfig();
             config.getHandlerList().add(new MSearchHandler());
@@ -98,8 +98,10 @@ public class TestSsdpSocketServer {
                     break;
                 }
             }
+            System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(500);
         }
     }
 
