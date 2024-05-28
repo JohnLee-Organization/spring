@@ -13,6 +13,7 @@ package net.lizhaoweb.ssdp.socket.service;
 import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
+import net.lizhaoweb.ssdp.service.IMessageFactory;
 import net.lizhaoweb.ssdp.service.ISsdpSender;
 import net.lizhaoweb.ssdp.socket.IServerContext;
 import net.lizhaoweb.ssdp.socket.exception.MulticastSocketCreateException;
@@ -39,9 +40,12 @@ public class HandlerThread extends Thread implements ISsdpSender<SsdpResponse> {
 
     private IServerContext context;
 
+    private IMessageFactory messageFactory;
+
 
     public HandlerThread(IServerContext context) {
         this.context = context;
+        this.messageFactory = this.context.getApplication().getMessageFactory();
     }
 
 //    public ClientThread(SsdpRequest request, SsdpResponse response) {
@@ -57,32 +61,37 @@ public class HandlerThread extends Thread implements ISsdpSender<SsdpResponse> {
             }
             String message = new String(this.context.getDatagramPacket().getData());
             log.trace("Thread[{}/{}] [Message] {}", this.getId(), this.getName(), message);
-//            SsdpRequest request = this.context.getApplication().getRequestMessageConverter().toBean(message);
-            SsdpRequest request = this.context.getApplication().getMessageFactory().toRequest(message);
-            List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> handlerList = this.context.getApplication().getHandlerList(request.getMethod(), null);
-            if (handlerList == null) {
-                return;
-            }
-            for (IServiceHandler<IServerContext, SsdpRequest, SsdpResponse> handler : handlerList) {
-                if (handler == null) {
-                    continue;
-                }
-                SsdpResponse response = null;
-                try {
-                    response = handler.handle(this.context, request);
-                } catch (Exception e) {
-                    log.error(e.getMessage(), e);
-                }
-                if (response == null) {
+            if (messageFactory.isRequest(message)) {
+                SsdpRequest request = messageFactory.toRequest(message);
+                List<IServiceHandler<IServerContext, SsdpRequest, SsdpResponse>> handlerList = this.context.getApplication().getHandlerList(request.getMethod(), null);
+                if (handlerList == null) {
                     return;
                 }
-                try {
-                    InetAddress groupInetAddress = this.context.getApplication().getGroupInetAddress();
-                    int groupPort = this.context.getApplication().getGroupPort();
-                    this.send(groupInetAddress, groupPort, response);
-                } catch (Exception e) {
-                    log.error(e.getMessage(), e);
+                for (IServiceHandler<IServerContext, SsdpRequest, SsdpResponse> handler : handlerList) {
+                    if (handler == null) {
+                        continue;
+                    }
+                    SsdpResponse response = null;
+                    try {
+                        response = handler.handle(this.context, request);
+                    } catch (Exception e) {
+                        log.error(e.getMessage(), e);
+                    }
+                    if (response == null) {
+                        return;
+                    }
+                    try {
+                        InetAddress groupInetAddress = this.context.getApplication().getGroupInetAddress();
+                        int groupPort = this.context.getApplication().getGroupPort();
+                        this.send(groupInetAddress, groupPort, response);
+                    } catch (Exception e) {
+                        log.error(e.getMessage(), e);
+                    }
                 }
+            } else if (messageFactory.isResponse(message)) {
+                System.out.println("res = " + message);
+            } else {
+                System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn=" + message);
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);

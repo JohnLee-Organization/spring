@@ -22,6 +22,7 @@ import net.lizhaoweb.ssdp.service.IMessageFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * [实现] 消息工厂
@@ -33,6 +34,9 @@ import java.util.Map;
  * @email 404644381@qq.com
  */
 public class DefaultMessageFactory implements IMessageFactory {
+
+    private static final Pattern SSDP_REQUEST_PATTERN = Pattern.compile("^(\\S+) (\\S+) HTTP/1\\.1", Pattern.CASE_INSENSITIVE);
+    private static final Pattern SSDP_RESPONSE_PATTERN = Pattern.compile("^HTTP/1\\.1 [0-9]+ .*", Pattern.CASE_INSENSITIVE);
 
 //    private final static String REQUEST = "REQUEST";
 //    private final static String RESPONSE = "RESPONSE";
@@ -47,6 +51,9 @@ public class DefaultMessageFactory implements IMessageFactory {
     private final static Map<SsdpMethod, Class<?>> REQUEST_MAP = new HashMap<>();
     private final static Map<SsdpTransportProtocol, Class<?>> RESPONSE_MAP = new HashMap<>();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <T extends SsdpRequest> T toRequest(String message) {
         int index = message.indexOf(" ");
@@ -65,6 +72,9 @@ public class DefaultMessageFactory implements IMessageFactory {
         return messageBean;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <T extends SsdpResponse> T toResponse(String message) {
         int index = message.indexOf(" ");
@@ -83,6 +93,26 @@ public class DefaultMessageFactory implements IMessageFactory {
         return messageBean;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isRequest(String message) {
+        return SSDP_REQUEST_PATTERN.matcher(message).find();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isResponse(String message) {
+        return SSDP_RESPONSE_PATTERN.matcher(message).find();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public <T extends AbstractMessage> void register(T message) {
         if (message instanceof SsdpRequest) {
             SsdpRequest request = (SsdpRequest) message;

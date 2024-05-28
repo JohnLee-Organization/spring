@@ -44,8 +44,8 @@ public class TestSsdpSocketServer {
     public static void setUpBeforeClass() {
         // 设置系统属性，指定logback配置文件位置
         System.setProperty("logback.configurationFile", "classpath:logback.xml");
-//        System.setProperty("java.net.preferIPv4Stack", "true");
-//        System.setProperty("java.net.preferIPv6Addresses", "true");
+        System.setProperty("java.net.preferIPv4Stack", "true");
+        System.setProperty("java.net.preferIPv6Addresses", "false");
     }
 
     @Test

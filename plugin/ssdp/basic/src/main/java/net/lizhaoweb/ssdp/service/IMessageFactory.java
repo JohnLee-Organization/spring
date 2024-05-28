@@ -37,7 +37,7 @@ public interface IMessageFactory {
      * 根据消息字符串转换成请求对象
      *
      * @param message 消息字符串
-     * @param <T>
+     * @param <T>     T
      * @return T
      */
     <T extends SsdpRequest> T toRequest(String message) throws InstantiationException, IllegalAccessException;
@@ -46,8 +46,24 @@ public interface IMessageFactory {
      * 根据消息字符串转换成响应对象
      *
      * @param message 消息字符串
-     * @param <T>
+     * @param <T>     T
      * @return T
      */
     <T extends SsdpResponse> T toResponse(String message);
+
+    /**
+     * 是否请求
+     *
+     * @param message 消息
+     * @return boolean
+     */
+    boolean isRequest(String message);
+
+    /**
+     * 是否响应
+     *
+     * @param message 消息
+     * @return boolean
+     */
+    boolean isResponse(String message);
 }
