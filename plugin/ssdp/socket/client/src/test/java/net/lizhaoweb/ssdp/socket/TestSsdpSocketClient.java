@@ -12,7 +12,9 @@ package net.lizhaoweb.ssdp.socket;
 
 import net.lizhaoweb.ssdp.model.dto.MSearchRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
-import net.lizhaoweb.ssdp.socket.config.ClientConfiguration;
+import net.lizhaoweb.ssdp.socket.config.ClientConfig;
+import net.lizhaoweb.ssdp.socket.ipv4.SsdpSocketClientForIpV4;
+import net.lizhaoweb.ssdp.socket.ipv6.SsdpSocketClientForIpV6;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,7 +26,10 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import static net.lizhaoweb.ssdp.model._enum.IpVersion.IPV4;
+import static net.lizhaoweb.ssdp.model._enum.IpVersion.IPV6;
 import static net.lizhaoweb.ssdp.util.Constant.DEFAULT_BROADCAST_ADDRESS_IPV4;
+import static net.lizhaoweb.ssdp.util.Constant.DEFAULT_BROADCAST_ADDRESS_IPV6;
 
 /**
  * a
@@ -56,12 +61,27 @@ public class TestSsdpSocketClient {
     }
 
     @Test
-    public void testClient() {
-        ClientConfiguration config = new ClientConfiguration();
-        config.setBroadcastAddress(DEFAULT_BROADCAST_ADDRESS_IPV4);
+    public void testClientIpV4() {
+        ClientConfig config = new ClientConfig(IPV4);
+        config.setBroadcastAddressIpV4(DEFAULT_BROADCAST_ADDRESS_IPV4);
         config.setBroadcastPort(1900);
         config.setTimeToLive(255);
-        SsdpSocketClient client = new SsdpSocketClient(config);
+        SsdpSocketClientForIpV4 client = new SsdpSocketClientForIpV4(config);
+
+        MSearchRequest mSearchRequest = new MSearchRequest();
+        SsdpResponse response = client.send(mSearchRequest);
+        System.out.println(response);
+
+        client.close();
+    }
+
+    @Test
+    public void testClientIpV6() {
+        ClientConfig config = new ClientConfig(IPV6);
+        config.setBroadcastAddressIpV4(DEFAULT_BROADCAST_ADDRESS_IPV6);
+        config.setBroadcastPort(1900);
+        config.setTimeToLive(255);
+        SsdpSocketClientForIpV6 client = new SsdpSocketClientForIpV6(config);
 
         MSearchRequest mSearchRequest = new MSearchRequest();
         SsdpResponse response = client.send(mSearchRequest);

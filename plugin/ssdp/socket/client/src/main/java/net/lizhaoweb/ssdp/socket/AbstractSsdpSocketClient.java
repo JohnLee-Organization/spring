@@ -13,14 +13,14 @@ package net.lizhaoweb.ssdp.socket;
 import lombok.extern.slf4j.Slf4j;
 import net.lizhaoweb.ssdp.ISsdpClient;
 import net.lizhaoweb.ssdp.exception.SsdpIOException;
-import net.lizhaoweb.ssdp.exception.SsdpUnknownHostException;
 import net.lizhaoweb.ssdp.model._enum.SsdpHeaderType;
 import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.model.dto.SsdpResponse;
+import net.lizhaoweb.ssdp.service.IMessageFactory;
 import net.lizhaoweb.ssdp.service.ISsdpReceiver;
 import net.lizhaoweb.ssdp.service.ISsdpSender;
-import net.lizhaoweb.ssdp.service.impl.RequestMessageConverter;
-import net.lizhaoweb.ssdp.socket.config.ClientConfiguration;
+import net.lizhaoweb.ssdp.service.impl.DefaultMessageFactory;
+import net.lizhaoweb.ssdp.socket.config.ClientConfig;
 import net.lizhaoweb.ssdp.socket.exception.*;
 
 import java.io.IOException;
@@ -39,16 +39,17 @@ import static net.lizhaoweb.ssdp.model._enum.SsdpMethod.M_SEARCH;
  * @email 404644381@qq.com
  */
 @Slf4j
-public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, ISsdpReceiver<SsdpRequest, SsdpResponse> {
+public abstract class AbstractSsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, ISsdpReceiver<SsdpRequest, SsdpResponse> {
 
-    private ClientConfiguration config;
+    private ClientConfig config;
 
     private MulticastSocket multicastSocket;
 
-    public SsdpSocketClient(ClientConfiguration config) {
+    public AbstractSsdpSocketClient(ClientConfig config) {
         this.config = config;
         multicastSocket = this.buildMulticastSocket(config.getGroupInetAddress(), config.getGroupPort(), config.getTimeToLive(), config.getSoTimeout());
     }
+
 
     @Override
     public SsdpResponse send(SsdpRequest request) {
@@ -71,14 +72,10 @@ public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, 
     @Override
     public boolean send(InetAddress inetAddress, int port, SsdpRequest message) {
         boolean result = false;
-        RequestMessageConverter reqConverter = new RequestMessageConverter(config);
-        byte[] responseMessage = reqConverter.toBytes(message);
-        InetAddress groupInetAddress = null;
-        try {
-            groupInetAddress = InetAddress.getByName(config.getBroadcastAddress());
-        } catch (Exception e) {
-            throw new SsdpUnknownHostException(e);
-        }
+//        RequestMessageConverter reqConverter = new RequestMessageConverter(config);
+//        byte[] responseMessage = reqConverter.toBytes(message);
+        byte[] responseMessage = message.turnToString().getBytes(StandardCharsets.UTF_8);
+        InetAddress groupInetAddress = this.getBroadcastInetAddress(config);
         int groupPort = config.getBroadcastPort();
         DatagramPacket datagramPacket = new DatagramPacket(responseMessage, responseMessage.length, groupInetAddress, groupPort);
         DatagramSocket socket = null;
@@ -130,11 +127,17 @@ public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, 
             }
         }
         log.info("responseMessage=" + responseMessage);
-        return config.getResponseMessageConverter().toBean(responseMessage);
+        IMessageFactory messageFactory = new DefaultMessageFactory();
+        return messageFactory.toResponse(responseMessage);
+//        return config.getResponseMessageConverter().toBean(responseMessage);
     }
 
     public void close() {
         this.closeMulticastSocket(multicastSocket);
+    }
+
+    protected InetAddress getBroadcastInetAddress(ClientConfig config) {
+        return null;
     }
 
     /**
@@ -211,4 +214,5 @@ public class SsdpSocketClient implements ISsdpClient, ISsdpSender<SsdpRequest>, 
         }
         socket = null;
     }
+
 }

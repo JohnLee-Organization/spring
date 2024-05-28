@@ -68,15 +68,15 @@ public class SsdpSocketServerForIpV4 extends AbstractSsdpSocketServer {
         if (StringUtils.isNotBlank(config.getBroadcastAddressIpV4())) {
             hostnameIpV4 = config.getBroadcastAddressIpV4();
         }
+        boolean isIpV4 = IPAddressUtil.isIPv4LiteralAddress(hostnameIpV4);
+        if (!isIpV4) {
+            throw new SsdpException(String.format("The address '%s' is not ipv4", hostnameIpV4));
+        }
         try {
 //            InetSocketAddress inetSocketAddress = new InetSocketAddress(String hostname, int port);
 //            InetSocketAddress inetSocketAddress = new InetSocketAddress(InetAddress addr, int port);
 //            InetSocketAddress inetSocketAddress = new InetSocketAddress( int port);
 //            InetSocketAddress inetSocketAddress = new InetSocketAddress(hostname, port);
-            boolean isIpV4 = IPAddressUtil.isIPv4LiteralAddress(hostnameIpV4);
-            if (!isIpV4) {
-                throw new SsdpException(String.format("The address '%s' is not ipv4", hostnameIpV4));
-            }
             Inet4Address groupInetAddressIpV4 = (Inet4Address) Inet4Address.getByName(hostnameIpV4);
             application.setGroupInetAddress(groupInetAddressIpV4);
         } catch (UnknownHostException e) {

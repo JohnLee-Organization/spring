@@ -67,15 +67,15 @@ public class SsdpSocketServerForIpV6 extends AbstractSsdpSocketServer {
         if (StringUtils.isNotBlank(config.getBroadcastAddressIpV6())) {
             hostnameIpV6 = config.getBroadcastAddressIpV6();
         }
+        boolean isIpV6 = IPAddressUtil.isIPv6LiteralAddress(hostnameIpV6);
+        if (!isIpV6) {
+            throw new SsdpException(String.format("The address '%s' is not ipv6", hostnameIpV6));
+        }
         try {
 //            InetSocketAddress inetSocketAddress = new InetSocketAddress(String hostname, int port);
 //            InetSocketAddress inetSocketAddress = new InetSocketAddress(InetAddress addr, int port);
 //            InetSocketAddress inetSocketAddress = new InetSocketAddress( int port);
 //            InetSocketAddress inetSocketAddress = new InetSocketAddress(hostname, port);
-            boolean isIpV6 = IPAddressUtil.isIPv6LiteralAddress(hostnameIpV6);
-            if (!isIpV6) {
-                throw new SsdpException(String.format("The address '%s' is not ipv6", hostnameIpV6));
-            }
             Inet6Address groupInetAddressIpV6 = (Inet6Address) Inet6Address.getByName(hostnameIpV6);
             application.setGroupInetAddress(groupInetAddressIpV6);
         } catch (UnknownHostException e) {
