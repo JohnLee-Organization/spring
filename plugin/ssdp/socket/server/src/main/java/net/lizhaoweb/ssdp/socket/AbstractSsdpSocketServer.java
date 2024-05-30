@@ -29,6 +29,7 @@ import net.lizhaoweb.ssdp.socket.listener.SsdpServerListenerManager;
 import net.lizhaoweb.ssdp.socket.listener.impl.ServerLifeEvent;
 import net.lizhaoweb.ssdp.socket.model.ServerStatus;
 import net.lizhaoweb.ssdp.socket.service.HandlerThread;
+import net.lizhaoweb.ssdp.socket.service.IMessageCache;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -56,6 +57,8 @@ import static net.lizhaoweb.ssdp.socket.model.ServerStatus.*;
 @Slf4j
 @SuppressWarnings({"unused"})
 public abstract class AbstractSsdpSocketServer implements ISsdpServer, ISsdpReceiver<SsdpRequest, IServerContext>, Runnable {
+
+    private IMessageCache<String, SsdpRequest> requestCache;
 
     /**
      * SSDP服务器配置

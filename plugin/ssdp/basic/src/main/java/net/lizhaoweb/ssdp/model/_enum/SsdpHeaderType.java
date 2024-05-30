@@ -16,6 +16,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.lizhaoweb.ssdp.util.Constant;
 
+import static net.lizhaoweb.ssdp.util.Constant.DEFAULT_BROADCAST_ADDRESS_IPV4;
 import static org.apache.commons.lang3.SystemUtils.*;
 
 /**
@@ -31,7 +32,7 @@ import static org.apache.commons.lang3.SystemUtils.*;
 @SuppressWarnings({"unused"})
 public enum SsdpHeaderType {
 
-    HOST("Host", "239.255.255.250:1900"), // 协议保留多播地址和端口，必须是 239.255.255.250:1900（IPv4）或FF0x::C(IPv6)。
+    HOST("Host", DEFAULT_BROADCAST_ADDRESS_IPV4 + ":1900"), // 协议保留多播地址和端口，必须是 239.255.255.250:1900（IPv4）或FF0x::C(IPv6)。
 
     CACHE_CONTROL("Cache-Control", "max-age=1810"), // max-age指定通知消息存活时间，如果超过此时间间隔，控制点可以认为设备不存在
     S("S", String.format("uuid:%s", Constant.Message.OS.SYSTEM_UUID)), // uuid

@@ -12,10 +12,12 @@ package net.lizhaoweb.ssdp.socket.ipv4;
 
 import net.lizhaoweb.ssdp.exception.SsdpException;
 import net.lizhaoweb.ssdp.exception.SsdpUnknownHostException;
+import net.lizhaoweb.ssdp.model.dto.SsdpRequest;
 import net.lizhaoweb.ssdp.service.IMessageFactory;
 import net.lizhaoweb.ssdp.socket.AbstractSsdpSocketServer;
 import net.lizhaoweb.ssdp.socket.IServerApplication;
 import net.lizhaoweb.ssdp.socket.config.ServerConfig;
+import net.lizhaoweb.ssdp.socket.service.IMessageCache;
 import org.apache.commons.lang3.StringUtils;
 import sun.net.util.IPAddressUtil;
 
