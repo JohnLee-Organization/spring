@@ -16,6 +16,7 @@ import net.lizhaoweb.ssdp.model._enum.SsdpMethod;
 import net.lizhaoweb.ssdp.model._enum.SsdpTransportProtocol;
 import net.lizhaoweb.ssdp.util.Constant;
 
+import java.io.InputStream;
 import java.net.SocketAddress;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +51,11 @@ public abstract class SsdpRequest extends AbstractMessage {
      * 请求路径
      */
     private String queryString;
+
+    /**
+     * 输入流
+     */
+    private InputStream inputStream;
 
     @Override
     protected void convertFirstLine(StringBuilder builder) {

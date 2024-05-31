@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>socket-client</artifactId>
-    <version>JL.SPRING.2.3.2.3.1.1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>Spring Plugin SSDP Socket [Client]</name>
     <description>李召(John.Lee) 个人 SSDP-Socket 客户端项目</description>
@@ -61,7 +61,6 @@
         <dependency>
             <groupId>net.lizhaoweb.ssdp</groupId>
             <artifactId>socket-common</artifactId>
-            <version>JL.SPRING.2.3.2.1.1.1.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

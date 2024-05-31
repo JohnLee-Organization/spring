@@ -113,12 +113,19 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>net.lizhaoweb.ssdp</groupId>
+                <artifactId>ssdp-servlet-api-1.0</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
     <modules>
         <module>basic</module>
         <module>socket</module>
+        <module>servlet-api-1.0</module>
     </modules>
 
 </project>

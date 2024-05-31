@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>socket-cache-spring-redis</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>

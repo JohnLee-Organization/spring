@@ -20,6 +20,8 @@ import net.lizhaoweb.ssdp.socket.exception.MulticastSocketCreateException;
 import net.lizhaoweb.ssdp.socket.exception.MulticastSocketDataSendException;
 import net.lizhaoweb.ssdp.socket.handler.IServiceHandler;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -59,6 +61,8 @@ public class HandlerThread extends Thread implements ISsdpSender<SsdpResponse> {
             if (this.context.getDatagramPacket().getData().length < 1) {
                 return;
             }
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.context.getDatagramPacket().getData());
+            DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
             String message = new String(this.context.getDatagramPacket().getData());
             log.trace("Thread[{}/{}] [Message] {}", this.getId(), this.getName(), message);
             if (messageFactory.isRequest(message)) {

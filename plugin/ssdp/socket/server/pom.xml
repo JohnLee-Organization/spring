@@ -80,6 +80,11 @@
             <artifactId>socket-cache-spring-redis</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>net.lizhaoweb.ssdp</groupId>
+            <artifactId>ssdp-servlet-api-1.0</artifactId>
+        </dependency>
+
         <!--
         <dependency>
             <groupId>javax.servlet</groupId>
