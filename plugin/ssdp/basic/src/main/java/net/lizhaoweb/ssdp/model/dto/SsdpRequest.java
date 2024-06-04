@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.lizhaoweb.ssdp.model._enum.SsdpMethod;
 import net.lizhaoweb.ssdp.model._enum.SsdpTransportProtocol;
+import net.lizhaoweb.ssdp.servlet.SsdpServletRequest;
 import net.lizhaoweb.ssdp.util.Constant;
 
 import java.io.InputStream;
@@ -33,7 +34,7 @@ import java.util.regex.Pattern;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings({"unused"})
-public abstract class SsdpRequest extends AbstractMessage {
+public abstract class SsdpRequest extends AbstractMessage implements SsdpServletRequest {
 
     protected static Pattern MESSAGE_FIRST_LINE_PATTERN = Pattern.compile("^([^ ]+) +([^ ]+) +([^ /]+)/([^ /]+)$");
 
@@ -81,4 +82,5 @@ public abstract class SsdpRequest extends AbstractMessage {
             this.setTransportProtocol(transportProtocol);
         }
     }
+
 }

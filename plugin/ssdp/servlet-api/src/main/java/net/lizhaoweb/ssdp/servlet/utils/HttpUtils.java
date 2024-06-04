@@ -4,13 +4,14 @@
  *
  *
  * @project : spring
- * @package : net.lizhaoweb.ssdp.servlet.http
- * @date : 2024-05-31
- * @time : 14:34
+ * @package : net.lizhaoweb.ssdp.servlet.utils
+ * @date : 2024-06-04
+ * @time : 13:14
  */
-package net.lizhaoweb.ssdp.servlet.http;
+package net.lizhaoweb.ssdp.servlet.utils;
 
-import net.lizhaoweb.ssdp.servlet.ServletInputStream;
+import net.lizhaoweb.ssdp.servlet.SsdpServletInputStream;
+import net.lizhaoweb.ssdp.servlet.http.HttpSsdpServletRequest;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -24,13 +25,12 @@ import java.util.StringTokenizer;
  * with the default encoding and have been moved
  * to the request interfaces.
  * <p>
- * Created by jhon on 2024/5/31 14:34
+ * Created by jhon on 2024/6/4 13:14
  *
  * @author <a href="http://www.lizhaoweb.cn">李召(John.Lee)</a>
  * @version 1.0.0
  * @email 404644381@qq.com
  */
-@SuppressWarnings("unused")
 public class HttpUtils {
 
     private static final String LSTRING_FILE = "net.lizhaoweb.ssdp.servlet.http.LocalStrings";
@@ -71,8 +71,7 @@ public class HttpUtils {
      * @throws IllegalArgumentException if the query string
      *                                  is invalid
      */
-    static public Hashtable<String, String[]> parseQueryString(String s) {
-
+    public static Hashtable<String, String[]> parseQueryString(String s) {
         String[] valArray = null;
 
         if (s == null) {
@@ -138,10 +137,9 @@ public class HttpUtils {
      * @throws IllegalArgumentException if the data
      *                                  sent by the POST method is invalid
      */
-    static public Hashtable<String, String[]> parsePostData(int len, ServletInputStream in) {
+    public static Hashtable<String, String[]> parsePostData(int len, SsdpServletInputStream in) {
         // XXX
         // should a length of 0 be an IllegalArgumentException
-
         if (len <= 0) return new Hashtable<>(); // cheap hack to return an empty hash
 
         if (in == null) {
@@ -172,7 +170,6 @@ public class HttpUtils {
         // is FORM data encoded using ASCII or ISO Latin/1 ... or
         // that the body should always be treated as FORM data.
         //
-
         try {
             String postedBody = new String(postedBytes, 0, len, "8859_1");
             return parseQueryString(postedBody);
@@ -187,7 +184,7 @@ public class HttpUtils {
     /*
      * Parse a name in the query string.
      */
-    static private String parseName(String s, StringBuffer sb) {
+    private static String parseName(String s, StringBuffer sb) {
         sb.setLength(0);
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
@@ -238,7 +235,7 @@ public class HttpUtils {
      * @return a <code>StringBuffer</code> object containing
      * the reconstructed URL
      */
-    public static StringBuffer getRequestURL(HttpServletRequest req) {
+    public static StringBuffer getRequestURL(HttpSsdpServletRequest req) {
         StringBuffer url = new StringBuffer();
         String scheme = req.getScheme();
         int port = req.getServerPort();

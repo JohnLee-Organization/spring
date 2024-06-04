@@ -67,4 +67,5 @@ public class SsdpResponse extends AbstractMessage {
             this.setTransportProtocol(transportProtocol);
         }
     }
+
 }

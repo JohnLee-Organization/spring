@@ -82,7 +82,7 @@
 
         <dependency>
             <groupId>net.lizhaoweb.ssdp</groupId>
-            <artifactId>ssdp-servlet-api-1.0</artifactId>
+            <artifactId>ssdp-servlet-api</artifactId>
         </dependency>
 
         <!--
