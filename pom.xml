@@ -41,6 +41,7 @@
         <spring.version>4.3.0.RELEASE</spring.version>
         <solr.version>4.10.4</solr.version>
         <aspect.version>1.8.9</aspect.version>
+        <lombok.version>1.18.32</lombok.version>
     </properties>
 
     <dependencyManagement>

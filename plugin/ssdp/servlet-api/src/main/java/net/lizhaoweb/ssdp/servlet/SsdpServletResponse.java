@@ -314,4 +314,5 @@ public interface SsdpServletResponse {
      */
     Locale getLocale();
 
+    void setContentType(String contentType);
 }

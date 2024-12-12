@@ -181,4 +181,9 @@ public class SsdpServletResponseWrapper implements SsdpServletResponse {
         return this.response.getLocale();
     }
 
+    @Override
+    public void setContentType(String contentType) {
+        this.response.setContentType(contentType);
+    }
+
 }

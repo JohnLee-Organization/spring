@@ -36,6 +36,7 @@ public class SsdpServletRequestWrapper implements SsdpServletRequest {
     /**
      * Creates a ServletRequest adaptor wrapping the given request object.
      *
+     * @param request The request
      * @throws java.lang.IllegalArgumentException if the request is null
      */
     public SsdpServletRequestWrapper(SsdpServletRequest request) {
@@ -47,6 +48,8 @@ public class SsdpServletRequestWrapper implements SsdpServletRequest {
 
     /**
      * Return the wrapped request object.
+     *
+     * @return SsdpServletRequest
      */
     public SsdpServletRequest getRequest() {
         return this.request;
@@ -55,6 +58,7 @@ public class SsdpServletRequestWrapper implements SsdpServletRequest {
     /**
      * Sets the request object being wrapped.
      *
+     * @param request The request
      * @throws java.lang.IllegalArgumentException if the request is null.
      */
     public void setRequest(SsdpServletRequest request) {

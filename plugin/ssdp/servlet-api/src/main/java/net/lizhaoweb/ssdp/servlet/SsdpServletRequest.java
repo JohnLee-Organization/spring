@@ -60,6 +60,7 @@ public interface SsdpServletRequest {
      *
      * @param name a <code>String</code> specifying the name of
      *             the attribute
+     * @param <T> T
      * @return an <code>Object</code> containing the value
      * of the attribute, or <code>null</code> if
      * the attribute does not exist

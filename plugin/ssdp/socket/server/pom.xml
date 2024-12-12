@@ -80,17 +80,18 @@
             <artifactId>socket-cache-spring-redis</artifactId>
         </dependency>
 
+        <!--
         <dependency>
             <groupId>net.lizhaoweb.ssdp</groupId>
             <artifactId>ssdp-servlet-api</artifactId>
         </dependency>
-
-        <!--
+        -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>3.0-alpha-1</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat</artifactId>
